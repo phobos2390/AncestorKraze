@@ -1,0 +1,36 @@
+///<reference path="../../ISpace.ts"/>
+///<reference path="ITreeTraversalState.ts"/>
+///<reference path="AbstractTreeTraversalState.ts"/>
+///<reference path="StandardMazeCreator.ts"/>
+/**
+ * Created by phobos2390 on 4/22/15.
+ */
+var __extends = this.__extends || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    __.prototype = b.prototype;
+    d.prototype = new __();
+};
+var Model;
+(function (Model) {
+    var Generator;
+    (function (Generator) {
+        var Definitions;
+        (function (Definitions) {
+            var AbstractTreeTraversalState = Model.Generator.Definitions.AbstractTreeTraversalState;
+            var InitializingState = (function (_super) {
+                __extends(InitializingState, _super);
+                function InitializingState(creator, nextState) {
+                    _super.call(this, creator, nextState);
+                }
+                InitializingState.prototype.read = function (data) {
+                    _super.prototype.getCreator.call(this).setToInitial(data);
+                    _super.prototype.advanceCreatorToNextState.call(this);
+                };
+                return InitializingState;
+            })(AbstractTreeTraversalState);
+            Definitions.InitializingState = InitializingState;
+        })(Definitions = Generator.Definitions || (Generator.Definitions = {}));
+    })(Generator = Model.Generator || (Model.Generator = {}));
+})(Model || (Model = {}));
+//# sourceMappingURL=InitializingState.js.map

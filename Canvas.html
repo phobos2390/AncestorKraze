@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+<style>
+img[class=sprite]
+{
+    display:none;
+    height:25px;
+    width:25px;
+}
+#IWallObject
+{
+    left:0px;
+    top:0px;
+}
+#up
+{
+    left:25px;
+    top:0px;
+}
+#down,#none
+{
+    left:50px;
+    top:0px;
+}
+#BlankSpace,#IWinSpaceObject
+{
+    left:75px;
+    top:0px;
+}
+#right
+{
+    left:0px;
+    top:25px;
+}
+#left
+{
+    left:25px;
+    top:25px;
+}
+#IKey
+{
+    left:50px;
+    top:25px;
+}
+#Door1, #IDoor
+{
+    left:75px;
+    top:25px;
+}
+#Door2
+{
+    left:0px;
+    top:50px;
+}
+#Door3
+{
+    left:25px;
+    top:50px;
+}
+#Door4
+{
+    left:50px;
+    top:50px;
+}
+#Door5
+{
+    left:75px;
+    top:50px;
+}
+#Door6
+{
+    left:0px;
+    top:75px;
+}
+#Door7
+{
+    left:25px;
+    top:75px;
+}
+#Door8
+{
+    left:50px;
+    top:75px;
+}
+#Door9
+{
+    left:75px;
+    top:75px;
+}
+input
+{
+    display:none
+}
+#canvas-containter
+{
+    text-align: center;
+}
+canvas
+{
+    display:inline;
+}
+</style>
+<head>
+    <script src = "View/MapView.js"></script>
+    <script src = "Model/Generator/Definitions/AbstractTreeTraversalState.js"></script>
+    <script src = "Model/Generator/Definitions/Graph.js"></script>
+    <script src = "Model/Generator/Definitions/Tree.js"></script>
+    <script src = "Model/Generator/Definitions/InitializingState.js"></script>
+    <script src = "Model/Generator/Definitions/ITreeTraversalState.js"></script>
+    <script src = "Model/Generator/Definitions/NewBranchState.js"></script>
+    <script src = "Model/Generator/Definitions/NumberOfBranchesStrategy.js"></script>
+    <script src = "Model/Generator/Definitions/NewLeafState.js"></script>
+    <script src = "Model/Generator/Definitions/RandomizedPopulator.js"></script>
+    <script src = "Model/Generator/ITreeVisitor.js"></script>
+    <script src = "Model/Generator/Definitions/StandardMazeCreator.js"></script>
+    <script src = "Model/Generator/IMazeCreator.js"></script>
+    <script src = "Model/Definitions/Standard/StandardModel.js"></script>
+    <script src = "Presenter/MapPresenter.js"></script>
+    <script src = "Model/Definitions/Standard/StandardMove.js"></script>
+    <script src = "Model/Definitions/Standard/StandardKeyParams.js"></script>
+    <script src = "Model/Definitions/Standard/StandardKey.js"></script>
+    <script src = "Model/Definitions/Standard/StandardPlayer.js"></script>
+    <script src = "Model/Definitions/Standard/StandardRequirementParams.js"></script>
+    <script src = "Model/Definitions/Standard/StandardRequirement.js"></script>
+    <script src = "Model/Definitions/Standard/StandardDoorParams.js"></script>
+    <script src = "Model/Definitions/Standard/StandardDoor.js"></script>
+    <script src = "Model/Definitions/Standard/StandardEmptySpace.js"></script>
+    <script src = "Model/Definitions/Standard/StandardSpace.js"></script>
+    <script src = "Model/Definitions/Standard/StandardWall.js"></script>
+    <script src = "Model/Definitions/Standard/StandardWinObject.js"></script>
+    <script src = "Model/Definitions/Standard/StandardModelBuilder.js"></script>
+    <script src = "Model/Definitions/Standard/StandardFactory.js"></script>
+    <script src = "Model/IDoor.js"></script>
+    <script src = "Model/IDoorParams.js"></script>
+    <script src = "Model/IKey.js"></script>
+    <script src = "Model/IKeyParams.js"></script>
+    <script src = "Model/IModel.js"></script>
+    <script src = "Model/IModelArgs.js"></script>
+    <script src = "Model/IModelBuilder.js"></script>
+    <script src = "Model/IModelFactory.js"></script>
+    <script src = "Model/IModelObservable.js"></script>
+    <script src = "Model/IModelObserver.js"></script>
+    <script src = "Model/IMove.js"></script>
+    <script src = "Model/IPlayer.js"></script>
+    <script src = "Model/IRequirement.js"></script>
+    <script src = "Model/IRequirementParams.js"></script>
+    <script src = "Model/ISpace.js"></script>
+    <script src = "Model/ISpaceObject.js"></script>
+    <script src = "Model/IWallObject.js"></script>
+    <script src = "Model/IWinSpaceObject.js"></script>
+    <script src = "Model/Definitions/FamilyHistory/AncestorDoorParams.js"></script>
+    <script src = "Model/Definitions/FamilyHistory/AncestorFactory.js"></script>
+    <script src = "Model/Definitions/FamilyHistory/AncestorName.js"></script>
+    <script src = "Model/Definitions/FamilyHistory/AncestorNameParams.js"></script>
+    <script src = "Model/Definitions/FamilyHistory/AncestorNameRequirement.js"></script>
+    <script src = "Model/Definitions/FamilyHistory/AncestorPlayer.js"></script>
+    <script src = "Model/Definitions/FamilyHistory/AncestorRequirementParams.js"></script>
+    <script src = "Main/KrazeClient.js"></script>
+    <script src = "https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function()
+        {
+            var client = Main.KrazeClient.create();
+            $(document).keydown(function(key)
+            {
+                client.onKeyDown(key)
+            });
+        });
+    </script>
+</head>
+<body>
+<!--<button onclick="KrazeClient.Main()">Start</button>-->
+<div id="canvas-containter">
+<canvas id="viewScreen" style = "border:1px solid #000000;"></canvas>
+<h1>Keys:</h1>
+<h1 id = "keyNumber">0</h1>
+</div>
+
+<img src = "Main/SpriteSheet.png" class = "sprite" id = "IWallObject">
+<img src = "Main/SpriteSheet.png" class = "sprite" id = "IWinSpaceObject">
+<img src = "Main/SpriteSheet.png" class = "sprite" id = "BlankSpace">
+<img src = "Main/SpriteSheet.png" class = "sprite" id = "IKey">
+<img src = "Main/SpriteSheet.png" class = "sprite" id = "up">
+<img src = "Main/SpriteSheet.png" class = "sprite" id = "down">
+<img src = "Main/SpriteSheet.png" class = "sprite" id = "none">
+<img src = "Main/SpriteSheet.png" class = "sprite" id = "left">
+<img src = "Main/SpriteSheet.png" class = "sprite" id = "right">
+<img src = "Main/SpriteSheet.png" class = "sprite" id = "IDoor">
+<img src = "Main/SpriteSheet.png" class = "sprite" id = "Door1">
+<img src = "Main/SpriteSheet.png" class = "sprite" id = "Door2">
+<img src = "Main/SpriteSheet.png" class = "sprite" id = "Door3">
+<img src = "Main/SpriteSheet.png" class = "sprite" id = "Door4">
+<img src = "Main/SpriteSheet.png" class = "sprite" id = "Door5">
+<img src = "Main/SpriteSheet.png" class = "sprite" id = "Door6">
+<img src = "Main/SpriteSheet.png" class = "sprite" id = "Door7">
+<img src = "Main/SpriteSheet.png" class = "sprite" id = "Door8">
+<img src = "Main/SpriteSheet.png" class = "sprite" id = "Door9">
+<img src = "Main/JosephSmith.jpg" class = "sprite" id = "JosephSmith">
+<img src = "Main/OliverCowdery.jpg" class = "sprite" id = "OliverCowdery">
+
+<!--<img src = "Main/WallTexture.png" class = "sprite" id = "IWallObject">
+<img src = "Main/BlankSpaceKraze.png" class = "sprite" id = "BlankSpace">
+<img src = "Main/linkup.png" class = "sprite" id = "up">
+<img src = "Main/linkdown.png" class = "sprite" id = "down">
+<img src = "Main/linkdown.png" class = "sprite" id = "none">
+<img src = "Main/linkleft.png" class = "sprite" id = "left">
+<img src = "Main/linkright.png" class = "sprite" id = "right">-->
+
+</body>
+</html>
+
