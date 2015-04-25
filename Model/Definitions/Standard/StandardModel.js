@@ -78,6 +78,8 @@ var Model;
                     }
                     return returnBool;
                 };
+                StandardModel.prototype.fulfillRequirement = function (requirement) {
+                };
                 StandardModel.prototype.won = function () {
                     return this.hasWon;
                 };

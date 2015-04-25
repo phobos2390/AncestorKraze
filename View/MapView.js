@@ -1,4 +1,4 @@
-///<reference path="../Presenter/MapPresenter.ts"/>
+///<reference path="../Presenter/IPresenter.ts"/>
 ///<reference path="../Model/ISpace.ts"/>
 /**
  * Created by phobos2390 on 3/24/15.
@@ -41,8 +41,6 @@ var View;
                 }
             }
             var playerTexture = document.getElementById(this.presenter.getLastMove().getMoveString());
-            //playerTexture.style.height = this.spaceHeight + 'px';
-            //playerTexture.style.width = this.spaceWidth + 'px';
             var imageStyle = window.getComputedStyle(playerTexture);
             var leftStr = imageStyle.getPropertyValue("left");
             var topStr = imageStyle.getPropertyValue("top");

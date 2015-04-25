@@ -1,4 +1,4 @@
-///<reference path="../Presenter/MapPresenter.ts"/>
+///<reference path="../Presenter/IPresenter.ts"/>
 ///<reference path="../Model/ISpace.ts"/>
 /**
  * Created by phobos2390 on 3/24/15.
@@ -8,18 +8,18 @@ module View
 {
     import IModelArgs = Model.IModelArgs;
     import ISpace = Model.ISpace;
-    import MapPresenter = Presenter.MapPresenter;
+    import IPresenter = Presenter.IPresenter;
 
     export class MapView
     {
-        private presenter:MapPresenter;
+        private presenter:IPresenter;
         private viewHeight:number;
         private viewWidth:number;
         private spaceHeight:number;
         private spaceWidth:number;
         private blankSpaceString:string;
 
-        public constructor(presenter:MapPresenter,viewHeight:number,viewWidth:number)
+        public constructor(presenter:IPresenter,viewHeight:number,viewWidth:number)
         {
             this.presenter = presenter;
             this.viewHeight = viewHeight;
@@ -58,13 +58,9 @@ module View
                     var left = parseInt(leftStr.replace(/\D/g,''));
                     var top = parseInt(topStr.replace(/\D/g,''));
                     ctx.drawImage(img,left,top,this.spaceWidth,this.spaceHeight,j*this.spaceWidth,i*this.spaceHeight,this.spaceWidth,this.spaceHeight);
-//                    ctx.drawImage(img,j*this.spaceWidth,i*this.spaceHeight,this.spaceWidth,this.spaceHeight);
-//                    ctx.drawImage(img,col*this.spaceWidth,row*this.spaceHeight);
                 }
             }
             var playerTexture = document.getElementById(this.presenter.getLastMove().getMoveString());
-            //playerTexture.style.height = this.spaceHeight + 'px';
-            //playerTexture.style.width = this.spaceWidth + 'px';
             var imageStyle = window.getComputedStyle(playerTexture);
             var leftStr = imageStyle.getPropertyValue("left");
             var topStr = imageStyle.getPropertyValue("top");

@@ -26,7 +26,6 @@ module Model.Generator.Definitions
         public visit(space:ISpace):void
         {
             this.builder.setKey(space,<IKey>this.builder.peek());
-            //console.log("Key set at: (" + space.getX() + "," + space.getY() + ")");
             this.builder.pop();
             this.creator.setIteratorToData(space);
             this.creator.moveUpToStartOfBranch();
@@ -35,8 +34,6 @@ module Model.Generator.Definitions
             this.creator.moveIteratorUp(1);
             var secondSpace:ISpace = this.creator.getIteratorData();
             this.builder.setDoorBetweenTwoSpaces(firstSpace,secondSpace,<IDoor>this.builder.peek());
-            //console.log("Door " + this.builder.peek().toString() + " set at: (" + (firstSpace.getX() + secondSpace.getX())/2 + ","
-            //                                                                    + (firstSpace.getY() + secondSpace.getY())/2 + ")");
             this.builder.pop();
         }
     }

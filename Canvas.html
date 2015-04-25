@@ -87,6 +87,10 @@ img[class=sprite]
     left:75px;
     top:75px;
 }
+#imagePopup
+{
+    display:none
+}
 input
 {
     display:none
@@ -115,7 +119,8 @@ canvas
     <script src = "Model/Generator/Definitions/StandardMazeCreator.js"></script>
     <script src = "Model/Generator/IMazeCreator.js"></script>
     <script src = "Model/Definitions/Standard/StandardModel.js"></script>
-    <script src = "Presenter/MapPresenter.js"></script>
+    <script src = "Presenter/AbstractPresenter.js"></script>
+    <script src = "Presenter/StandardPresenter.js"></script>
     <script src = "Model/Definitions/Standard/StandardMove.js"></script>
     <script src = "Model/Definitions/Standard/StandardKeyParams.js"></script>
     <script src = "Model/Definitions/Standard/StandardKey.js"></script>
@@ -158,22 +163,34 @@ canvas
     <script src = "Main/KrazeClient.js"></script>
     <script src = "https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script>
+        var client;
         $(document).ready(function()
         {
-            var client = Main.KrazeClient.create();
+            client = Main.KrazeClient.create();
             $(document).keydown(function(key)
             {
                 client.onKeyDown(key)
             });
         });
+        var enterName = function()
+        {
+            var answer = $(document).getElementByID("doorAnswer");
+            client.enterName(answer);
+        };
     </script>
 </head>
 <body>
 <!--<button onclick="KrazeClient.Main()">Start</button>-->
-<div id="canvas-containter">
-<canvas id="viewScreen" style = "border:1px solid #000000;"></canvas>
+<div id = "canvas-containter">
+<canvas id = "viewScreen" style = "border:1px solid #000000;"></canvas>
 <h1>Keys:</h1>
 <h1 id = "keyNumber">0</h1>
+</div>
+<div id = "imagePopup">
+    <img src = "Main/JosephSmith.jpg">
+    <h1>Who is this person?</h1>
+    <input id = "doorAnswer">
+    <button onclick = "enterName()">Enter Name</button>
 </div>
 
 <img src = "Main/SpriteSheet.png" class = "sprite" id = "IWallObject">

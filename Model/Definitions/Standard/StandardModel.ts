@@ -111,6 +111,11 @@ module Model.Definitions.Standard
             return returnBool;
         }
 
+        public fulfillRequirement(requirement:IRequirement):void
+        {
+
+        }
+
         public won():boolean
         {
             return this.hasWon;

@@ -69,7 +69,6 @@ module Model.Definitions.FamilyHistory
 
         public createRequirement(params:IRequirementParams):IRequirement
         {
-
             var name:string = (<AncestorRequirementParams>params).getAncestorNameParams();
             return new AncestorNameRequirement(name);
         }

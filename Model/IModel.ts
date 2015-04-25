@@ -13,6 +13,7 @@ module Model
     {
         movePlayer(move:IMove):void;
         canMovePlayer(move:IMove):boolean;
+        fulfillRequirement(requirement:IRequirement):void;
         won():boolean;
     }
 }
