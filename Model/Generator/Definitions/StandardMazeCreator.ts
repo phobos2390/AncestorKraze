@@ -48,10 +48,10 @@ module Model.Generator.Definitions
         private edges:ISpace[];
         private numberOfKeys:number;
 
-        public constructor(factory:IModelFactory)
+        public constructor(factory:IModelFactory,numberOfKeys:number)
         {
             this.factory = factory;
-            this.numberOfKeys = 9;
+            this.numberOfKeys = numberOfKeys;
         }
 
         public setCurrentState(nextState:ITreeTraversalState)
@@ -267,6 +267,27 @@ module Model.Generator.Definitions
             this.currentIter.mark();
         }
 
+        public initializeKeyList(builder:IModelBuilder):void
+        {
+            builder.addEmptyToStack();
+            builder.addEmptyToStack();
+            for(var i:number = 0; i < this.numberOfKeys; i++)
+            {
+                builder.addKeyAndDoorPairToStack(this.factory.createKeyParams((i + 1)),
+                    this.factory.createDoorParams((i + 1)));
+            }
+        }
+
+        public getNumberOfKeys():number
+        {
+            return this.numberOfKeys;
+        }
+
+        public getFactory():IModelFactory
+        {
+            return this.factory;
+        }
+
         public createMaze(height:number,width:number):IModel
         {
             var builder:IModelBuilder = this.factory.createBuilder();
@@ -284,13 +305,7 @@ module Model.Generator.Definitions
                 branches = this.getTotalNumberOfBranches();
                 builder = this.recCreateFromTree(spanningTree,builder);
             }
-            builder.addEmptyToStack();
-            builder.addEmptyToStack();
-            for(var i:number = 0; i < this.numberOfKeys; i++)
-            {
-                builder.addKeyAndDoorPairToStack(this.factory.createKeyParams((i + 1)),
-                                                this.factory.createDoorParams((i + 1)));
-            }
+            this.initializeKeyList(builder);
             builder.setExit(this.factory.createSpace(height - 2, width - 1));
             this.setIteratorToData(this.factory.createSpace(height - 2, width - 2));
             this.moveUpToStartOfBranch();

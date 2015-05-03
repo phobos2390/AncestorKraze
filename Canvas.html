@@ -42,7 +42,7 @@ img[class=sprite]
     left:50px;
     top:25px;
 }
-#Door1, #IDoor
+#Door1
 {
     left:75px;
     top:25px;
@@ -99,6 +99,10 @@ input
 {
     text-align: center;
 }
+#messages
+{
+
+}
 canvas
 {
     display:inline;
@@ -110,7 +114,6 @@ canvas
     <script src = "Model/Generator/Definitions/Graph.js"></script>
     <script src = "Model/Generator/Definitions/Tree.js"></script>
     <script src = "Model/Generator/Definitions/InitializingState.js"></script>
-    <script src = "Model/Generator/Definitions/ITreeTraversalState.js"></script>
     <script src = "Model/Generator/Definitions/NewBranchState.js"></script>
     <script src = "Model/Generator/Definitions/NumberOfBranchesStrategy.js"></script>
     <script src = "Model/Generator/Definitions/NewLeafState.js"></script>
@@ -135,24 +138,6 @@ canvas
     <script src = "Model/Definitions/Standard/StandardWinObject.js"></script>
     <script src = "Model/Definitions/Standard/StandardModelBuilder.js"></script>
     <script src = "Model/Definitions/Standard/StandardFactory.js"></script>
-    <script src = "Model/IDoor.js"></script>
-    <script src = "Model/IDoorParams.js"></script>
-    <script src = "Model/IKey.js"></script>
-    <script src = "Model/IKeyParams.js"></script>
-    <script src = "Model/IModel.js"></script>
-    <script src = "Model/IModelArgs.js"></script>
-    <script src = "Model/IModelBuilder.js"></script>
-    <script src = "Model/IModelFactory.js"></script>
-    <script src = "Model/IModelObservable.js"></script>
-    <script src = "Model/IModelObserver.js"></script>
-    <script src = "Model/IMove.js"></script>
-    <script src = "Model/IPlayer.js"></script>
-    <script src = "Model/IRequirement.js"></script>
-    <script src = "Model/IRequirementParams.js"></script>
-    <script src = "Model/ISpace.js"></script>
-    <script src = "Model/ISpaceObject.js"></script>
-    <script src = "Model/IWallObject.js"></script>
-    <script src = "Model/IWinSpaceObject.js"></script>
     <script src = "Model/Definitions/FamilyHistory/AncestorDoorParams.js"></script>
     <script src = "Model/Definitions/FamilyHistory/AncestorFactory.js"></script>
     <script src = "Model/Definitions/FamilyHistory/AncestorName.js"></script>
@@ -166,31 +151,23 @@ canvas
         var client;
         $(document).ready(function()
         {
-            client = Main.KrazeClient.create();
+            client = Main.KrazeClient.create("standard");
             $(document).keydown(function(key)
             {
                 client.onKeyDown(key)
             });
         });
-        var enterName = function()
-        {
-            var answer = $(document).getElementByID("doorAnswer");
-            client.enterName(answer);
-        };
     </script>
 </head>
 <body>
 <!--<button onclick="KrazeClient.Main()">Start</button>-->
 <div id = "canvas-containter">
 <canvas id = "viewScreen" style = "border:1px solid #000000;"></canvas>
-<h1>Keys:</h1>
-<h1 id = "keyNumber">0</h1>
-</div>
-<div id = "imagePopup">
-    <img src = "Main/JosephSmith.jpg">
-    <h1>Who is this person?</h1>
-    <input id = "doorAnswer">
-    <button onclick = "enterName()">Enter Name</button>
+    <div id = "messages">
+        <span>Keys:</span><br>
+        <span id = "keyNumber">0</span>
+        <p><ul id = "log"></ul></p>
+    </div>
 </div>
 
 <img src = "Main/SpriteSheet.png" class = "sprite" id = "IWallObject">
@@ -202,7 +179,6 @@ canvas
 <img src = "Main/SpriteSheet.png" class = "sprite" id = "none">
 <img src = "Main/SpriteSheet.png" class = "sprite" id = "left">
 <img src = "Main/SpriteSheet.png" class = "sprite" id = "right">
-<img src = "Main/SpriteSheet.png" class = "sprite" id = "IDoor">
 <img src = "Main/SpriteSheet.png" class = "sprite" id = "Door1">
 <img src = "Main/SpriteSheet.png" class = "sprite" id = "Door2">
 <img src = "Main/SpriteSheet.png" class = "sprite" id = "Door3">
@@ -212,8 +188,6 @@ canvas
 <img src = "Main/SpriteSheet.png" class = "sprite" id = "Door7">
 <img src = "Main/SpriteSheet.png" class = "sprite" id = "Door8">
 <img src = "Main/SpriteSheet.png" class = "sprite" id = "Door9">
-<img src = "Main/JosephSmith.jpg" class = "sprite" id = "JosephSmith">
-<img src = "Main/OliverCowdery.jpg" class = "sprite" id = "OliverCowdery">
 
 <!--<img src = "Main/WallTexture.png" class = "sprite" id = "IWallObject">
 <img src = "Main/BlankSpaceKraze.png" class = "sprite" id = "BlankSpace">

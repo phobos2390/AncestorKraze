@@ -13,7 +13,7 @@
 /**
  * Created by phobos2390 on 3/19/15.
  */
-module Model.Definitions.Standard
+module Model.Definitions.FamilyHistory
 {
     import IModelObserver = Model.IModelObserver;
     import ISpace = Model.ISpace;
@@ -26,15 +26,14 @@ module Model.Definitions.Standard
     export class AncestorModel implements IModel, IModelArgs
     {
         private baseModel:StandardModel;
-        private requirement:IRequirement;
         private playerSpace:ISpace;
         private factory:IModelFactory;
 
-        public constructor(spaces:ISpace[][],playerSpace:ISpace, player:IPlayer)
+        public constructor(spaces:ISpace[][],playerSpace:ISpace, player:IPlayer,factory:IModelFactory)
         {
-            this.baseModel = new StandardModel(spaces,playerSpace,player);
+            this.factory = factory;
+            this.baseModel = new StandardModel(spaces,playerSpace,player,this.factory);
             this.playerSpace = playerSpace;
-            this.factory = new AncestorFactory();
         }
 
         public getSpace(x:number, y:number):ISpace
@@ -78,11 +77,6 @@ module Model.Definitions.Standard
             return this.baseModel.won();
         }
 
-        public mustRedraw():boolean
-        {
-            return this.baseModel.mustRedraw();
-        }
-
         public getPlayer():IPlayer
         {
             return this.baseModel.getPlayer();
@@ -103,9 +97,9 @@ module Model.Definitions.Standard
             this.baseModel.registerObserver(observer);
         }
 
-        public update(arguments:IModelArgs):void
+        public update():void
         {
-            this.baseModel.update(arguments);
+            this.baseModel.update();
         }
 
         public pickedUpNewKey():boolean

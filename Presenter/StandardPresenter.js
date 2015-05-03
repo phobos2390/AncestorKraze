@@ -7,15 +7,15 @@
  */
 var Presenter;
 (function (Presenter) {
+    var MapView = View.MapView;
     var AbstractPresenter = Presenter.AbstractPresenter;
     var StandardPresenter = (function () {
         function StandardPresenter(model) {
             model.registerObserver(this);
-            this.presenter = new AbstractPresenter(model);
+            this.presenter = new AbstractPresenter(model, new MapView(this, 15, 15));
         }
         StandardPresenter.prototype.update = function (model) {
             if (model.attemptedToGetInADoor()) {
-                alert("Requirement: " + model.doorRequirement().toString());
             }
             this.presenter.update(model);
         };

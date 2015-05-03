@@ -19,13 +19,13 @@ var Model;
         var Standard;
         (function (Standard) {
             var StandardModel = (function () {
-                function StandardModel(spaces, playerSpace, player) {
+                function StandardModel(spaces, playerSpace, player, factory) {
                     this.observers = [];
                     this.spaces = spaces;
                     this.hasWon = false;
                     this.playerSpace = playerSpace;
                     this.player = player;
-                    this.factory = new Model.Definitions.Standard.StandardFactory();
+                    this.factory = factory;
                 }
                 StandardModel.prototype.getSpace = function (x, y) {
                     if (0 <= x && x < this.spaces.length) {
@@ -47,10 +47,9 @@ var Model;
                     var space = this.moveSpace(move);
                     var object = space.getSpaceObject();
                     if (object.objectIsOfType("IKey")) {
-                        this.player.addKey(object);
                         this.pickedUpKey = true;
                         this.key = object;
-                        this.update(this);
+                        this.update();
                         this.pickedUpKey = false;
                         space.setSpaceObject(this.factory.createEmptySpace());
                     }
@@ -58,9 +57,7 @@ var Model;
                         this.hasWon = true;
                     }
                     this.playerSpace = space;
-                    this.redraw = true;
-                    this.update(this);
-                    this.redraw = false;
+                    this.update();
                 };
                 StandardModel.prototype.canMovePlayer = function (move) {
                     var space = this.moveSpace(move);
@@ -69,22 +66,19 @@ var Model;
                         var door = space.getSpaceObject();
                         this.requirement = door.getRequirement();
                         this.triedToGetInDoor = true;
-                        this.update(this);
+                        this.update();
                         this.triedToGetInDoor = false;
                         returnBool = this.player.fulfillsRequirement(this.requirement);
                     }
                     else {
                         returnBool = space.getSpaceObject().canEnterSpace();
                     }
-                    return returnBool;
+                    return returnBool && !this.hasWon;
                 };
                 StandardModel.prototype.fulfillRequirement = function (requirement) {
                 };
                 StandardModel.prototype.won = function () {
                     return this.hasWon;
-                };
-                StandardModel.prototype.mustRedraw = function () {
-                    return this.redraw;
                 };
                 StandardModel.prototype.getPlayer = function () {
                     return this.player;
@@ -98,9 +92,9 @@ var Model;
                 StandardModel.prototype.registerObserver = function (observer) {
                     this.observers.push(observer);
                 };
-                StandardModel.prototype.update = function (arguments) {
+                StandardModel.prototype.update = function () {
                     for (var i = 0; i < this.observers.length; i++) {
-                        this.observers[i].update(arguments);
+                        this.observers[i].update(this);
                     }
                 };
                 StandardModel.prototype.pickedUpNewKey = function () {

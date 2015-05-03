@@ -1,4 +1,5 @@
 ///<reference path="../../ISpace.ts"/>
+///<reference path="StandardEmptySpace.ts"/>
 ///<reference path="../../ISpaceObject.ts"/>
 /**
  * Created by phobos2390 on 3/19/15.

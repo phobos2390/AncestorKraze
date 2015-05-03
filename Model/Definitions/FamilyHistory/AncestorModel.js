@@ -17,15 +17,14 @@ var Model;
 (function (Model) {
     var Definitions;
     (function (Definitions) {
-        var Standard;
-        (function (Standard) {
-            var AncestorFactory = Model.Definitions.FamilyHistory.AncestorFactory;
+        var FamilyHistory;
+        (function (FamilyHistory) {
             var StandardModel = Model.Definitions.Standard.StandardModel;
             var AncestorModel = (function () {
-                function AncestorModel(spaces, playerSpace, player) {
-                    this.baseModel = new StandardModel(spaces, playerSpace, player);
+                function AncestorModel(spaces, playerSpace, player, factory) {
+                    this.factory = factory;
+                    this.baseModel = new StandardModel(spaces, playerSpace, player, this.factory);
                     this.playerSpace = playerSpace;
-                    this.factory = new AncestorFactory();
                 }
                 AncestorModel.prototype.getSpace = function (x, y) {
                     return this.baseModel.getSpace(x, y);
@@ -57,9 +56,6 @@ var Model;
                 AncestorModel.prototype.won = function () {
                     return this.baseModel.won();
                 };
-                AncestorModel.prototype.mustRedraw = function () {
-                    return this.baseModel.mustRedraw();
-                };
                 AncestorModel.prototype.getPlayer = function () {
                     return this.baseModel.getPlayer();
                 };
@@ -72,8 +68,8 @@ var Model;
                 AncestorModel.prototype.registerObserver = function (observer) {
                     this.baseModel.registerObserver(observer);
                 };
-                AncestorModel.prototype.update = function (arguments) {
-                    this.baseModel.update(arguments);
+                AncestorModel.prototype.update = function () {
+                    this.baseModel.update();
                 };
                 AncestorModel.prototype.pickedUpNewKey = function () {
                     return this.baseModel.pickedUpNewKey();
@@ -89,8 +85,8 @@ var Model;
                 };
                 return AncestorModel;
             })();
-            Standard.AncestorModel = AncestorModel;
-        })(Standard = Definitions.Standard || (Definitions.Standard = {}));
+            FamilyHistory.AncestorModel = AncestorModel;
+        })(FamilyHistory = Definitions.FamilyHistory || (Definitions.FamilyHistory = {}));
     })(Definitions = Model.Definitions || (Model.Definitions = {}));
 })(Model || (Model = {}));
 //# sourceMappingURL=AncestorModel.js.map

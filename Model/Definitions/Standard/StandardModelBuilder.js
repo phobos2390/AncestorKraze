@@ -161,7 +161,16 @@ var Model;
                     return this;
                 };
                 StandardModelBuilder.prototype.build = function () {
-                    return new Standard.StandardModel(this.spaces, this.playerSpace, this.player);
+                    return new Standard.StandardModel(this.spaces, this.playerSpace, this.player, this.factory);
+                };
+                StandardModelBuilder.prototype.getSpaces = function () {
+                    return this.spaces;
+                };
+                StandardModelBuilder.prototype.getPlayerSpace = function () {
+                    return this.playerSpace;
+                };
+                StandardModelBuilder.prototype.getPlayer = function () {
+                    return this.player;
                 };
                 return StandardModelBuilder;
             })();

@@ -12,7 +12,9 @@
 ///<reference path="../Standard/StandardKey.ts"/>
 ///<reference path="../Standard/StandardFactory.ts"/>
 ///<reference path="AncestorName.ts"/>
+///<reference path="AncestorBuilder.ts"/>
 ///<reference path="AncestorPlayer.ts"/>
+///<reference path="AncestorDoor.ts"/>
 ///<reference path="AncestorDoorParams.ts"/>
 ///<reference path="AncestorNameRequirement.ts"/>
 ///<reference path="AncestorRequirementParams.ts"/>
@@ -27,6 +29,8 @@ module Model.Definitions.FamilyHistory
     import IKeyParams = Model.IKeyParams;
     import IPlayer = Model.IPlayer;
     import IDoor = Model.IDoor;
+    import AncestorDoor = Model.Definitions.FamilyHistory.AncestorDoor;
+    import AncestorBuilder = Model.Definitions.FamilyHistory.AncestorBuilder
     import IDoorParams = Model.IDoorParams;
     import ISpace = Model.ISpace;
     import IRequirement = Model.IRequirement;
@@ -54,7 +58,7 @@ module Model.Definitions.FamilyHistory
 
         public createDoor(params:IDoorParams):IDoor
         {
-            return this.factory.createDoor((<AncestorDoorParams>params).getRequirement());
+            return new AncestorDoor(params.getRequirement());
         }
 
         public createEmptySpace():ISpaceObject
@@ -70,12 +74,12 @@ module Model.Definitions.FamilyHistory
         public createRequirement(params:IRequirementParams):IRequirement
         {
             var name:string = (<AncestorRequirementParams>params).getAncestorNameParams();
-            return new AncestorNameRequirement(name);
+            return new AncestorNameRequirement(name,this);
         }
 
         public createBuilder():IModelBuilder
         {
-            return this.factory.createBuilder();
+            return new AncestorBuilder(this);
         }
 
         public createWinSpace():IWinSpaceObject

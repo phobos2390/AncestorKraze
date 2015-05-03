@@ -3,8 +3,10 @@
  */
 module Model
 {
+    import IRequirement = Model.IRequirement;
+
     export interface IDoorParams
     {
-
+        getRequirement():IRequirement;
     }
 }

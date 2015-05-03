@@ -1,5 +1,6 @@
 ///<reference path="../Presenter/IPresenter.ts"/>
 ///<reference path="../Model/ISpace.ts"/>
+///<reference path="IView.ts"/>
 /**
  * Created by phobos2390 on 3/24/15.
  */
@@ -10,7 +11,7 @@ module View
     import ISpace = Model.ISpace;
     import IPresenter = Presenter.IPresenter;
 
-    export class MapView
+    export class MapView implements IView
     {
         private presenter:IPresenter;
         private viewHeight:number;
@@ -29,7 +30,7 @@ module View
             this.blankSpaceString = "BlankSpace"
         }
 
-        public draw(model:IModelArgs)
+        public draw(model:IModelArgs):void
         {
             var canvas = <HTMLCanvasElement>document.getElementById("viewScreen");
             canvas.height = this.viewHeight*this.spaceHeight;

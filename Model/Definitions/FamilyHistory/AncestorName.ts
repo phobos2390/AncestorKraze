@@ -25,7 +25,13 @@ module Model.Definitions.FamilyHistory
 
         public objectIsOfType(type:string):boolean
         {
-            return true;
+            return type.valueOf() == this.name.valueOf()
+                 ||type.valueOf() == this.getSpaceType().valueOf();
+        }
+
+        public toString():string
+        {
+            return this.name;
         }
     }
 }

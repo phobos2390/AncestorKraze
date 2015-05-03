@@ -23,14 +23,14 @@ module Presenter
         public constructor(model:IModel)
         {
             model.registerObserver(this);
-            this.presenter = new AbstractPresenter(model);
+            this.presenter = new AbstractPresenter(model,new MapView(this,15,15));
         }
 
         public update(model:IModelArgs):void
         {
             if(model.attemptedToGetInADoor())
             {
-                alert("Requirement: " + model.doorRequirement().toString());
+                //alert("Requirement: " + model.doorRequirement().toString());
             }
             this.presenter.update(model);
         }

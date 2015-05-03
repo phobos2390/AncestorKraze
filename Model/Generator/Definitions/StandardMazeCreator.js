@@ -29,9 +29,9 @@ var Model;
             var NewLeafState = Model.Generator.Definitions.NewLeafState;
             var RandomizedPopulator = Model.Generator.Definitions.RandomizedPopulator;
             var StandardMazeCreator = (function () {
-                function StandardMazeCreator(factory) {
+                function StandardMazeCreator(factory, numberOfKeys) {
                     this.factory = factory;
-                    this.numberOfKeys = 9;
+                    this.numberOfKeys = numberOfKeys;
                 }
                 StandardMazeCreator.prototype.setCurrentState = function (nextState) {
                     this.currentState = nextState;
@@ -186,6 +186,19 @@ var Model;
                 StandardMazeCreator.prototype.markCurrentIterator = function () {
                     this.currentIter.mark();
                 };
+                StandardMazeCreator.prototype.initializeKeyList = function (builder) {
+                    builder.addEmptyToStack();
+                    builder.addEmptyToStack();
+                    for (var i = 0; i < this.numberOfKeys; i++) {
+                        builder.addKeyAndDoorPairToStack(this.factory.createKeyParams((i + 1)), this.factory.createDoorParams((i + 1)));
+                    }
+                };
+                StandardMazeCreator.prototype.getNumberOfKeys = function () {
+                    return this.numberOfKeys;
+                };
+                StandardMazeCreator.prototype.getFactory = function () {
+                    return this.factory;
+                };
                 StandardMazeCreator.prototype.createMaze = function (height, width) {
                     var builder = this.factory.createBuilder();
                     builder.setHeight(height).setWidth(width);
@@ -201,11 +214,7 @@ var Model;
                         branches = this.getTotalNumberOfBranches();
                         builder = this.recCreateFromTree(spanningTree, builder);
                     }
-                    builder.addEmptyToStack();
-                    builder.addEmptyToStack();
-                    for (var i = 0; i < this.numberOfKeys; i++) {
-                        builder.addKeyAndDoorPairToStack(this.factory.createKeyParams((i + 1)), this.factory.createDoorParams((i + 1)));
-                    }
+                    this.initializeKeyList(builder);
                     builder.setExit(this.factory.createSpace(height - 2, width - 1));
                     this.setIteratorToData(this.factory.createSpace(height - 2, width - 2));
                     this.moveUpToStartOfBranch();

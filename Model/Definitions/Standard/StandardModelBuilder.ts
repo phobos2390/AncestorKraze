@@ -232,7 +232,22 @@ module Model.Definitions.Standard
 
         public build():IModel
         {
-            return new StandardModel(this.spaces,this.playerSpace,this.player);
+            return new StandardModel(this.spaces,this.playerSpace,this.player,this.factory);
+        }
+
+        public getSpaces():ISpace[][]
+        {
+            return this.spaces;
+        }
+
+        public getPlayerSpace():ISpace
+        {
+            return this.playerSpace;
+        }
+
+        public getPlayer():IPlayer
+        {
+            return this.player;
         }
     }
 }

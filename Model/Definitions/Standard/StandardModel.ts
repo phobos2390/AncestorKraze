@@ -28,19 +28,18 @@ module Model.Definitions.Standard
         private triedToGetInDoor:boolean;
         private requirement:IRequirement;
         private hasWon:boolean;
-        private redraw:boolean;
         private playerSpace:ISpace;
         private spaces:ISpace[][];
         private factory:IModelFactory;
 
-        public constructor(spaces:ISpace[][],playerSpace:ISpace, player:IPlayer)
+        public constructor(spaces:ISpace[][],playerSpace:ISpace, player:IPlayer, factory:IModelFactory)
         {
             this.observers = [];
             this.spaces = spaces;
             this.hasWon = false;
             this.playerSpace = playerSpace;
             this.player = player;
-            this.factory = new Model.Definitions.Standard.StandardFactory();
+            this.factory = factory;
         }
 
         public getSpace(x:number, y:number):ISpace
@@ -74,10 +73,9 @@ module Model.Definitions.Standard
             var object:ISpaceObject = space.getSpaceObject();
             if(object.objectIsOfType("IKey"))
             {
-                this.player.addKey(object);
                 this.pickedUpKey = true;
                 this.key = <IKey>object;
-                this.update(this);
+                this.update();
                 this.pickedUpKey = false;
                 space.setSpaceObject(this.factory.createEmptySpace());
             }
@@ -86,9 +84,7 @@ module Model.Definitions.Standard
                 this.hasWon = true;
             }
             this.playerSpace = space;
-            this.redraw = true;
-            this.update(this);
-            this.redraw = false;
+            this.update();
         }
 
         public canMovePlayer(move:IMove):boolean
@@ -100,7 +96,7 @@ module Model.Definitions.Standard
                 var door:IDoor = <IDoor>space.getSpaceObject();
                 this.requirement = door.getRequirement();
                 this.triedToGetInDoor = true;
-                this.update(this);
+                this.update();
                 this.triedToGetInDoor = false;
                 returnBool = this.player.fulfillsRequirement(this.requirement);
             }
@@ -108,7 +104,7 @@ module Model.Definitions.Standard
             {
                 returnBool = space.getSpaceObject().canEnterSpace();
             }
-            return returnBool;
+            return returnBool && !this.hasWon;
         }
 
         public fulfillRequirement(requirement:IRequirement):void
@@ -119,11 +115,6 @@ module Model.Definitions.Standard
         public won():boolean
         {
             return this.hasWon;
-        }
-
-        public mustRedraw():boolean
-        {
-            return this.redraw;
         }
 
         public getPlayer():IPlayer
@@ -146,11 +137,11 @@ module Model.Definitions.Standard
             this.observers.push(observer);
         }
 
-        public update(arguments:IModelArgs):void
+        public update():void
         {
             for(var i = 0; i < this.observers.length; i++)
             {
-                this.observers[i].update(arguments);
+                this.observers[i].update(this);
             }
         }
 

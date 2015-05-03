@@ -11,7 +11,9 @@
 ///<reference path="../Standard/StandardKey.ts"/>
 ///<reference path="../Standard/StandardFactory.ts"/>
 ///<reference path="AncestorName.ts"/>
+///<reference path="AncestorBuilder.ts"/>
 ///<reference path="AncestorPlayer.ts"/>
+///<reference path="AncestorDoor.ts"/>
 ///<reference path="AncestorDoorParams.ts"/>
 ///<reference path="AncestorNameRequirement.ts"/>
 ///<reference path="AncestorRequirementParams.ts"/>
@@ -25,6 +27,8 @@ var Model;
     (function (Definitions) {
         var FamilyHistory;
         (function (FamilyHistory) {
+            var AncestorDoor = Model.Definitions.FamilyHistory.AncestorDoor;
+            var AncestorBuilder = Model.Definitions.FamilyHistory.AncestorBuilder;
             var StandardFactory = Model.Definitions.Standard.StandardFactory;
             var AncestorFactory = (function () {
                 function AncestorFactory() {
@@ -37,7 +41,7 @@ var Model;
                     return new FamilyHistory.AncestorPlayer();
                 };
                 AncestorFactory.prototype.createDoor = function (params) {
-                    return this.factory.createDoor(params.getRequirement());
+                    return new AncestorDoor(params.getRequirement());
                 };
                 AncestorFactory.prototype.createEmptySpace = function () {
                     return this.factory.createEmptySpace();
@@ -47,10 +51,10 @@ var Model;
                 };
                 AncestorFactory.prototype.createRequirement = function (params) {
                     var name = params.getAncestorNameParams();
-                    return new FamilyHistory.AncestorNameRequirement(name);
+                    return new FamilyHistory.AncestorNameRequirement(name, this);
                 };
                 AncestorFactory.prototype.createBuilder = function () {
-                    return this.factory.createBuilder();
+                    return new AncestorBuilder(this);
                 };
                 AncestorFactory.prototype.createWinSpace = function () {
                     return this.factory.createWinSpace();

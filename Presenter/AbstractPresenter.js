@@ -3,29 +3,46 @@
 ///<reference path="../Model/IModel.ts"/>
 ///<reference path="../View/MapView.ts"/>
 ///<reference path="../Model/IMove.ts"/>
+///<reference path="../Model/IKey.ts"/>
 ///<reference path="../Model/IRequirement.ts"/>
 /**
  * Created by phobos2390 on 4/24/15.
  */
 var Presenter;
 (function (Presenter) {
-    var MapView = View.MapView;
     var AbstractPresenter = (function () {
-        function AbstractPresenter(model) {
+        function AbstractPresenter(model, view) {
             this.model = model;
-            this.view = new MapView(this, 15, 15);
+            this.view = view;
             this.lastMove = null;
         }
-        AbstractPresenter.prototype.update = function (model) {
+        AbstractPresenter.prototype.getView = function () {
+            return this.view;
+        };
+        AbstractPresenter.prototype.checkWon = function (model) {
             if (model.won()) {
                 alert("YOU WON!");
             }
-            if (model.mustRedraw()) {
-                this.view.draw(model);
-            }
+        };
+        AbstractPresenter.prototype.checkRedraw = function (model) {
+            this.view.draw(model);
+        };
+        AbstractPresenter.prototype.outputToLog = function (log) {
+            var logElement = document.getElementById("log");
+            var logLine = document.createElement("li");
+            logLine.innerHTML = log;
+            logElement.appendChild(logLine);
+        };
+        AbstractPresenter.prototype.checkPickedUpKey = function (model) {
             if (model.pickedUpNewKey()) {
-                alert("New key: " + model.newKey().toString());
+                this.outputToLog("Picked up a new key!!!!");
+                model.getPlayer().addKey(model.newKey());
             }
+        };
+        AbstractPresenter.prototype.update = function (model) {
+            this.checkWon(model);
+            this.checkRedraw(model);
+            this.checkPickedUpKey(model);
         };
         AbstractPresenter.prototype.getLastMove = function () {
             return this.lastMove;
@@ -34,6 +51,9 @@ var Presenter;
             this.lastMove = move;
             if (this.model.canMovePlayer(move)) {
                 this.model.movePlayer(move);
+            }
+            else {
+                this.model.update();
             }
         };
         return AbstractPresenter;

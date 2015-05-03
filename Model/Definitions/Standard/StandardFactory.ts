@@ -8,6 +8,7 @@
 ///<reference path="StandardDoor.ts"/>
 ///<reference path="StandardDoorParams.ts"/>
 ///<reference path="../../ISpace.ts"/>
+///<reference path="StandardEmptySpace.ts"/>
 ///<reference path="StandardSpace.ts"/>
 ///<reference path="StandardRequirement.ts"/>
 ///<reference path="StandardWall.ts"/>
@@ -73,7 +74,7 @@ module Model.Definitions.Standard
 
         public createDoor(params:IDoorParams):IDoor
         {
-            return new StandardDoor((<StandardDoorParams>params).getRequirement());
+            return new StandardDoor(params.getRequirement());
         }
 
         public createSpace(x:number,y:number):ISpace

@@ -11,6 +11,7 @@ var Model;
         (function (FamilyHistory) {
             var AncestorPlayer = (function () {
                 function AncestorPlayer() {
+                    this.keys = [];
                 }
                 AncestorPlayer.prototype.fulfillsRequirement = function (requirement) {
                     return requirement.playerFulfillsRequirement(this);
@@ -22,7 +23,7 @@ var Model;
                     var keyPlayerHas = key;
                     for (var i = 0; i < this.keys.length; i++) {
                         var checkKey = this.keys[i];
-                        if (checkKey.getSpaceType().valueOf() == keyPlayerHas.valueOf()) {
+                        if (checkKey.objectIsOfType(keyPlayerHas.toString())) {
                             return true;
                         }
                     }

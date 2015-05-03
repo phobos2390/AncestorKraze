@@ -10,6 +10,11 @@ module Model.Definitions.FamilyHistory
     {
         private keys:AncestorName[];
 
+        public constructor()
+        {
+            this.keys = [];
+        }
+
         public fulfillsRequirement(requirement:IRequirement):boolean
         {
             return requirement.playerFulfillsRequirement(this);
@@ -26,7 +31,7 @@ module Model.Definitions.FamilyHistory
             for(var i:number = 0; i < this.keys.length; i++)
             {
                 var checkKey:AncestorName = this.keys[i];
-                if(checkKey.getSpaceType().valueOf() == keyPlayerHas.valueOf())
+                if(checkKey.objectIsOfType(keyPlayerHas.toString()))
                 {
                     return true;
                 }

@@ -8,6 +8,7 @@
 ///<reference path="StandardDoor.ts"/>
 ///<reference path="StandardDoorParams.ts"/>
 ///<reference path="../../ISpace.ts"/>
+///<reference path="StandardEmptySpace.ts"/>
 ///<reference path="StandardSpace.ts"/>
 ///<reference path="StandardRequirement.ts"/>
 ///<reference path="StandardWall.ts"/>

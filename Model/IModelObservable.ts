@@ -7,6 +7,6 @@ module Model
     export interface IModelObservable
     {
         registerObserver(observer:IModelObserver):void;
-        update(arguments:IModelArgs):void;
+        update():void;
     }
 }

@@ -1,5 +1,6 @@
 ///<reference path="../Presenter/IPresenter.ts"/>
 ///<reference path="../Model/ISpace.ts"/>
+///<reference path="IView.ts"/>
 /**
  * Created by phobos2390 on 3/24/15.
  */

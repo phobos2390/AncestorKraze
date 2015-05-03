@@ -15,6 +15,5 @@ module Model
         newKey():IKey;
         attemptedToGetInADoor():boolean;
         doorRequirement():IRequirement;
-        mustRedraw():boolean;
     }
 }
