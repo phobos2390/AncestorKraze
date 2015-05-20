@@ -3,6 +3,7 @@
 ///<reference path="IPresenter.ts"/>
 ///<reference path="AbstractPresenter.ts"/>
 ///<reference path="../View/AncestorMapView.ts"/>
+///<reference path="../Model/ModelFacade.ts"/>
 /**
  * Created by phobos2390 on 3/24/15.
  */
@@ -17,6 +18,7 @@ module Presenter
     import AncestorName = Model.Definitions.FamilyHistory.AncestorName;
     import IRequirement = Model.IRequirement;
     import IPresenter = Presenter.IPresenter;
+    import IModelFactory = Model.IModelFactory;
     import AbstractPresenter = Presenter.AbstractPresenter;
 
     export class AncestorPresenter implements IPresenter
@@ -26,38 +28,21 @@ module Presenter
         private justEnteredName:boolean;
         private lastEnteredName:string;
         private pickedUpKeys:IKey[];
+        private factory:IModelFactory;
 
-        public constructor(model:IModel)
+        public constructor(model:IModel,factory:IModelFactory)
         {
             model.registerObserver(this);
-            this.presenter = new AbstractPresenter(model,new AncestorMapView(this,15,15));
+            this.presenter = new AbstractPresenter(model,new AncestorMapView(this,27,27));
             this.pickedUpKeys = [];
             this.justEnteredName = false;
             this.goingThroughDoor = false;
-        }
-
-        private hasKey(name:string):boolean
-        {
-            for(var i:number = 0; i < this.pickedUpKeys.length; i++)
-            {
-                if((<AncestorName>this.pickedUpKeys[i]).toString().valueOf() == name.valueOf())
-                {
-                    return true;
-                }
-            }
-            return false;
+            this.factory = factory;
         }
 
         private getKey(name:string):IKey
         {
-            for(var i:number = 0; i < this.pickedUpKeys.length; i++)
-            {
-                if((<AncestorName>this.pickedUpKeys[i]).toString().valueOf() == name.valueOf())
-                {
-                    return this.pickedUpKeys[i];
-                }
-            }
-            return null;
+            return this.factory.createKey(this.factory.createKeyParams(name));
         }
 
         public update(model:IModelArgs):void
@@ -68,17 +53,15 @@ module Presenter
                 {
                     var popup = document.getElementById("imagePopup");
                     popup.style.visibility = "hidden";
+                    var canvas = document.getElementById("canvas-containter");
+                    canvas.style.visibility = "visible";
                 }
                 else if(this.justEnteredName)
                 {
                     this.justEnteredName = false;
-                    var playerHasKey:boolean = this.hasKey(this.lastEnteredName);
                     var key:IKey = this.getKey(this.lastEnteredName);
-                    if(playerHasKey)
-                    {
-                        model.getPlayer().addKey(key);
-                        this.executeMove(this.getLastMove());
-                    }
+                    model.getPlayer().addKey(key);
+                    //this.executeMove(this.getLastMove());
                 }
                 else
                 {
@@ -86,7 +69,10 @@ module Presenter
                     var elementID:string = model.doorRequirement().toString().replace(/ /g,'');
                     var ancestorPicture = document.getElementById(elementID);
                     var src = document.getElementById("ancestorPicture").setAttribute("src",ancestorPicture.getAttribute("src"));
+                    document.getElementById("doorAnswer").value = "";
                     popup.style.visibility = "visible";
+                    var canvas = document.getElementById("canvas-containter");
+                    canvas.style.visibility = "hidden";
                     this.goingThroughDoor = true;
                     this.justEnteredName = false;
                 }
@@ -106,8 +92,19 @@ module Presenter
             this.justEnteredName = true;
             var popup = document.getElementById("imagePopup");
             popup.style.visibility = "hidden";
+            var canvas = document.getElementById("canvas-containter");
+            canvas.style.visibility = "visible";
             this.goingThroughDoor = false;
             this.executeMove(this.getLastMove());
+        }
+
+        public leavePopup():void
+        {
+            var popup = document.getElementById("imagePopup");
+            popup.style.visibility = "hidden";
+            var canvas = document.getElementById("canvas-containter");
+            canvas.style.visibility = "visible";
+            this.goingThroughDoor = false;
         }
 
         public getLastMove():IMove

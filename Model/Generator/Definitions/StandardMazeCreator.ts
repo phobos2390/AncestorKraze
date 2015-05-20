@@ -113,14 +113,26 @@ module Model.Generator.Definitions
             return branches;
         }
 
+        private getNumberOfMarked(children:Tree[]):number
+        {
+            var markedChildren:number = 0;
+            for(var i:number = 0; i < children.length; i++)
+            {
+                if (children[i].isMarked())
+                {
+                    markedChildren++;
+                }
+            }
+            return markedChildren;
+        }
+
         public moveUpToStartOfBranch():void
         {
             var iterator:Tree = this.currentIter;
             while(iterator != null
-                && iterator.getChildren().length < 2)
+                && iterator.getChildren().length - this.getNumberOfMarked(iterator.getChildren()) < 2)
             {
                 var space:ISpace = <ISpace>this.currentIter.getData();
-                //console.log("Iterator moved up to space: (" + space.getX() + "," + space.getY() + ")");
                 this.currentIter = iterator;
                 iterator = iterator.getParent();
             }
@@ -298,8 +310,9 @@ module Model.Generator.Definitions
             var spanningTree:Tree = this.createRandomSpanningTree();
             var branches:number = this.getTotalNumberOfBranches();
             builder = this.recCreateFromTree(spanningTree,builder);
-            while(branches < this.numberOfKeys)
+            while(branches < this.numberOfKeys + 3)
             {
+                console.log("Not enough branches! We have only " + branches + " branches");
                 builder.setBaseFilledPattern(this.factory.createSpace(0,0),width,height);
                 spanningTree = this.createRandomSpanningTree();
                 branches = this.getTotalNumberOfBranches();

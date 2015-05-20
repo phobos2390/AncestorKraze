@@ -3,6 +3,7 @@
 ///<reference path="IPresenter.ts"/>
 ///<reference path="AbstractPresenter.ts"/>
 ///<reference path="../View/AncestorMapView.ts"/>
+///<reference path="../Model/ModelFacade.ts"/>
 /**
  * Created by phobos2390 on 3/24/15.
  */
@@ -11,50 +12,39 @@ var Presenter;
     var AncestorMapView = View.AncestorMapView;
     var AbstractPresenter = Presenter.AbstractPresenter;
     var AncestorPresenter = (function () {
-        function AncestorPresenter(model) {
+        function AncestorPresenter(model, factory) {
             model.registerObserver(this);
-            this.presenter = new AbstractPresenter(model, new AncestorMapView(this, 15, 15));
+            this.presenter = new AbstractPresenter(model, new AncestorMapView(this, 27, 27));
             this.pickedUpKeys = [];
             this.justEnteredName = false;
             this.goingThroughDoor = false;
+            this.factory = factory;
         }
-        AncestorPresenter.prototype.hasKey = function (name) {
-            for (var i = 0; i < this.pickedUpKeys.length; i++) {
-                if (this.pickedUpKeys[i].toString().valueOf() == name.valueOf()) {
-                    return true;
-                }
-            }
-            return false;
-        };
         AncestorPresenter.prototype.getKey = function (name) {
-            for (var i = 0; i < this.pickedUpKeys.length; i++) {
-                if (this.pickedUpKeys[i].toString().valueOf() == name.valueOf()) {
-                    return this.pickedUpKeys[i];
-                }
-            }
-            return null;
+            return this.factory.createKey(this.factory.createKeyParams(name));
         };
         AncestorPresenter.prototype.update = function (model) {
             if (model.attemptedToGetInADoor()) {
                 if (model.doorRequirement().playerFulfillsRequirement(model.getPlayer())) {
                     var popup = document.getElementById("imagePopup");
                     popup.style.visibility = "hidden";
+                    var canvas = document.getElementById("canvas-containter");
+                    canvas.style.visibility = "visible";
                 }
                 else if (this.justEnteredName) {
                     this.justEnteredName = false;
-                    var playerHasKey = this.hasKey(this.lastEnteredName);
                     var key = this.getKey(this.lastEnteredName);
-                    if (playerHasKey) {
-                        model.getPlayer().addKey(key);
-                        this.executeMove(this.getLastMove());
-                    }
+                    model.getPlayer().addKey(key);
                 }
                 else {
                     var popup = document.getElementById("imagePopup");
                     var elementID = model.doorRequirement().toString().replace(/ /g, '');
                     var ancestorPicture = document.getElementById(elementID);
                     var src = document.getElementById("ancestorPicture").setAttribute("src", ancestorPicture.getAttribute("src"));
+                    document.getElementById("doorAnswer").value = "";
                     popup.style.visibility = "visible";
+                    var canvas = document.getElementById("canvas-containter");
+                    canvas.style.visibility = "hidden";
                     this.goingThroughDoor = true;
                     this.justEnteredName = false;
                 }
@@ -71,8 +61,17 @@ var Presenter;
             this.justEnteredName = true;
             var popup = document.getElementById("imagePopup");
             popup.style.visibility = "hidden";
+            var canvas = document.getElementById("canvas-containter");
+            canvas.style.visibility = "visible";
             this.goingThroughDoor = false;
             this.executeMove(this.getLastMove());
+        };
+        AncestorPresenter.prototype.leavePopup = function () {
+            var popup = document.getElementById("imagePopup");
+            popup.style.visibility = "hidden";
+            var canvas = document.getElementById("canvas-containter");
+            canvas.style.visibility = "visible";
+            this.goingThroughDoor = false;
         };
         AncestorPresenter.prototype.getLastMove = function () {
             return this.presenter.getLastMove();

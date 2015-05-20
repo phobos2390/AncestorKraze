@@ -64,8 +64,8 @@ module Main
 
         private initVariables(type)
         {
-            var mazeHeight:number = 25;
-            var mazeWidth:number = 25;
+            var mazeHeight:number = 95;
+            var mazeWidth:number = 95;
             if(type.valueOf() == "standard".valueOf())
             {
                 this.factory = new StandardFactory();
@@ -77,16 +77,29 @@ module Main
             {
                 this.factory = new AncestorFactory();
                 var ancestorList = document.getElementsByClassName("popupImage");
+                var nameList = [];
+                for(var i:number = 0; i < ancestorList.length; i++)
+                {
+                    nameList.push(ancestorList[i].id);
+                }
+                for(var i:number = 0; i < 50; i++)
+                {
+                    var first:number = Math.floor(Math.random()*ancestorList.length);
+                    var second:number = Math.floor(Math.random()*ancestorList.length);
+                    var temp = nameList[first];
+                    nameList[first] = nameList[second];
+                    nameList[second] = temp;
+                }
                 var numberOfKeys = ancestorList.length;
                 var ancestorCreator:AncestorMazeCreator = new AncestorMazeCreator(this.factory,numberOfKeys);
                 for(var i = 0; i < ancestorList.length; i++)
                 {
-                    var baseName = ancestorList[i].id;
+                    var baseName = nameList[i];
                     var ancestorName = "";
                     var spaceAppend = "";
                     for(var j = 0; j < baseName.length; j++)
                     {
-                        var currChar:char = baseName.charAt(j);
+                        var currChar = baseName.charAt(j);
                         if('A'<=currChar&&currChar<='Z')
                         {
                             ancestorName = ancestorName.concat(spaceAppend);
@@ -94,21 +107,10 @@ module Main
                         ancestorName = ancestorName.concat(currChar);
                         spaceAppend = " ";
                     }
-                    console.log(ancestorName);
                     ancestorCreator.addKey(ancestorName);
                 }
-                //ancestorCreator.addKey("Joseph Smith");
-                //ancestorCreator.addKey("Oliver Cowdery");
-                //ancestorCreator.addKey("Brigham Young");
-                //ancestorCreator.addKey("John Taylor");
-                //ancestorCreator.addKey("Emma Smith");
-                //ancestorCreator.addKey("Eliza Snow");
-                //ancestorCreator.addKey("Martin Harris");
-                //ancestorCreator.addKey("Sidney Rigdon");
-                //ancestorCreator.addKey("Heber Kimball");
-                //ancestorCreator.addKey("Parley Pratt");
                 this.model = ancestorCreator.createMaze(mazeHeight, mazeWidth);
-                this.presenter = new AncestorPresenter(this.model);
+                this.presenter = new AncestorPresenter(this.model,this.factory);
             }
             this.presenter.executeMove(this.factory.createMove("none"));
         }
@@ -121,6 +123,11 @@ module Main
         public enterName(name):void
         {
             (<AncestorPresenter>this.presenter).enterName(name);
+        }
+
+        public leavePopup()
+        {
+            (<AncestorPresenter>this.presenter).leavePopup();
         }
     }
 }

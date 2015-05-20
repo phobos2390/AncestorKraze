@@ -38,8 +38,8 @@ var Main;
             };
         };
         KrazeClient.prototype.initVariables = function (type) {
-            var mazeHeight = 25;
-            var mazeWidth = 25;
+            var mazeHeight = 95;
+            var mazeWidth = 95;
             if (type.valueOf() == "standard".valueOf()) {
                 this.factory = new StandardFactory();
                 var creator = new StandardMazeCreator(this.factory, 9);
@@ -49,10 +49,21 @@ var Main;
             else if (type.valueOf() == "ancestor".valueOf()) {
                 this.factory = new AncestorFactory();
                 var ancestorList = document.getElementsByClassName("popupImage");
+                var nameList = [];
+                for (var i = 0; i < ancestorList.length; i++) {
+                    nameList.push(ancestorList[i].id);
+                }
+                for (var i = 0; i < 50; i++) {
+                    var first = Math.floor(Math.random() * ancestorList.length);
+                    var second = Math.floor(Math.random() * ancestorList.length);
+                    var temp = nameList[first];
+                    nameList[first] = nameList[second];
+                    nameList[second] = temp;
+                }
                 var numberOfKeys = ancestorList.length;
                 var ancestorCreator = new AncestorMazeCreator(this.factory, numberOfKeys);
                 for (var i = 0; i < ancestorList.length; i++) {
-                    var baseName = ancestorList[i].id;
+                    var baseName = nameList[i];
                     var ancestorName = "";
                     var spaceAppend = "";
                     for (var j = 0; j < baseName.length; j++) {
@@ -63,21 +74,10 @@ var Main;
                         ancestorName = ancestorName.concat(currChar);
                         spaceAppend = " ";
                     }
-                    console.log(ancestorName);
                     ancestorCreator.addKey(ancestorName);
                 }
-                //ancestorCreator.addKey("Joseph Smith");
-                //ancestorCreator.addKey("Oliver Cowdery");
-                //ancestorCreator.addKey("Brigham Young");
-                //ancestorCreator.addKey("John Taylor");
-                //ancestorCreator.addKey("Emma Smith");
-                //ancestorCreator.addKey("Eliza Snow");
-                //ancestorCreator.addKey("Martin Harris");
-                //ancestorCreator.addKey("Sidney Rigdon");
-                //ancestorCreator.addKey("Heber Kimball");
-                //ancestorCreator.addKey("Parley Pratt");
                 this.model = ancestorCreator.createMaze(mazeHeight, mazeWidth);
-                this.presenter = new AncestorPresenter(this.model);
+                this.presenter = new AncestorPresenter(this.model, this.factory);
             }
             this.presenter.executeMove(this.factory.createMove("none"));
         };
@@ -86,6 +86,9 @@ var Main;
         };
         KrazeClient.prototype.enterName = function (name) {
             this.presenter.enterName(name);
+        };
+        KrazeClient.prototype.leavePopup = function () {
+            this.presenter.leavePopup();
         };
         return KrazeClient;
     })();

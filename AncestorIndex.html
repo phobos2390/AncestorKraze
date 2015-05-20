@@ -60,18 +60,19 @@
         height: 100%;
         position: absolute;
         top: 0;
-        left: 25px;
+        left: 750px;
     }
     #canvas-containter
     {
         text-align: center;
         position: relative;
         z-index: 0;
+        visibility:visible;
     }
     #ancestorPicture
     {
-        height: 100px;
-        width: 100px;
+        height: 500px;
+        width: 500px;
     }
     canvas
     {
@@ -79,6 +80,7 @@
     }
 </style>
 <head>
+    <script src = "https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src = "View/MapView.js"></script>
     <script src = "View/AncestorMapView.js"></script>
     <script src = "Model/Generator/Definitions/AbstractTreeTraversalState.js"></script>
@@ -123,7 +125,6 @@
     <script src = "Model/Definitions/FamilyHistory/AncestorPlayer.js"></script>
     <script src = "Model/Definitions/FamilyHistory/AncestorRequirementParams.js"></script>
     <script src = "Main/KrazeClient.js"></script>
-    <script src = "https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script>
         var client;
         $(document).ready(function()
@@ -131,14 +132,26 @@
             client = Main.KrazeClient.create("ancestor");
             $(document).keydown(function(key)
             {
-                client.onKeyDown(key)
+                if(key.keyCode == 13)
+                {
+                    $("#nameEnter").click();
+                }
+                else
+                {
+                    client.onKeyDown(key);
+                }
             });
         });
         var enterName = function()
         {
             var answer = document.getElementById("doorAnswer");
-            client.enterName(answer.value);
+            var name = answer.value;
+            client.enterName(name);
         };
+        var leavePopup = function()
+        {
+            client.leavePopup();
+        }
     </script>
 </head>
 <body>
@@ -148,11 +161,13 @@
     <div id = "messages">
         <p><ul id = "log"></ul></p>
     </div>
+</div>
 <div id = "imagePopup">
     <img id = "ancestorPicture" src = "Main/JosephSmith.jpg">
     <h1>Who is this person?</h1>
     <input type="text" id = "doorAnswer">
-    <button onclick = "enterName()">Enter Name</button>
+    <button onclick = "enterName()" id = "nameEnter">Enter Name</button>
+    <button onclick = "leavePopup()" id = "leavePopup">Exit</button>
 </div>
 
 <img src = "Main/SpriteSheetAncestor.png" class = "sprite" id = "IWallObject">
@@ -170,18 +185,35 @@
 <img src = "Main/brighamyoung_large.jpg" class = "popupImage" id = "BrighamYoung">
 <img src = "Main/John_Taylor_seated_in_chair.jpg" class = "popupImage" id = "JohnTaylor">
 <img src = "Main/Emma-Hale-Smith.jpg" class = "popupImage" id = "EmmaSmith">
-<img src = "Main/eliza-r-snow-266x333-0001261.jpg" class = "popupImage" id = "ElizaSnow">
+<img src = "Main/Parley_P_Pratt.gif" class = "popupImage" id = "ParleyPPratt">
+<img src = "Main/WifeEmilyDowePartridgeAsYoungWoman.jpg" class = "popupImage" id = "EmilyPartridge">
+<img src = "Main/eliza-r-snow-266x333-0001261.jpg" class = "popupImage" id = "ElizaRSnow">
 <img src = "Main/martin-harris-mormon.gif" class = "popupImage" id = "MartinHarris">
 <img src = "Main/per75---D1-page-222---Sidney-Rigdon-from-R1.jpg" class = "popupImage" id = "SidneyRigdon">
-<img src = "Main/Heber-C.-Kimball1.jpg" class = "popupImage" id = "HeberKimball">
-<img src = "Main/Parley_P_Pratt.gif" class = "popupImage" id = "ParleyPratt">
-<!--<img src = "Main/WallTexture.png" class = "sprite" id = "IWallObject">
-<img src = "Main/BlankSpaceKraze.png" class = "sprite" id = "BlankSpace">
-<img src = "Main/linkup.png" class = "sprite" id = "up">
-<img src = "Main/linkdown.png" class = "sprite" id = "down">
-<img src = "Main/linkdown.png" class = "sprite" id = "none">
-<img src = "Main/linkleft.png" class = "sprite" id = "left">
-<img src = "Main/linkright.png" class = "sprite" id = "right">-->
+<img src = "Main/Heber-C.-Kimball1.jpg" class = "popupImage" id = "HeberCKimball">
+<img src = "Main/Jtsallred.jpg" class = "popupImage" id = "JamesTillmanSanfordAllred">
+<img src = "Main/smithga1x.jpg" class = "popupImage" id = "GeorgeASmith">
+<img src = "Main/tannerjj.jpg" class = "popupImage" id = "JohnTanner">
+<img src = "Main/erastus-snow-284085-ph-5962fd3it005.jpg" class = "popupImage" id = "ErastusSnow">
+<img src = "Main/George_Q._Cannon_-_Brady-Handy.jpg" class = "popupImage" id = "GeorgeQCannon">
+<img src = "Main/220px-Orson_Pratt_engraving.png" class = "popupImage" id = "OrsonPratt">
+<img src = "Main/John_W._Woolley.jpg" class = "popupImage" id = "JohnWWoolley">
+<img src = "Main/bennettdetail.jpg" class = "popupImage" id = "JohnCBennett">
+<img src = "Main/BinghamME.jpg" class = "popupImage" id = "MarinthaElthariaBingham">
+<img src = "Main/BH2.jpg" class = "popupImage" id = "BHRoberts">
+<img src = "Main/hydeo1.jpg" class = "popupImage" id = "OrsonHyde">
+<img src = "Main/Leavitt,%20Dudley-01.jpg" class = "popupImage" id = "DudleyLeavitt">
+<img src = "Main/NielsdatterBK.jpg" class = "popupImage" id = "BodilKNielsdatter">
+<img src = "Main/LS_hero.jpg" class = "popupImage" id = "LorenzoSnow">
+<img src = "Main/wilford-woodruff-82910-wallpaper.jpg" class = "popupImage" id = "WilfordWoodruff">
+<img src = "Main/Amasamlyman.png" class = "popupImage" id = "AmasaMLyman">
+<img src = "Main/john-d-lee0.jpg" class = "popupImage" id = "JohnDLee">
+<img src = "Main/image001_152.gif" class = "popupImage" id = "FranklinDRichards">
+<img src = "Main/porter_rockwell.jpg" class = "popupImage" id = "PorterRockwell">
+<img src = "Main/Emmeline_Free.jpg" class = "popupImage" id = "EmmelineFree">
+<img src = "Main/220px-D._Eccless.jpg" class = "popupImage" id = "DavidEccles">
+<img src = "Main/933575.jpg" class = "popupImage" id = "AmeliaFolsom">
+<img src = "Main/220px-Jacobhamblin.jpg" class = "popupImage" id = "JacobHamblin">
 
 </body>
 </html>
