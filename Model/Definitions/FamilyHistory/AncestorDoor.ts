@@ -32,7 +32,7 @@ module Model.Definitions.FamilyHistory
 
         public getSpaceType():string
         {
-            return this.doorString;
+            return this.getRequirement().toString().replace(/ /g,'');
         }
 
         public objectIsOfType(type:string):boolean

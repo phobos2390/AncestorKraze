@@ -28,20 +28,33 @@ var View;
                 for (var j = 0; j < this.viewWidth; j++) {
                     var row = playerSpace.getX() + Math.ceil(i - this.viewHeight / 2);
                     var col = playerSpace.getY() + Math.ceil(j - this.viewWidth / 2);
+                    var spriteWidth;
+                    var spriteHeight;
                     var currSpace = model.getSpace(row, col);
                     var img;
                     if (currSpace != null) {
-                        img = document.getElementById(currSpace.getSpaceObject().getSpaceType());
+                        if (currSpace.getSpaceObject().objectIsOfType("IDoor")) {
+                            img = document.getElementById(currSpace.getSpaceObject().getSpaceType());
+                            spriteWidth = img.width; //this.spaceWidth; //img.style.width;
+                            spriteHeight = img.height; //this.spaceHeight; //img.style.height;
+                        }
+                        else {
+                            img = document.getElementById(currSpace.getSpaceObject().getSpaceType());
+                            spriteWidth = this.spaceWidth;
+                            spriteHeight = this.spaceHeight;
+                        }
                     }
                     else {
                         img = document.getElementById(this.blankSpaceString);
+                        spriteWidth = this.spaceWidth;
+                        spriteHeight = this.spaceHeight;
                     }
                     var imageStyle = window.getComputedStyle(img);
                     var leftStr = imageStyle.getPropertyValue("left");
                     var topStr = imageStyle.getPropertyValue("top");
                     var left = parseInt(leftStr.replace(/\D/g, ''));
                     var top = parseInt(topStr.replace(/\D/g, ''));
-                    ctx.drawImage(img, left, top, this.spaceWidth, this.spaceHeight, j * this.spaceWidth, i * this.spaceHeight, this.spaceWidth, this.spaceHeight);
+                    ctx.drawImage(img, left, top, spriteWidth, spriteHeight, j * this.spaceWidth, i * this.spaceHeight, this.spaceWidth, this.spaceHeight);
                 }
             }
             var playerTexture = document.getElementById(this.presenter.getLastMove().getMoveString());

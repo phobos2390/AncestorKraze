@@ -22,7 +22,7 @@ var Model;
                     return true;
                 };
                 AncestorDoor.prototype.getSpaceType = function () {
-                    return this.doorString;
+                    return this.getRequirement().toString().replace(/ /g, '');
                 };
                 AncestorDoor.prototype.objectIsOfType = function (type) {
                     return type.valueOf() == this.doorString.valueOf() || type.valueOf() == this.getRequirement().toString().valueOf();
