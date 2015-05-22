@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+<style>
+    img[class=sprite]
+    {
+        display:none;
+        height:25px;
+        width:25px;
+    }
+    img[class=popupImage]
+    {
+        display:none;
+        left:0px;
+        top:0px;
+        /*height:25px;*/
+        /*width:25px;*/
+    }
+    #IWallObject
+    {
+        left:0px;
+        top:0px;
+    }
+    #up
+    {
+        left:25px;
+        top:0px;
+    }
+    #down,#none
+    {
+        left:50px;
+        top:0px;
+    }
+    #BlankSpace,#IWinSpaceObject
+    {
+        left:75px;
+        top:0px;
+    }
+    #right
+    {
+        left:0px;
+        top:25px;
+    }
+    #left
+    {
+        left:25px;
+        top:25px;
+    }
+    #IKey
+    {
+        left:50px;
+        top:25px;
+    }
+    #IDoor
+    {
+        left:75px;
+        top:25px;
+    }
+    #imagePopup
+    {
+        background-color: white;
+        visibility:hidden;
+        z-index: 10;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 750px;
+    }
+    #canvas-container
+    {
+        text-align: center;
+        position: relative;
+        z-index: 0;
+        visibility:visible;
+    }
+    #ancestorPicture
+    {
+        height: 500px;
+        width: 500px;
+    }
+    canvas
+    {
+        display:inline;
+    }
+</style>
+<head>
+    <script src = "https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src = "Main/familysearch-javascript-sdk.js"></script>
+    <script src = "View/MapView.js"></script>
+    <script src = "View/AncestorMapView.js"></script>
+    <script src = "Model/Generator/Definitions/AbstractTreeTraversalState.js"></script>
+    <script src = "Model/Generator/Definitions/Graph.js"></script>
+    <script src = "Model/Generator/Definitions/Tree.js"></script>
+    <script src = "Model/Generator/Definitions/InitializingState.js"></script>
+    <script src = "Model/Generator/Definitions/NewBranchState.js"></script>
+    <script src = "Model/Generator/Definitions/NumberOfBranchesStrategy.js"></script>
+    <script src = "Model/Generator/Definitions/NewLeafState.js"></script>
+    <script src = "Model/Generator/Definitions/RandomizedPopulator.js"></script>
+    <script src = "Model/Generator/ITreeVisitor.js"></script>
+    <script src = "Model/Generator/Definitions/StandardMazeCreator.js"></script>
+    <script src = "Model/Generator/Definitions/AncestorMazeCreator.js"></script>
+    <script src = "Model/Generator/IMazeCreator.js"></script>
+    <script src = "Model/Definitions/Standard/StandardModel.js"></script>
+    <script src = "Presenter/AbstractPresenter.js"></script>
+    <script src = "Presenter/StandardPresenter.js"></script>
+    <script src = "Presenter/AbstractPresenter.js"></script>
+    <script src = "Presenter/AncestorPresenter.js"></script>
+    <script src = "Model/Definitions/Standard/StandardMove.js"></script>
+    <script src = "Model/Definitions/Standard/StandardKeyParams.js"></script>
+    <script src = "Model/Definitions/Standard/StandardKey.js"></script>
+    <script src = "Model/Definitions/Standard/StandardPlayer.js"></script>
+    <script src = "Model/Definitions/Standard/StandardRequirementParams.js"></script>
+    <script src = "Model/Definitions/Standard/StandardRequirement.js"></script>
+    <script src = "Model/Definitions/Standard/StandardDoorParams.js"></script>
+    <script src = "Model/Definitions/Standard/StandardDoor.js"></script>
+    <script src = "Model/Definitions/Standard/StandardEmptySpace.js"></script>
+    <script src = "Model/Definitions/Standard/StandardSpace.js"></script>
+    <script src = "Model/Definitions/Standard/StandardWall.js"></script>
+    <script src = "Model/Definitions/Standard/StandardWinObject.js"></script>
+    <script src = "Model/Definitions/Standard/StandardModelBuilder.js"></script>
+    <script src = "Model/Definitions/Standard/StandardFactory.js"></script>
+    <script src = "Model/Definitions/FamilyHistory/AncestorDoorParams.js"></script>
+    <script src = "Model/Definitions/FamilyHistory/AncestorDoor.js"></script>
+    <script src = "Model/Definitions/FamilyHistory/AncestorModel.js"></script>
+    <script src = "Model/Definitions/FamilyHistory/AncestorBuilder.js"></script>
+    <script src = "Model/Definitions/FamilyHistory/AncestorFactory.js"></script>
+    <script src = "Model/Definitions/FamilyHistory/AncestorName.js"></script>
+    <script src = "Model/Definitions/FamilyHistory/AncestorNameParams.js"></script>
+    <script src = "Model/Definitions/FamilyHistory/AncestorNameRequirement.js"></script>
+    <script src = "Model/Definitions/FamilyHistory/AncestorPlayer.js"></script>
+    <script src = "Model/Definitions/FamilyHistory/AncestorRequirementParams.js"></script>
+    <script src = "Main/KrazeClient.js"></script>
+    <script>
+        var client;
+        var fsClient;
+        var numberOfPeople;
+        var peopleChecked;
+        var startGame = function()
+        {
+            client = Main.KrazeClient.create("ancestor");
+            $(document).keydown(function(key)
+            {
+                if(key.keyCode == 13)
+                {
+                    $("#nameEnter").click();
+                }
+                else
+                {
+                    client.onKeyDown(key);
+                }
+            });
+            var loginButton = document.getElementById("logInButton");
+            loginButton.style.display = "none";
+            var container = document.getElementById("canvas-container");
+            container.style.display = "visible";
+        };
+        var enterName = function()
+        {
+            var answer = document.getElementById("doorAnswer");
+            var name = answer.value;
+            client.enterName(name);
+        };
+        var leavePopup = function()
+        {
+            client.leavePopup();
+        };
+        $(document).ready(function()
+        {
+            fsClient = new FamilySearch(
+            {
+                app_key: "NQ3Q-PBD8-LL9N-RCLZ-MZCZ-X7P8-7SMX-RD6N",
+                environment: 'production',
+                auth_callback: 'http://localhost:8000/auth/login/return/',
+                http_function: $.ajax,
+                deferred_function: $.Deferred,
+                auto_signin: true,
+                save_access_token: true,
+                auto_expire: true
+            });
+        });
+        var getURL = function(url,image)
+        {
+            $.get(url).done(function(code)
+            {
+                if(code)
+                {
+                    document.body.appendChild(image);
+                }
+                if(++peopleChecked >= numberOfPeople)
+                {
+                    startGame();
+                }
+            })
+        };
+        var ancestryResponse = function(response)
+        {
+            console.log(response);
+
+            console.log(response.getPersons());
+            numberOfPeople = response.getPersons().length;
+            peopleChecked = 0;
+            for(var i = 0; i < response.getPersons().length; i++)
+            {
+                var person = response.getPersons()[i];
+                var image = document.createElement("img");
+                image.className = "popupImage";
+                var nameText = person.$getGivenName() + person.$getSurname();
+                var id = "";
+                for(var j = 0; j < nameText.length; j++)
+                {
+                    var upperCase = "A" <= nameText[j] && nameText[j] <= "Z";
+                    var lowerCase = "a" <= nameText[j] && nameText[j] <= "z";
+                    if(upperCase || lowerCase)
+                    {
+                        id += nameText[j];
+                    }
+                }
+                image.id = id;
+                person.$getPersonPortraitUrl().then(function(url)
+                {
+                    image.src = url;
+                    getURL(url, image);
+                });
+            }
+        };
+
+        var login = function()
+        {
+            fsClient.getAccessToken().then(function(accessToken)
+            {
+                fsClient.getCurrentUser().then(function(response)
+                {
+                    var user = response.getUser();
+                    console.log('Hello '+user.contactName);
+                    console.log(user.personId);
+                    var ancestry = fsClient.getAncestry(user.personId).then(ancestryResponse);
+                });
+            });
+        };
+    </script>
+</head>
+<body>
+<!--<button onclick="KrazeClient.Main()">Start</button>-->
+<button onclick="login()" id = "logInButton">Log In with FamilySearch</button>
+<div id ="canvas-container">
+    <canvas id = "viewScreen" style = "border:1px solid #000000;"></canvas>
+    <div id = "messages">
+        <p><ul id = "log"></ul></p>
+    </div>
+</div>
+<div id = "imagePopup">
+    <img id = "ancestorPicture" src = "Main/JosephSmith.jpg">
+    <h1>Who is this person?</h1>
+    <input type="text" id = "doorAnswer">
+    <button onclick = "enterName()" id = "nameEnter">Enter Name</button>
+    <button onclick = "leavePopup()" id = "leavePopup">Exit</button>
+</div>
+
+<img src = "Main/SpriteSheetAncestor.png" class = "sprite" id = "IWallObject">
+<img src = "Main/SpriteSheetAncestor.png" class = "sprite" id = "IWinSpaceObject">
+<img src = "Main/SpriteSheetAncestor.png" class = "sprite" id = "BlankSpace">
+<img src = "Main/SpriteSheetAncestor.png" class = "sprite" id = "IKey">
+<img src = "Main/SpriteSheetAncestor.png" class = "sprite" id = "up">
+<img src = "Main/SpriteSheetAncestor.png" class = "sprite" id = "down">
+<img src = "Main/SpriteSheetAncestor.png" class = "sprite" id = "none">
+<img src = "Main/SpriteSheetAncestor.png" class = "sprite" id = "left">
+<img src = "Main/SpriteSheetAncestor.png" class = "sprite" id = "right">
+<img src = "Main/SpriteSheetAncestor.png" class = "sprite" id = "IDoor">
+
+</body>
+</html>
