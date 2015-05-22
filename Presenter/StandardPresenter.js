@@ -25,6 +25,9 @@ var Presenter;
         StandardPresenter.prototype.executeMove = function (move) {
             this.presenter.executeMove(move);
         };
+        StandardPresenter.prototype.isInPopup = function () {
+            return false;
+        };
         return StandardPresenter;
     })();
     Presenter.StandardPresenter = StandardPresenter;

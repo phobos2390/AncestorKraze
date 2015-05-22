@@ -38,8 +38,8 @@ var Main;
             };
         };
         KrazeClient.prototype.initVariables = function (type) {
-            var mazeHeight = 75;
-            var mazeWidth = 75;
+            var mazeHeight = 35;
+            var mazeWidth = 35;
             if (type.valueOf() == "standard".valueOf()) {
                 this.factory = new StandardFactory();
                 var creator = new StandardMazeCreator(this.factory, 9);
@@ -82,7 +82,9 @@ var Main;
             this.presenter.executeMove(this.factory.createMove("none"));
         };
         KrazeClient.prototype.onKeyDown = function (key) {
-            this.presenter.executeMove(this.moves[key.keyCode]);
+            if (!this.presenter.isInPopup()) {
+                this.presenter.executeMove(this.moves[key.keyCode]);
+            }
         };
         KrazeClient.prototype.enterName = function (name) {
             this.presenter.enterName(name);

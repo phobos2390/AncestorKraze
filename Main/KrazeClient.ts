@@ -34,6 +34,7 @@ module Main
         private model:IModel;
         private presenter:IPresenter;
         private moves;
+        private boolean:inPopup;
 
         public static Main():void
         {
@@ -64,8 +65,8 @@ module Main
 
         private initVariables(type)
         {
-            var mazeHeight:number = 75;
-            var mazeWidth:number = 75;
+            var mazeHeight:number = 35;
+            var mazeWidth:number = 35;
             if(type.valueOf() == "standard".valueOf())
             {
                 this.factory = new StandardFactory();
@@ -117,7 +118,10 @@ module Main
 
         public onKeyDown(key):void
         {
-            this.presenter.executeMove(<IMove>this.moves[key.keyCode]);
+            if(!this.presenter.isInPopup())
+            {
+                this.presenter.executeMove(<IMove>this.moves[key.keyCode]);
+            }
         }
 
         public enterName(name):void

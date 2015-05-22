@@ -28,7 +28,7 @@ var Presenter;
                 if (model.doorRequirement().playerFulfillsRequirement(model.getPlayer())) {
                     var popup = document.getElementById("imagePopup");
                     popup.style.visibility = "hidden";
-                    var canvas = document.getElementById("canvas-containter");
+                    var canvas = document.getElementById("canvas-container");
                     canvas.style.visibility = "visible";
                 }
                 else if (this.justEnteredName) {
@@ -43,7 +43,7 @@ var Presenter;
                     var src = document.getElementById("ancestorPicture").setAttribute("src", ancestorPicture.getAttribute("src"));
                     document.getElementById("doorAnswer").value = "";
                     popup.style.visibility = "visible";
-                    var canvas = document.getElementById("canvas-containter");
+                    var canvas = document.getElementById("canvas-container");
                     canvas.style.visibility = "hidden";
                     this.goingThroughDoor = true;
                     this.justEnteredName = false;
@@ -61,7 +61,7 @@ var Presenter;
             this.justEnteredName = true;
             var popup = document.getElementById("imagePopup");
             popup.style.visibility = "hidden";
-            var canvas = document.getElementById("canvas-containter");
+            var canvas = document.getElementById("canvas-container");
             canvas.style.visibility = "visible";
             this.goingThroughDoor = false;
             this.executeMove(this.getLastMove());
@@ -69,7 +69,7 @@ var Presenter;
         AncestorPresenter.prototype.leavePopup = function () {
             var popup = document.getElementById("imagePopup");
             popup.style.visibility = "hidden";
-            var canvas = document.getElementById("canvas-containter");
+            var canvas = document.getElementById("canvas-container");
             canvas.style.visibility = "visible";
             this.goingThroughDoor = false;
         };
@@ -80,6 +80,9 @@ var Presenter;
             if (!this.goingThroughDoor) {
                 this.presenter.executeMove(move);
             }
+        };
+        AncestorPresenter.prototype.isInPopup = function () {
+            return this.goingThroughDoor;
         };
         return AncestorPresenter;
     })();

@@ -53,7 +53,7 @@ module Presenter
                 {
                     var popup = document.getElementById("imagePopup");
                     popup.style.visibility = "hidden";
-                    var canvas = document.getElementById("canvas-containter");
+                    var canvas = document.getElementById("canvas-container");
                     canvas.style.visibility = "visible";
                 }
                 else if(this.justEnteredName)
@@ -71,7 +71,7 @@ module Presenter
                     var src = document.getElementById("ancestorPicture").setAttribute("src",ancestorPicture.getAttribute("src"));
                     document.getElementById("doorAnswer").value = "";
                     popup.style.visibility = "visible";
-                    var canvas = document.getElementById("canvas-containter");
+                    var canvas = document.getElementById("canvas-container");
                     canvas.style.visibility = "hidden";
                     this.goingThroughDoor = true;
                     this.justEnteredName = false;
@@ -92,7 +92,7 @@ module Presenter
             this.justEnteredName = true;
             var popup = document.getElementById("imagePopup");
             popup.style.visibility = "hidden";
-            var canvas = document.getElementById("canvas-containter");
+            var canvas = document.getElementById("canvas-container");
             canvas.style.visibility = "visible";
             this.goingThroughDoor = false;
             this.executeMove(this.getLastMove());
@@ -102,7 +102,7 @@ module Presenter
         {
             var popup = document.getElementById("imagePopup");
             popup.style.visibility = "hidden";
-            var canvas = document.getElementById("canvas-containter");
+            var canvas = document.getElementById("canvas-container");
             canvas.style.visibility = "visible";
             this.goingThroughDoor = false;
         }
@@ -118,6 +118,11 @@ module Presenter
             {
                 this.presenter.executeMove(move);
             }
+        }
+
+        public isInPopup()
+        {
+            return this.goingThroughDoor;
         }
     }
 }

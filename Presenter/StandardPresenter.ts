@@ -44,5 +44,10 @@ module Presenter
         {
             this.presenter.executeMove(move);
         }
+
+        public isInPopup()
+        {
+            return false;
+        }
     }
 }
