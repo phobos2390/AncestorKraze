@@ -98,6 +98,14 @@ module Model.Generator.Definitions
             return strat.getBranches();
         }
 
+        public getNumberOfBranchesBelow(data:ISpace):number
+        {
+            this.setIteratorToData(data);
+            var strat:NumberOfBranchesStrategy = new NumberOfBranchesStrategy();
+            strat.traverse(this.currentIter);
+            return strat.getBranches();
+        }
+
         public getNumberOfBranchesAboveNode(space:ISpace):number
         {
             var branches:number = 0;
@@ -300,6 +308,21 @@ module Model.Generator.Definitions
             return this.factory;
         }
 
+        public getAverageNumberOfBranches(height:number, width:number, times:number):number
+        {
+            this.setSize(height,width);
+            this.createGraph();
+            var total:number = 0;
+            for(var i:number = 0; i < times; i++)
+            {
+                var spanningTree:Tree = this.createRandomSpanningTree();
+                var branches:number = this.getTotalNumberOfBranches();
+                console.log("Branches: " + branches);
+                total += branches;
+            }
+            return total/times;
+        }
+
         public createMaze(height:number,width:number):IModel
         {
             var builder:IModelBuilder = this.factory.createBuilder();
@@ -309,18 +332,20 @@ module Model.Generator.Definitions
             this.createGraph();
             var spanningTree:Tree = this.createRandomSpanningTree();
             var branches:number = this.getTotalNumberOfBranches();
-            builder = this.recCreateFromTree(spanningTree,builder);
-            while(branches < this.numberOfKeys + 3)
+            var exitSpace = this.factory.createSpace(height - 2, width - 2);
+            var branchesBelowExit:number = this.getNumberOfBranchesBelow(exitSpace);
+            while(branches - branchesBelowExit + 1 < this.numberOfKeys + 3)
             {
                 console.log("Not enough branches! We have only " + branches + " branches");
-                builder.setBaseFilledPattern(this.factory.createSpace(0,0),width,height);
+                //builder.setBaseFilledPattern(this.factory.createSpace(0,0),width,height);
                 spanningTree = this.createRandomSpanningTree();
                 branches = this.getTotalNumberOfBranches();
-                builder = this.recCreateFromTree(spanningTree,builder);
+                //builder = this.recCreateFromTree(spanningTree,builder);
             }
+            builder = this.recCreateFromTree(spanningTree,builder);
             this.initializeKeyList(builder);
             builder.setExit(this.factory.createSpace(height - 2, width - 1));
-            this.setIteratorToData(this.factory.createSpace(height - 2, width - 2));
+            this.setIteratorToData(exitSpace);
             this.moveUpToStartOfBranch();
             var firstSpace:ISpace = this.getIteratorData();
             this.markCurrentIterator();

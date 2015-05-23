@@ -65,8 +65,8 @@ module Main
 
         private initVariables(type)
         {
-            var mazeHeight:number = 35;
-            var mazeWidth:number = 35;
+            var mazeHeight:number = 19;
+            var mazeWidth:number = 19;
             if(type.valueOf() == "standard".valueOf())
             {
                 this.factory = new StandardFactory();

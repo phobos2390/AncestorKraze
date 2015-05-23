@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src = "Model/Generator/Definitions/AbstractTreeTraversalState.js"></script>
+    <script src = "Model/Generator/Definitions/Graph.js"></script>
+    <script src = "Model/Generator/Definitions/Tree.js"></script>
+    <script src = "Model/Generator/Definitions/InitializingState.js"></script>
+    <script src = "Model/Generator/Definitions/NewBranchState.js"></script>
+    <script src = "Model/Generator/Definitions/NumberOfBranchesStrategy.js"></script>
+    <script src = "Model/Generator/Definitions/NewLeafState.js"></script>
+    <script src = "Model/Generator/ITreeVisitor.js"></script>
+    <script src = "Model/Generator/Definitions/StandardMazeCreator.js"></script>
+    <script src = "Model/Generator/Definitions/AncestorMazeCreator.js"></script>
+    <script src = "Model/Generator/IMazeCreator.js"></script>
+    <script src = "Model/Definitions/Standard/StandardMove.js"></script>
+    <script src = "Model/Definitions/Standard/StandardKeyParams.js"></script>
+    <script src = "Model/Definitions/Standard/StandardKey.js"></script>
+    <script src = "Model/Definitions/Standard/StandardPlayer.js"></script>
+    <script src = "Model/Definitions/Standard/StandardRequirementParams.js"></script>
+    <script src = "Model/Definitions/Standard/StandardRequirement.js"></script>
+    <script src = "Model/Definitions/Standard/StandardDoorParams.js"></script>
+    <script src = "Model/Definitions/Standard/StandardDoor.js"></script>
+    <script src = "Model/Definitions/Standard/StandardEmptySpace.js"></script>
+    <script src = "Model/Definitions/Standard/StandardSpace.js"></script>
+    <script src = "Model/Definitions/Standard/StandardWall.js"></script>
+    <script src = "Model/Definitions/Standard/StandardWinObject.js"></script>
+    <script src = "Model/Definitions/Standard/StandardModelBuilder.js"></script>
+    <script src = "Model/Definitions/Standard/StandardFactory.js"></script>
+    <script>
+        var test = function()
+        {
+            var StandardFactory = Model.Definitions.Standard.StandardFactory;
+            var StandardMazeCreator = Model.Generator.Definitions.StandardMazeCreator;
+            var factory = new StandardFactory();
+            var mazeCreator = new StandardMazeCreator(factory,0);
+            var height = parseInt(document.getElementById("height").value);
+            var width = parseInt(document.getElementById("width").value);
+            var times = parseInt(document.getElementById("times").value);
+            var output = document.getElementById("output");
+            var average = mazeCreator.getAverageNumberOfBranches(height, width, times);
+            output.textContent += "Average number of branches for size " + height + "x" + width + ": " + average + "\n";
+        };
+    </script>
+</head>
+<body>
+    <br>
+    Height
+    <input type = "text" id = "height">
+    <br>
+    Width
+    <input type = "text" id = "width">
+    <br>
+    Times
+    <input type = "text" id = "times">
+    <br>
+    <input type = "button" id = "testButton" onclick="test()" value="Test">
+    <br>
+    Output
+    <br>
+    <textarea rows = "15" cols = "50" id = "output"></textarea>
+</body>
+</html>
