@@ -33,7 +33,7 @@ module Presenter
         public constructor(model:IModel,factory:IModelFactory)
         {
             model.registerObserver(this);
-            this.presenter = new AbstractPresenter(model,new AncestorMapView(this,7,7));
+            this.presenter = new AbstractPresenter(model,new AncestorMapView(this,25,25));
             this.pickedUpKeys = [];
             this.justEnteredName = false;
             this.goingThroughDoor = false;

@@ -22,7 +22,8 @@ module View
         private viewWidth:number;
         private spaceHeight:number;
         private spaceWidth:number;
-        private blankSpaceString:string;
+        private outOfMazeSpaceString:string;
+        private unvisitedSpaceString:string;
 
         public constructor(presenter:IPresenter,viewHeight:number,viewWidth:number)
         {
@@ -31,7 +32,8 @@ module View
             this.viewWidth = viewWidth;
             this.spaceHeight = 25;
             this.spaceWidth = 25;
-            this.blankSpaceString = "BlankSpace"
+            this.outOfMazeSpaceString = "OutOfMaze";
+            this.unvisitedSpaceString = "MazeMist";
         }
 
         public draw(model:IModelArgs):void
@@ -53,22 +55,31 @@ module View
                     var img;
                     if(currSpace != null)
                     {
-                        if(currSpace.getSpaceObject().objectIsOfType("IDoor"))
+                        if(currSpace.seen())
                         {
-                            img = document.getElementById(currSpace.getSpaceObject().getSpaceType());
-                            spriteWidth = img.width;//this.spaceWidth; //img.style.width;
-                            spriteHeight = img.height;//this.spaceHeight; //img.style.height;
+                            if(currSpace.getSpaceObject().objectIsOfType("IDoor"))
+                            {
+                                img = document.getElementById(currSpace.getSpaceObject().getSpaceType());
+                                spriteWidth = img.width;//this.spaceWidth; //img.style.width;
+                                spriteHeight = img.height;//this.spaceHeight; //img.style.height;
+                            }
+                            else
+                            {
+                                img = document.getElementById(currSpace.getSpaceObject().getSpaceType());
+                                spriteWidth = this.spaceWidth;
+                                spriteHeight = this.spaceHeight;
+                            }
                         }
                         else
                         {
-                            img = document.getElementById(currSpace.getSpaceObject().getSpaceType());
+                            img = document.getElementById(this.unvisitedSpaceString);
                             spriteWidth = this.spaceWidth;
                             spriteHeight = this.spaceHeight;
                         }
                     }
                     else
                     {
-                        img = document.getElementById(this.blankSpaceString);
+                        img = document.getElementById(this.outOfMazeSpaceString);
                         spriteWidth = this.spaceWidth;
                         spriteHeight = this.spaceHeight;
                     }

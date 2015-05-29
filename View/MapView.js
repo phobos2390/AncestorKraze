@@ -14,6 +14,7 @@ var View;
             this.spaceHeight = 25;
             this.spaceWidth = 25;
             this.blankSpaceString = "BlankSpace";
+            this.unvisitedSpaceString = "BlankSpace";
         }
         MapView.prototype.draw = function (model) {
             var canvas = document.getElementById("viewScreen");
@@ -28,7 +29,12 @@ var View;
                     var currSpace = model.getSpace(row, col);
                     var img;
                     if (currSpace != null) {
-                        img = document.getElementById(currSpace.getSpaceObject().getSpaceType());
+                        if (currSpace.seen()) {
+                            img = document.getElementById(currSpace.getSpaceObject().getSpaceType());
+                        }
+                        else {
+                            img = document.getElementById(this.unvisitedSpaceString);
+                        }
                     }
                     else {
                         img = document.getElementById(this.blankSpaceString);

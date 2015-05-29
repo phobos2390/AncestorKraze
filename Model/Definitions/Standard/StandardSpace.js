@@ -16,6 +16,7 @@ var Model;
                     this.x = x;
                     this.y = y;
                     this.spaceObject = new StandardEmptySpace();
+                    this.hasBeenSeen = false;
                 }
                 StandardSpace.prototype.getX = function () {
                     return this.x;
@@ -34,6 +35,12 @@ var Model;
                 };
                 StandardSpace.prototype.toString = function () {
                     return "(" + this.getX() + "," + this.getY() + ")";
+                };
+                StandardSpace.prototype.setSeen = function () {
+                    this.hasBeenSeen = true;
+                };
+                StandardSpace.prototype.seen = function () {
+                    return this.hasBeenSeen;
                 };
                 return StandardSpace;
             })();

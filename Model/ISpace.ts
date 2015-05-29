@@ -12,5 +12,7 @@ module Model
         setSpaceObject(spaceObject:ISpaceObject):void;
         getSpaceObject():ISpaceObject;
         canEnterSpace():boolean;
+        setSeen():void;
+        seen():boolean;
     }
 }

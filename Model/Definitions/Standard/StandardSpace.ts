@@ -15,12 +15,14 @@ module Model.Definitions.Standard
         private x:number;
         private y:number;
         private spaceObject:ISpaceObject;
+        private hasBeenSeen:boolean;
 
         public constructor(x:number, y:number)
         {
             this.x = x;
             this.y = y;
             this.spaceObject = new StandardEmptySpace();
+            this.hasBeenSeen = false;
         }
 
         public getX():number
@@ -51,6 +53,16 @@ module Model.Definitions.Standard
         public toString():string
         {
             return "(" + this.getX() + "," + this.getY() + ")";
+        }
+
+        public setSeen():void
+        {
+            this.hasBeenSeen = true;
+        }
+
+        public seen():boolean
+        {
+            return this.hasBeenSeen;
         }
     }
 }

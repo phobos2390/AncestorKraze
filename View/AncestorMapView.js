@@ -16,7 +16,8 @@ var View;
             this.viewWidth = viewWidth;
             this.spaceHeight = 25;
             this.spaceWidth = 25;
-            this.blankSpaceString = "BlankSpace";
+            this.outOfMazeSpaceString = "OutOfMaze";
+            this.unvisitedSpaceString = "MazeMist";
         }
         AncestorMapView.prototype.draw = function (model) {
             var canvas = document.getElementById("viewScreen");
@@ -33,19 +34,26 @@ var View;
                     var currSpace = model.getSpace(row, col);
                     var img;
                     if (currSpace != null) {
-                        if (currSpace.getSpaceObject().objectIsOfType("IDoor")) {
-                            img = document.getElementById(currSpace.getSpaceObject().getSpaceType());
-                            spriteWidth = img.width; //this.spaceWidth; //img.style.width;
-                            spriteHeight = img.height; //this.spaceHeight; //img.style.height;
+                        if (currSpace.seen()) {
+                            if (currSpace.getSpaceObject().objectIsOfType("IDoor")) {
+                                img = document.getElementById(currSpace.getSpaceObject().getSpaceType());
+                                spriteWidth = img.width; //this.spaceWidth; //img.style.width;
+                                spriteHeight = img.height; //this.spaceHeight; //img.style.height;
+                            }
+                            else {
+                                img = document.getElementById(currSpace.getSpaceObject().getSpaceType());
+                                spriteWidth = this.spaceWidth;
+                                spriteHeight = this.spaceHeight;
+                            }
                         }
                         else {
-                            img = document.getElementById(currSpace.getSpaceObject().getSpaceType());
+                            img = document.getElementById(this.unvisitedSpaceString);
                             spriteWidth = this.spaceWidth;
                             spriteHeight = this.spaceHeight;
                         }
                     }
                     else {
-                        img = document.getElementById(this.blankSpaceString);
+                        img = document.getElementById(this.outOfMazeSpaceString);
                         spriteWidth = this.spaceWidth;
                         spriteHeight = this.spaceHeight;
                     }

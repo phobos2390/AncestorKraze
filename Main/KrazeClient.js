@@ -38,8 +38,8 @@ var Main;
             };
         };
         KrazeClient.prototype.initVariables = function (type) {
-            var mazeHeight = 19;
-            var mazeWidth = 19;
+            var mazeHeight = 45;
+            var mazeWidth = 45;
             if (type.valueOf() == "standard".valueOf()) {
                 this.factory = new StandardFactory();
                 var creator = new StandardMazeCreator(this.factory, 9);

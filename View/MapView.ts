@@ -19,6 +19,7 @@ module View
         private spaceHeight:number;
         private spaceWidth:number;
         private blankSpaceString:string;
+        private unvisitedSpaceString:string;
 
         public constructor(presenter:IPresenter,viewHeight:number,viewWidth:number)
         {
@@ -27,7 +28,8 @@ module View
             this.viewWidth = viewWidth;
             this.spaceHeight = 25;
             this.spaceWidth = 25;
-            this.blankSpaceString = "BlankSpace"
+            this.blankSpaceString = "BlankSpace";
+            this.unvisitedSpaceString = "BlankSpace";
         }
 
         public draw(model:IModelArgs):void
@@ -47,7 +49,14 @@ module View
                     var img;
                     if(currSpace != null)
                     {
-                        img = document.getElementById(currSpace.getSpaceObject().getSpaceType());
+                        if(currSpace.seen())
+                        {
+                            img = document.getElementById(currSpace.getSpaceObject().getSpaceType());
+                        }
+                        else
+                        {
+                            img = document.getElementById(this.unvisitedSpaceString);
+                        }
                     }
                     else
                     {

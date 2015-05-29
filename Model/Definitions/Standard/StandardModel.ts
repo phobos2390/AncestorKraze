@@ -83,8 +83,117 @@ module Model.Definitions.Standard
             {
                 this.hasWon = true;
             }
+            //this.setSeenAroundSpace(space.getX(),space.getY());
+            //for(var i:number = 0; i < 3; i++)
+            //{
+            //    for(var j:number = 0; j < 3; j++)
+            //    {
+            //        var index1 = i - 1 + space.getX();
+            //        var index2 = j - 1 + space.getY();
+            //        var currSpace:ISpace = this.getSpace(index1, index2);
+            //        if(currSpace != null)
+            //        {
+            //            currSpace.setSeen();
+            //        }
+            //    }
+            //}
+            //var x:number = space.getX();
+            //var y:number = space.getY();
+            //var currSpace:ISpace = this.getSpace(x,y);
+            //if(move.getDeltaX() != 0 || move.getDeltaY() != 0)
+            //{
+            //    while (currSpace != null)
+            //    {
+            //        currSpace.setSeen();
+            //        if (currSpace.getSpaceObject().objectIsOfType("BlankSpace"))
+            //        {
+            //            x += move.getDeltaX();
+            //            y += move.getDeltaY();
+            //            currSpace = this.getSpace(x, y);
+            //        }
+            //        else
+            //        {
+            //            currSpace = null;
+            //        }
+            //    }
+            //}
+            this.setSeenAlongFaceDir(move,space.getX(),space.getY());
+            this.setSeenNAwayFromPath(2,space.getX(),space.getY());
             this.playerSpace = space;
             this.update();
+        }
+
+        private setSeenAlongFaceDir(move:IMove, initX:number, initY:number)
+        {
+            var x:number = initX;
+            var y:number = initY;
+            var currSpace:ISpace = this.getSpace(x,y);
+            if(move.getDeltaX() != 0 || move.getDeltaY() != 0)
+            {
+                while (currSpace != null)
+                {
+                    if (currSpace.getSpaceObject().objectIsOfType("BlankSpace"))
+                    {
+                        this.setSeenAroundSpace(x,y);
+                        x += move.getDeltaX();
+                        y += move.getDeltaY();
+                        currSpace = this.getSpace(x, y);
+                    }
+                    else
+                    {
+                        currSpace.setSeen();
+                        currSpace = null;
+                    }
+                }
+            }
+        }
+
+        private setSeenAroundSpace(x:number, y:number)
+        {
+            for(var i:number = 0; i < 3; i++)
+            {
+                for(var j:number = 0; j < 3; j++)
+                {
+                    var index1 = i - 1 + x;
+                    var index2 = j - 1 + y;
+                    var currSpace:ISpace = this.getSpace(index1, index2);
+                    if(currSpace != null)
+                    {
+                        currSpace.setSeen();
+                    }
+                }
+            }
+        }
+
+        private setSeenNAwayFromPath(n:number,x:number,y:number)
+        {
+            if(n > 0)
+            {
+                for (var i:number = 0; i < 2; i++)
+                {
+                    var c:number = 2 * i - 1;
+                    var dx:number = c + x;
+                    var dy:number = c + y;
+                    var scx:ISpace = this.getSpace(dx, y);
+                    var scy:ISpace = this.getSpace(x, dy);
+                    if (scx != null)
+                    {
+                        if (scx.getSpaceObject().objectIsOfType("BlankSpace"))
+                        {
+                            this.setSeenAroundSpace(dx,y);
+                            this.setSeenNAwayFromPath(n - 1, dx, y);
+                        }
+                    }
+                    if(scy != null)
+                    {
+                        if (scy.getSpaceObject().objectIsOfType("BlankSpace"))
+                        {
+                            this.setSeenAroundSpace(x,dy);
+                            this.setSeenNAwayFromPath(n - 1, x, dy);
+                        }
+                    }
+                }
+            }
         }
 
         public canMovePlayer(move:IMove):boolean
