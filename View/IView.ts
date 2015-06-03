@@ -11,5 +11,6 @@ module View
     export interface IView
     {
         draw(model:IModelArgs):void;
+        setGender(gender:string):void;
     }
 }

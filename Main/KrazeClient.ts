@@ -56,6 +56,10 @@ module Main
         {
             this.moves =
             {
+                37:this.factory.createMove("left"),
+                38:this.factory.createMove("up"),
+                40:this.factory.createMove("down"),
+                39:this.factory.createMove("right"),
                 65:this.factory.createMove("left"),
                 87:this.factory.createMove("up"),
                 83:this.factory.createMove("down"),
@@ -113,6 +117,11 @@ module Main
                 this.model = ancestorCreator.createMaze(mazeHeight, mazeWidth);
                 this.presenter = new AncestorPresenter(this.model,this.factory);
             }
+        }
+
+        public setGender(gender:string)
+        {
+            this.presenter.setGender(gender);
             this.presenter.executeMove(this.factory.createMove("none"));
         }
 

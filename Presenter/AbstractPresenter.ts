@@ -91,5 +91,10 @@ module Presenter
                 this.model.update();
             }
         }
+
+        public setGender(gender:string):void
+        {
+            this.view.setGender(gender);
+        }
     }
 }

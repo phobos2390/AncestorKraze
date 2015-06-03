@@ -14,7 +14,7 @@ var Presenter;
     var AncestorPresenter = (function () {
         function AncestorPresenter(model, factory) {
             model.registerObserver(this);
-            this.presenter = new AbstractPresenter(model, new AncestorMapView(this, 25, 25));
+            this.presenter = new AbstractPresenter(model, new AncestorMapView(this, 15, 15));
             this.pickedUpKeys = [];
             this.justEnteredName = false;
             this.goingThroughDoor = false;
@@ -83,6 +83,9 @@ var Presenter;
         };
         AncestorPresenter.prototype.isInPopup = function () {
             return this.goingThroughDoor;
+        };
+        AncestorPresenter.prototype.setGender = function (gender) {
+            this.presenter.setGender(gender);
         };
         return AncestorPresenter;
     })();

@@ -16,5 +16,6 @@ module Presenter
         update(model:IModelArgs):void;
         getLastMove():IMove;
         executeMove(move:IMove):void;
+        setGender(gender:string):void;
     }
 }

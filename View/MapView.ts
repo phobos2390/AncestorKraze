@@ -20,16 +20,19 @@ module View
         private spaceWidth:number;
         private blankSpaceString:string;
         private unvisitedSpaceString:string;
+        private gender:string;
 
         public constructor(presenter:IPresenter,viewHeight:number,viewWidth:number)
         {
             this.presenter = presenter;
             this.viewHeight = viewHeight;
             this.viewWidth = viewWidth;
-            this.spaceHeight = 25;
-            this.spaceWidth = 25;
             this.blankSpaceString = "BlankSpace";
             this.unvisitedSpaceString = "BlankSpace";
+            var sprite = document.getElementById(this.unvisitedSpaceString);
+            var style = window.getComputedStyle(sprite);
+            this.spaceHeight = parseInt(style.height.replace(/\D/g,''));
+            this.spaceWidth = parseInt(style.width.replace(/\D/g,''));
         }
 
         public draw(model:IModelArgs):void
@@ -65,22 +68,27 @@ module View
                     var imageStyle = window.getComputedStyle(img);
                     var leftStr = imageStyle.getPropertyValue("left");
                     var topStr = imageStyle.getPropertyValue("top");
-                    var left = parseInt(leftStr.replace(/\D/g,''));
-                    var top = parseInt(topStr.replace(/\D/g,''));
+                    var left = parseInt(leftStr.replace(/\D/g,''))*this.spaceWidth;
+                    var top = parseInt(topStr.replace(/\D/g,''))*this.spaceHeight;
                     ctx.drawImage(img,left,top,this.spaceWidth,this.spaceHeight,j*this.spaceWidth,i*this.spaceHeight,this.spaceWidth,this.spaceHeight);
                 }
             }
-            var playerTexture = document.getElementById(this.presenter.getLastMove().getMoveString());
+            var playerTexture = document.getElementById(this.gender + this.presenter.getLastMove().getMoveString());
             var imageStyle = window.getComputedStyle(playerTexture);
             var leftStr = imageStyle.getPropertyValue("left");
             var topStr = imageStyle.getPropertyValue("top");
-            var left = parseInt(leftStr.replace(/\D/g,''));
-            var top = parseInt(topStr.replace(/\D/g,''));
+            var left = parseInt(leftStr.replace(/\D/g,''))*this.spaceWidth;
+            var top = parseInt(topStr.replace(/\D/g,''))*this.spaceHeight;
             var centerX:number = this.spaceWidth*Math.floor(this.viewWidth/2);
             var centerY:number = this.spaceHeight*Math.floor(this.viewHeight/2);
             ctx.drawImage(playerTexture,left,top,this.spaceWidth,this.spaceHeight,centerX,centerY,this.spaceWidth,this.spaceHeight);
             var keys = document.getElementById("keyNumber");
             keys.textContent = model.getPlayer().numberOfKeys().toString();
+        }
+
+        public setGender(gender:string):void
+        {
+            this.gender = gender;
         }
     }
 }

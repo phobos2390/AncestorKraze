@@ -49,5 +49,10 @@ module Presenter
         {
             return false;
         }
+
+        public setGender(gender:string):void
+        {
+            this.presenter.setGender(gender);
+        }
     }
 }

@@ -56,6 +56,9 @@ var Presenter;
                 this.model.update();
             }
         };
+        AbstractPresenter.prototype.setGender = function (gender) {
+            this.view.setGender(gender);
+        };
         return AbstractPresenter;
     })();
     Presenter.AbstractPresenter = AbstractPresenter;

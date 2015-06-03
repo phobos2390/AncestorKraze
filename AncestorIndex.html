@@ -4,8 +4,8 @@
     img[class=sprite]
     {
         display:none;
-        height:25px;
-        width:25px;
+        height:50px;
+        width:50px;
     }
     img[class=popupImage]
     {
@@ -20,45 +20,70 @@
         left:0px;
         top:0px;
     }
-    #up
+    #mup
     {
-        left:25px;
+        left:1px;
         top:0px;
     }
-    #down,#none
+    #mdown,#mnone
     {
-        left:50px;
+        left:2px;
         top:0px;
+    }
+    #mright
+    {
+        left:0px;
+        top:1px;
+    }
+    #mleft
+    {
+        left:1px;
+        top:1px;
+    }
+    #fup
+    {
+        left:0px;
+        top:2px;
+    }
+    #fdown,#fnone
+    {
+        left:1px;
+        top:2px;
+    }
+    #fright
+    {
+        left:0px;
+        top:3px;
+    }
+    #fleft
+    {
+        left:1px;
+        top:3px;
     }
     #BlankSpace,#IWinSpaceObject
     {
-        left:75px;
+        left:3px;
         top:0px;
-    }
-    #right
-    {
-        left:0px;
-        top:25px;
-    }
-    #left
-    {
-        left:25px;
-        top:25px;
     }
     #IKey
     {
-        left:50px;
-        top:25px;
+        left:2px;
+        top:1px;
+    }
+    #IDoor
+    {
+        left:3px;
+        top:2px;
     }
     #OutOfMaze
     {
-        left:50px;
-        top:50px;
+        left:2px;
+        top:2px;
     }
     #MazeMist
     {
-        left:75px;
-        top:25px;
+        left:3px;
+        top:1px;
     }
     #imagePopup
     {
@@ -179,17 +204,22 @@
     <button onclick = "leavePopup()" id = "leavePopup">Exit</button>
 </div>
 
-<img src = "Main/SpriteSheetMF.png" class = "sprite" id = "IWallObject">
-<img src = "Main/SpriteSheetMF.png" class = "sprite" id = "IWinSpaceObject">
-<img src = "Main/SpriteSheetMF.png" class = "sprite" id = "BlankSpace">
-<img src = "Main/SpriteSheetMF.png" class = "sprite" id = "IKey">
-<img src = "Main/SpriteSheetMF.png" class = "sprite" id = "up">
-<img src = "Main/SpriteSheetMF.png" class = "sprite" id = "down">
-<img src = "Main/SpriteSheetMF.png" class = "sprite" id = "none">
-<img src = "Main/SpriteSheetMF.png" class = "sprite" id = "left">
-<img src = "Main/SpriteSheetMF.png" class = "sprite" id = "right">
-<img src = "Main/SpriteSheetMF.png" class = "sprite" id = "MazeMist">
-<img src = "Main/SpriteSheetMF.png" class = "sprite" id = "OutOfMaze">
+<img src = "Main/SpriteSheet50MF.png" class = "sprite" id = "IWallObject">
+<img src = "Main/SpriteSheet50MF.png" class = "sprite" id = "IWinSpaceObject">
+<img src = "Main/SpriteSheet50MF.png" class = "sprite" id = "BlankSpace">
+<img src = "Main/SpriteSheet50MF.png" class = "sprite" id = "IKey">
+<img src = "Main/SpriteSheet50MF.png" class = "sprite" id = "fup">
+<img src = "Main/SpriteSheet50MF.png" class = "sprite" id = "fdown">
+<img src = "Main/SpriteSheet50MF.png" class = "sprite" id = "fnone">
+<img src = "Main/SpriteSheet50MF.png" class = "sprite" id = "fleft">
+<img src = "Main/SpriteSheet50MF.png" class = "sprite" id = "fright">
+<img src = "Main/SpriteSheet50MF.png" class = "sprite" id = "mup">
+<img src = "Main/SpriteSheet50MF.png" class = "sprite" id = "mdown">
+<img src = "Main/SpriteSheet50MF.png" class = "sprite" id = "mnone">
+<img src = "Main/SpriteSheet50MF.png" class = "sprite" id = "mleft">
+<img src = "Main/SpriteSheet50MF.png" class = "sprite" id = "mright">
+<img src = "Main/SpriteSheet50MF.png" class = "sprite" id = "MazeMist">
+<img src = "Main/SpriteSheet50MF.png" class = "sprite" id = "OutOfMaze">
 <img src = "Main/JosephSmith.jpg" class = "popupImage" id = "JosephSmith">
 <img src = "Main/OliverCowdery.jpg" class = "popupImage" id = "OliverCowdery">
 <img src = "Main/brighamyoung_large.jpg" class = "popupImage" id = "BrighamYoung">

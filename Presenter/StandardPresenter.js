@@ -28,6 +28,9 @@ var Presenter;
         StandardPresenter.prototype.isInPopup = function () {
             return false;
         };
+        StandardPresenter.prototype.setGender = function (gender) {
+            this.presenter.setGender(gender);
+        };
         return StandardPresenter;
     })();
     Presenter.StandardPresenter = StandardPresenter;
