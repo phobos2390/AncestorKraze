@@ -74,7 +74,7 @@ module Main
             if(type.valueOf() == "standard".valueOf())
             {
                 this.factory = new StandardFactory();
-                var creator:IMazeCreator = new StandardMazeCreator(this.factory,9);
+                var creator:IMazeCreator = new StandardMazeCreator(this.factory,19);
                 this.model = creator.createMaze(mazeHeight, mazeWidth);
                 this.presenter = new StandardPresenter(this.model);
             }

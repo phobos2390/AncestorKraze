@@ -53,9 +53,10 @@ module Presenter
         public outputToLog(log:string):void
         {
             var logElement = document.getElementById("log");
-            var logLine = document.createElement("li");
-            logLine.innerHTML = log;
-            logElement.appendChild(logLine);
+            logElement.value += log + "\n";
+            //var logLine = document.createElement("li");
+            //logLine.innerHTML = log;
+            //logElement.appendChild(logLine);
         }
 
         public checkPickedUpKey(model:IModelArgs):void

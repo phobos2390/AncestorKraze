@@ -7,29 +7,39 @@ img[class=sprite]
     height:25px;
     width:25px;
 }
-#IWallObject
+#IWallObject,#Door17
 {
     left:0px;
     top:0px;
 }
-#up
+#mup,#fup
 {
     left:1px;
     top:0px;
 }
-#down,#none
+#mdown,#fdown,#mnone,#fnone
 {
     left:2px;
     top:0px;
 }
-#BlankSpace,#IWinSpaceObject
+#mright,#fright
+{
+    left:0px;
+    top:1px;
+}
+#mleft,#fleft
+{
+    left:1px;
+    top:1px;
+}
+#BlankSpace,#IWinSpaceObject,#Door18
 {
     left:3px;
     top:0px;
 }
 #OutOfMaze
 {
-    left:2px;
+    left:3px;
     top:2px;
 }
 #MazeMist
@@ -37,17 +47,7 @@ img[class=sprite]
     left:3px;
     top:1px;
 }
-#right
-{
-    left:0px;
-    top:1px;
-}
-#left
-{
-    left:1px;
-    top:1px;
-}
-#IKey
+#IKey,#Door19
 {
     left:2px;
     top:1px;
@@ -57,17 +57,17 @@ img[class=sprite]
     left:3px;
     top:1px;
 }
-#Door2
+#Door2,#Door11
 {
     left:0px;
     top:2px;
 }
-#Door3
+#Door3,#Door12
 {
     left:1px;
     top:2px;
 }
-#Door4
+#Door4,#Door13
 {
     left:2px;
     top:2px;
@@ -77,22 +77,22 @@ img[class=sprite]
     left:3px;
     top:2px;
 }
-#Door6
+#Door6,#Door14
 {
     left:0px;
     top:3px;
 }
-#Door7
+#Door7,#Door15
 {
     left:1px;
     top:3px;
 }
-#Door8
+#Door8,#Door16
 {
     left:2px;
     top:3px;
 }
-#Door9
+#Door9,#Door10
 {
     left:3px;
     top:3px;
@@ -101,10 +101,10 @@ img[class=sprite]
 {
     display:none
 }
-input
-{
-    display:none
-}
+/*input*/
+/*{*/
+    /*display:none*/
+/*}*/
 #canvas-container
 {
     text-align: center;
@@ -166,17 +166,30 @@ canvas
             {
                 client.onKeyDown(key)
             });
+            var text = document.getElementById("log");
+            text.value = "";
         });
+        var startGame = function()
+        {
+            var gender = document.querySelector('input[name="gender"]:checked');
+            client.setGender(gender.value);
+            document.getElementById("genderSelector").style.display = 'none';
+        }
     </script>
 </head>
 <body>
 <!--<button onclick="KrazeClient.Main()">Start</button>-->
+<div id = "genderSelector">
+    <input id = "maleGenderSelector" type="radio" name="gender" value="m">Male<br>
+    <input id = "femaleGenderSelector" type="radio" name="gender" value="f">Female<br>
+    <button id="gameStarter" onclick="startGame()">Start the Game!</button>
+</div>
 <div id = "canvas-container">
 <canvas id = "viewScreen" style = "border:1px solid #000000;"></canvas>
     <div id = "messages">
         <span>Keys:</span><br>
         <span id = "keyNumber">0</span>
-        <p><ul id = "log"></ul></p>
+        <p><textarea id = "log" rows="10" cols="50" readonly></textarea></p>
     </div>
 </div>
 
@@ -184,11 +197,16 @@ canvas
 <img src = "Main/SpriteSheet.png" class = "sprite" id = "IWinSpaceObject">
 <img src = "Main/SpriteSheet.png" class = "sprite" id = "BlankSpace">
 <img src = "Main/SpriteSheet.png" class = "sprite" id = "IKey">
-<img src = "Main/SpriteSheet.png" class = "sprite" id = "up">
-<img src = "Main/SpriteSheet.png" class = "sprite" id = "down">
-<img src = "Main/SpriteSheet.png" class = "sprite" id = "none">
-<img src = "Main/SpriteSheet.png" class = "sprite" id = "left">
-<img src = "Main/SpriteSheet.png" class = "sprite" id = "right">
+<img src = "Main/SpriteSheet.png" class = "sprite" id = "mup">
+<img src = "Main/SpriteSheet.png" class = "sprite" id = "mdown">
+<img src = "Main/SpriteSheet.png" class = "sprite" id = "mnone">
+<img src = "Main/SpriteSheet.png" class = "sprite" id = "mleft">
+<img src = "Main/SpriteSheet.png" class = "sprite" id = "mright">
+<img src = "Main/SpriteSheetF.png" class = "sprite" id = "fup">
+<img src = "Main/SpriteSheetF.png" class = "sprite" id = "fdown">
+<img src = "Main/SpriteSheetF.png" class = "sprite" id = "fnone">
+<img src = "Main/SpriteSheetF.png" class = "sprite" id = "fleft">
+<img src = "Main/SpriteSheetF.png" class = "sprite" id = "fright">
 <img src = "Main/SpriteSheet.png" class = "sprite" id = "Door1">
 <img src = "Main/SpriteSheet.png" class = "sprite" id = "Door2">
 <img src = "Main/SpriteSheet.png" class = "sprite" id = "Door3">
@@ -198,7 +216,18 @@ canvas
 <img src = "Main/SpriteSheet.png" class = "sprite" id = "Door7">
 <img src = "Main/SpriteSheet.png" class = "sprite" id = "Door8">
 <img src = "Main/SpriteSheet.png" class = "sprite" id = "Door9">
-
+<img src = "Main/SpriteSheetF.png" class = "sprite" id = "Door10">
+<img src = "Main/SpriteSheetF.png" class = "sprite" id = "Door11">
+<img src = "Main/SpriteSheetF.png" class = "sprite" id = "Door12">
+<img src = "Main/SpriteSheetF.png" class = "sprite" id = "Door13">
+<img src = "Main/SpriteSheetF.png" class = "sprite" id = "Door14">
+<img src = "Main/SpriteSheetF.png" class = "sprite" id = "Door15">
+<img src = "Main/SpriteSheetF.png" class = "sprite" id = "Door16">
+<img src = "Main/SpriteSheetF.png" class = "sprite" id = "Door17">
+<img src = "Main/SpriteSheetF.png" class = "sprite" id = "Door18">
+<img src = "Main/SpriteSheetF.png" class = "sprite" id = "Door19">
+<img src = "Main/SpriteSheetF.png" class = "sprite" id = "MazeMist">
+<img src = "Main/SpriteSheetF.png" class = "sprite" id = "OutOfMaze">
 <!--<img src = "Main/WallTexture.png" class = "sprite" id = "IWallObject">
 <img src = "Main/BlankSpaceKraze.png" class = "sprite" id = "BlankSpace">
 <img src = "Main/linkup.png" class = "sprite" id = "up">

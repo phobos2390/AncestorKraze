@@ -29,9 +29,10 @@ var Presenter;
         };
         AbstractPresenter.prototype.outputToLog = function (log) {
             var logElement = document.getElementById("log");
-            var logLine = document.createElement("li");
-            logLine.innerHTML = log;
-            logElement.appendChild(logLine);
+            logElement.value += log + "\n";
+            //var logLine = document.createElement("li");
+            //logLine.innerHTML = log;
+            //logElement.appendChild(logLine);
         };
         AbstractPresenter.prototype.checkPickedUpKey = function (model) {
             if (model.pickedUpNewKey()) {

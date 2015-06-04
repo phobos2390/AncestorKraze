@@ -4,8 +4,8 @@
     img[class=sprite]
     {
         display:none;
-        height:50px;
-        width:50px;
+        height:25px;
+        width:25px;
     }
     img[class=popupImage]
     {
@@ -20,70 +20,50 @@
         left:0px;
         top:0px;
     }
-    #mup
+    #up
     {
-        left:1px;
+        left:25px;
         top:0px;
     }
-    #mdown,#mnone
+    #down,#none
     {
-        left:2px;
+        left:50px;
         top:0px;
-    }
-    #mright
-    {
-        left:0px;
-        top:1px;
-    }
-    #mleft
-    {
-        left:1px;
-        top:1px;
-    }
-    #fup
-    {
-        left:0px;
-        top:2px;
-    }
-    #fdown,#fnone
-    {
-        left:1px;
-        top:2px;
-    }
-    #fright
-    {
-        left:0px;
-        top:3px;
-    }
-    #fleft
-    {
-        left:1px;
-        top:3px;
     }
     #BlankSpace,#IWinSpaceObject
     {
-        left:3px;
+        left:75px;
         top:0px;
+    }
+    #right
+    {
+        left:0px;
+        top:25px;
+    }
+    #left
+    {
+        left:25px;
+        top:25px;
     }
     #IKey
     {
-        left:2px;
-        top:1px;
+        left:50px;
+        top:25px;
     }
     #IDoor
     {
-        left:3px;
-        top:2px;
+        left:75px;
+        top:25px;
     }
     #OutOfMaze
     {
-        left:2px;
-        top:2px;
+        left:50px;
+        top:50px;
     }
     #MazeMist
     {
-        left:3px;
-        top:1px;
+        left:75px;
+        top:25px;
     }
     #imagePopup
     {
@@ -115,6 +95,7 @@
 </style>
 <head>
     <script src = "https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src = "Main/familysearch-javascript-sdk.js"></script>
     <script src = "View/MapView.js"></script>
     <script src = "View/AncestorMapView.js"></script>
     <script src = "Model/Generator/Definitions/AbstractTreeTraversalState.js"></script>
@@ -161,7 +142,10 @@
     <script src = "Main/KrazeClient.js"></script>
     <script>
         var client;
-        $(document).ready(function()
+        var fsClient;
+        var numberOfPeople;
+        var peopleChecked;
+        var startGame = function()
         {
             client = Main.KrazeClient.create("ancestor");
             $(document).keydown(function(key)
@@ -175,9 +159,11 @@
                     client.onKeyDown(key);
                 }
             });
-            var text = document.getElementById("log");
-            text.value = "";
-        });
+            var loginButton = document.getElementById("logInButton");
+            loginButton.style.display = "none";
+            var container = document.getElementById("canvas-container");
+            container.style.display = "visible";
+        };
         var enterName = function()
         {
             var answer = document.getElementById("doorAnswer");
@@ -187,26 +173,89 @@
         var leavePopup = function()
         {
             client.leavePopup();
-        }
-        var startGame = function()
+        };
+        $(document).ready(function()
         {
-            var gender = document.querySelector('input[name="gender"]:checked');
-            client.setGender(gender.value);
-            document.getElementById("genderSelector").style.display = 'none';
-        }
+            fsClient = new FamilySearch(
+            {
+                app_key: "NQ3Q-PBD8-LL9N-RCLZ-MZCZ-X7P8-7SMX-RD6N",
+                environment: 'production',
+                auth_callback: 'http://localhost:8000/auth/login/return/',
+                http_function: $.ajax,
+                deferred_function: $.Deferred,
+                auto_signin: true,
+                save_access_token: true,
+                auto_expire: true
+            });
+        });
+        var getURL = function(url,image)
+        {
+            $.get(url).done(function(code)
+            {
+                if(code)
+                {
+                    document.body.appendChild(image);
+                }
+                if(++peopleChecked >= numberOfPeople)
+                {
+                    startGame();
+                }
+            })
+        };
+        var ancestryResponse = function(response)
+        {
+            console.log(response);
+
+            console.log(response.getPersons());
+            numberOfPeople = response.getPersons().length;
+            peopleChecked = 0;
+            for(var i = 0; i < response.getPersons().length; i++)
+            {
+                var person = response.getPersons()[i];
+                var image = document.createElement("img");
+                image.className = "popupImage";
+                var nameText = person.$getGivenName() + person.$getSurname();
+                var id = "";
+                for(var j = 0; j < nameText.length; j++)
+                {
+                    var upperCase = "A" <= nameText[j] && nameText[j] <= "Z";
+                    var lowerCase = "a" <= nameText[j] && nameText[j] <= "z";
+                    if(upperCase || lowerCase)
+                    {
+                        id += nameText[j];
+                    }
+                }
+                image.id = id;
+                person.$getPersonPortraitUrl().then(function(url)
+                {
+                    image.src = url;
+                    getURL(url, image);
+                });
+            }
+        };
+
+        var login = function()
+        {
+            fsClient.getAccessToken().then(function(accessToken)
+            {
+                fsClient.getCurrentUser().then(function(response)
+                {
+                    var user = response.getUser();
+                    console.log('Hello '+user.contactName);
+                    console.log(user.personId);
+                    var ancestry = fsClient.getAncestry(user.personId).then(ancestryResponse);
+                });
+            });
+        };
     </script>
 </head>
 <body>
 <!--<button onclick="KrazeClient.Main()">Start</button>-->
-<div id = "genderSelector">
-    <input id = "maleGenderSelector" type="radio" name="gender" value="m">Male<br>
-    <input id = "femaleGenderSelector" type="radio" name="gender" value="f">Female<br>
-    <button id="gameStarter" onclick="startGame()">Start the Game!</button>
-</div>
-<div id = "canvas-container">
+<button onclick="login()" id = "logInButton">Log In with FamilySearch</button>
+<div id ="canvas-container">
     <canvas id = "viewScreen" style = "border:1px solid #000000;"></canvas>
     <div id = "messages">
-        <p><textarea id = "log" rows="10" cols="50" readonly></textarea></p>
+        <p><ul id = "log"></ul></p>
     </div>
 </div>
 <div id = "imagePopup">
@@ -217,56 +266,17 @@
     <button onclick = "leavePopup()" id = "leavePopup">Exit</button>
 </div>
 
-<img src = "Main/SpriteSheet50MF.png" class = "sprite" id = "IWallObject">
-<img src = "Main/SpriteSheet50MF.png" class = "sprite" id = "IWinSpaceObject">
-<img src = "Main/SpriteSheet50MF.png" class = "sprite" id = "BlankSpace">
-<img src = "Main/SpriteSheet50MF.png" class = "sprite" id = "IKey">
-<img src = "Main/SpriteSheet50MF.png" class = "sprite" id = "fup">
-<img src = "Main/SpriteSheet50MF.png" class = "sprite" id = "fdown">
-<img src = "Main/SpriteSheet50MF.png" class = "sprite" id = "fnone">
-<img src = "Main/SpriteSheet50MF.png" class = "sprite" id = "fleft">
-<img src = "Main/SpriteSheet50MF.png" class = "sprite" id = "fright">
-<img src = "Main/SpriteSheet50MF.png" class = "sprite" id = "mup">
-<img src = "Main/SpriteSheet50MF.png" class = "sprite" id = "mdown">
-<img src = "Main/SpriteSheet50MF.png" class = "sprite" id = "mnone">
-<img src = "Main/SpriteSheet50MF.png" class = "sprite" id = "mleft">
-<img src = "Main/SpriteSheet50MF.png" class = "sprite" id = "mright">
-<img src = "Main/SpriteSheet50MF.png" class = "sprite" id = "MazeMist">
-<img src = "Main/SpriteSheet50MF.png" class = "sprite" id = "OutOfMaze">
-<img src = "Main/JosephSmith.jpg" class = "popupImage" id = "JosephSmith">
-<img src = "Main/OliverCowdery.jpg" class = "popupImage" id = "OliverCowdery">
-<img src = "Main/brighamyoung_large.jpg" class = "popupImage" id = "BrighamYoung">
-<img src = "Main/John_Taylor_seated_in_chair.jpg" class = "popupImage" id = "JohnTaylor">
-<img src = "Main/Emma-Hale-Smith.jpg" class = "popupImage" id = "EmmaSmith">
-<img src = "Main/Parley_P_Pratt.gif" class = "popupImage" id = "ParleyPPratt">
-<img src = "Main/WifeEmilyDowePartridgeAsYoungWoman.jpg" class = "popupImage" id = "EmilyPartridge">
-<img src = "Main/eliza-r-snow-266x333-0001261.jpg" class = "popupImage" id = "ElizaRSnow">
-<img src = "Main/martin-harris-mormon.gif" class = "popupImage" id = "MartinHarris">
-<img src = "Main/per75---D1-page-222---Sidney-Rigdon-from-R1.jpg" class = "popupImage" id = "SidneyRigdon">
-<img src = "Main/Heber-C.-Kimball1.jpg" class = "popupImage" id = "HeberCKimball">
-<img src = "Main/Jtsallred.jpg" class = "popupImage" id = "JamesTillmanSanfordAllred">
-<img src = "Main/smithga1x.jpg" class = "popupImage" id = "GeorgeASmith">
-<img src = "Main/tannerjj.jpg" class = "popupImage" id = "JohnTanner">
-<img src = "Main/erastus-snow-284085-ph-5962fd3it005.jpg" class = "popupImage" id = "ErastusSnow">
-<img src = "Main/George_Q._Cannon_-_Brady-Handy.jpg" class = "popupImage" id = "GeorgeQCannon">
-<img src = "Main/220px-Orson_Pratt_engraving.png" class = "popupImage" id = "OrsonPratt">
-<img src = "Main/John_W._Woolley.jpg" class = "popupImage" id = "JohnWWoolley">
-<img src = "Main/bennettdetail.jpg" class = "popupImage" id = "JohnCBennett">
-<img src = "Main/BH2.jpg" class = "popupImage" id = "BrighamHRoberts">
-<img src = "Main/hydeo1.jpg" class = "popupImage" id = "OrsonHyde">
-<img src = "Main/Leavitt,%20Dudley-01.jpg" class = "popupImage" id = "DudleyLeavitt">
-<img src = "Main/LS_hero.jpg" class = "popupImage" id = "LorenzoSnow">
-<img src = "Main/wilford-woodruff-82910-wallpaper.jpg" class = "popupImage" id = "WilfordWoodruff">
-<img src = "Main/Amasamlyman.png" class = "popupImage" id = "AmasaMLyman">
-<img src = "Main/john-d-lee0.jpg" class = "popupImage" id = "JohnDLee">
-<img src = "Main/image001_152.gif" class = "popupImage" id = "FranklinDRichards">
-<img src = "Main/porter_rockwell.jpg" class = "popupImage" id = "PorterRockwell">
-<img src = "Main/Emmeline_Free.jpg" class = "popupImage" id = "EmmelineFree">
-<img src = "Main/220px-D._Eccless.jpg" class = "popupImage" id = "DavidEccles">
-<img src = "Main/933575.jpg" class = "popupImage" id = "AmeliaFolsom">
-<img src = "Main/220px-Jacobhamblin.jpg" class = "popupImage" id = "JacobHamblin">
-<img src = "Main/220px-Helen_Mar_Kimball.jpg" class = "popupImage" id = "HelenMarKimball">
-<img src = "Main/220px-William_W._Phelps.jpg" class = "popupImage" id = "WilliamWPhelps">
-<img src = "Main/David-Whitmer-original.jpg" class = popupImage" id = "DavidWhitmer">
+<img src = "Main/SpriteSheetMF.png" class = "sprite" id = "IWallObject">
+<img src = "Main/SpriteSheetMF.png" class = "sprite" id = "IWinSpaceObject">
+<img src = "Main/SpriteSheetMF.png" class = "sprite" id = "BlankSpace">
+<img src = "Main/SpriteSheetMF.png" class = "sprite" id = "IKey">
+<img src = "Main/SpriteSheetMF.png" class = "sprite" id = "up">
+<img src = "Main/SpriteSheetMF.png" class = "sprite" id = "down">
+<img src = "Main/SpriteSheetMF.png" class = "sprite" id = "none">
+<img src = "Main/SpriteSheetMF.png" class = "sprite" id = "left">
+<img src = "Main/SpriteSheetMF.png" class = "sprite" id = "right">
+<img src = "Main/SpriteSheetMF.png" class = "sprite" id = "MazeMist">
+<img src = "Main/SpriteSheetMF.png" class = "sprite" id = "OutOfMaze">
+
 </body>
 </html>

@@ -27,8 +27,8 @@ module View
             this.presenter = presenter;
             this.viewHeight = viewHeight;
             this.viewWidth = viewWidth;
-            this.blankSpaceString = "BlankSpace";
-            this.unvisitedSpaceString = "BlankSpace";
+            this.blankSpaceString = "OutOfMaze";
+            this.unvisitedSpaceString = "MazeMist";
             var sprite = document.getElementById(this.unvisitedSpaceString);
             var style = window.getComputedStyle(sprite);
             this.spaceHeight = parseInt(style.height.replace(/\D/g,''));

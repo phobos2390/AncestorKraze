@@ -46,7 +46,7 @@ var Main;
             var mazeWidth = 45;
             if (type.valueOf() == "standard".valueOf()) {
                 this.factory = new StandardFactory();
-                var creator = new StandardMazeCreator(this.factory, 9);
+                var creator = new StandardMazeCreator(this.factory, 19);
                 this.model = creator.createMaze(mazeHeight, mazeWidth);
                 this.presenter = new StandardPresenter(this.model);
             }

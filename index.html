@@ -20,7 +20,6 @@
         left:0px;
         top:0px;
     }
-
     #mup
     {
         left:1px;
@@ -102,7 +101,7 @@
         text-align: center;
         position: relative;
         z-index: 0;
-        visibility:visible;
+        display:inherit;
     }
     #ancestorPicture
     {
@@ -167,6 +166,7 @@
         var numberOfPeople;
         var peopleChecked;
         var gender;
+        var currentLogCols;
         var startGame = function()
         {
             client = Main.KrazeClient.create("ancestor");
@@ -182,7 +182,7 @@
                 }
             });
             client.setGender(gender);
-            var loginButton = document.getElementById("logInButton");
+            var loginButton = document.getElementById("differentVersions");
             loginButton.style.display = "none";
             var container = document.getElementById("canvas-container");
             container.style.display = "visible";
@@ -199,11 +199,14 @@
         };
         $(document).ready(function()
         {
+            var text = document.getElementById("log");
+            text.value = "";
+            currentLogCols = 24;
             fsClient = new FamilySearch(
             {
-                app_key: "NQ3Q-PBD8-LL9N-RCLZ-MZCZ-X7P8-7SMX-RD6N",
-                environment: 'production',
-                auth_callback: 'http://localhost:8000/auth/login/return/',
+                app_key:/*"a0T3000000BrY8SEAV",//*/"NQ3Q-PBD8-LL9N-RCLZ-MZCZ-X7P8-7SMX-RD6N",
+                environment:'production',
+                auth_callback:'http://localhost:8000/auth/login/return/',
                 http_function: $.ajax,
                 deferred_function: $.Deferred,
                 auto_signin: true,
@@ -232,12 +235,17 @@
             console.log(response.getPersons());
             numberOfPeople = response.getPersons().length;
             peopleChecked = 0;
+            var maxLength = 0;
             for(var i = 0; i < response.getPersons().length; i++)
             {
                 var person = response.getPersons()[i];
                 var image = document.createElement("img");
                 image.className = "popupImage";
                 var nameText = person.$getGivenName() + person.$getSurname();
+                if(maxLength < nameText.length)
+                {
+                    maxLength = nameText.length;
+                }
                 var id = "";
                 for(var j = 0; j < nameText.length; j++)
                 {
@@ -255,6 +263,8 @@
                     getURL(url, image);
                 });
             }
+            var text = document.getElementById("log");
+            text.cols = maxLength + currentLogCols;
         };
 
         var login = function()
@@ -283,11 +293,18 @@
 </head>
 <body>
 <!--<button onclick="KrazeClient.Main()">Start</button>-->
-<button onclick="login()" id = "logInButton">Log In with FamilySearch</button>
+<div id = "differentVersions">
+    <h1>Family History Kraze!</h1>
+    Move around a maze with keys and doors. Find the keys to unlock the doors. Unlock the doors to win.<br><br>
+    <button onclick="login()" id = "logInButton">Log In with FamilySearch</button><br><br>
+    Don't have a FamilySearch account?<br>
+    Try <a href="AncestorIndex.html">a version with Mormon Historical Figures.</a><br>
+    Or try <a href="Canvas.html">a version with numbered keys.</a>
+</div>
 <div id ="canvas-container">
     <canvas id = "viewScreen" style = "border:1px solid #000000;"></canvas>
     <div id = "messages">
-        <p><ul id = "log"></ul></p>
+        <p><textarea id = "log" rows="10" cols="50" readonly></textarea></p>
     </div>
 </div>
 <div id = "imagePopup">
