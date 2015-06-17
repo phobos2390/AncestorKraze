@@ -42,11 +42,12 @@ var Main;
             };
         };
         KrazeClient.prototype.initVariables = function (type) {
-            var mazeHeight = 45;
-            var mazeWidth = 45;
+            var mazeHeight = 25;
+            var mazeWidth = 25;
+            var averageBranches = 14;
             if (type.valueOf() == "standard".valueOf()) {
                 this.factory = new StandardFactory();
-                var creator = new StandardMazeCreator(this.factory, 19);
+                var creator = new StandardMazeCreator(this.factory, Math.min(19, averageBranches));
                 this.model = creator.createMaze(mazeHeight, mazeWidth);
                 this.presenter = new StandardPresenter(this.model);
             }
@@ -57,16 +58,17 @@ var Main;
                 for (var i = 0; i < ancestorList.length; i++) {
                     nameList.push(ancestorList[i].id);
                 }
-                for (var i = 0; i < 50; i++) {
+                var randomizeNumber = ancestorList.length * 2;
+                for (var i = 0; i < randomizeNumber; i++) {
                     var first = Math.floor(Math.random() * ancestorList.length);
                     var second = Math.floor(Math.random() * ancestorList.length);
                     var temp = nameList[first];
                     nameList[first] = nameList[second];
                     nameList[second] = temp;
                 }
-                var numberOfKeys = ancestorList.length;
+                var numberOfKeys = Math.min(ancestorList.length, averageBranches);
                 var ancestorCreator = new AncestorMazeCreator(this.factory, numberOfKeys);
-                for (var i = 0; i < ancestorList.length; i++) {
+                for (var i = 0; i < numberOfKeys; i++) {
                     var baseName = nameList[i];
                     var ancestorName = "";
                     var spaceAppend = "";

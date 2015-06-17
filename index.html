@@ -15,6 +15,10 @@
         /*height:25px;*/
         /*width:25px;*/
     }
+    textarea
+    {
+        resize:none;
+    }
     #IWallObject
     {
         left:0px;
@@ -116,6 +120,8 @@
 <head>
     <script src = "https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src = "Main/familysearch-javascript-sdk.js"></script>
+    <script src = "Tracking/tracking.js-master/build/tracking.js"></script>
+    <script src = "Tracking/tracking.js-master/build/data/face.js"></script>
     <script src = "View/MapView.js"></script>
     <script src = "View/AncestorMapView.js"></script>
     <script src = "Model/Generator/Definitions/AbstractTreeTraversalState.js"></script>
@@ -165,27 +171,49 @@
         var fsClient;
         var numberOfPeople;
         var peopleChecked;
+        var numberOfPeopleWithPictures;
+        var maxPicturesAllowed;
         var gender;
         var currentLogCols;
+        var started;
+        var tracker;
         var startGame = function()
         {
-            client = Main.KrazeClient.create("ancestor");
-            $(document).keydown(function(key)
+            if(!started)
             {
-                if(key.keyCode == 13)
+                started = true;
+                var logElement = document.getElementById("log");
+                logElement.value = "Done!";
+                client = Main.KrazeClient.create("ancestor");
+                $(document).keydown(function (key)
                 {
-                    $("#nameEnter").click();
-                }
-                else
-                {
-                    client.onKeyDown(key);
-                }
-            });
-            client.setGender(gender);
-            var loginButton = document.getElementById("differentVersions");
-            loginButton.style.display = "none";
-            var container = document.getElementById("canvas-container");
-            container.style.display = "visible";
+                    switch (key.keyCode)
+                    {
+                        case 37:
+                        case 39:
+                        case 38:
+                        case 40: // Arrow keys
+                            key.preventDefault();
+                            break; // Space
+                        default:
+                            break; // do not block other keys
+                    }
+                    if (key.keyCode == 13)
+                    {
+                        $("#nameEnter").click();
+                    }
+                    else
+                    {
+                        client.onKeyDown(key);
+                    }
+                });
+                client.setGender(gender);
+                var loginButton = document.getElementById("differentVersions");
+                loginButton.style.display = "none";
+                var container = document.getElementById("canvas-container");
+                container.style.display = "visible";
+                logElement.value = "";
+            }
         };
         var enterName = function()
         {
@@ -199,9 +227,11 @@
         };
         $(document).ready(function()
         {
+            tracker = new tracking.ObjectTracker("face");
+            tracker.on('track', data);
             var text = document.getElementById("log");
             text.value = "";
-            currentLogCols = 24;
+            currentLogCols = 26;
             fsClient = new FamilySearch(
             {
                 app_key:/*"a0T3000000BrY8SEAV",//*/"NQ3Q-PBD8-LL9N-RCLZ-MZCZ-X7P8-7SMX-RD6N",
@@ -214,15 +244,48 @@
                 auto_expire: true
             });
         });
+        var data = function(event)
+        {
+            if(event.data.length > 0)
+            {
+                console.log(event.tags);
+            }
+        };
+        var getBase64Image = function(img) {
+          // Create an empty canvas element
+          var canvas = document.createElement("canvas");
+          canvas.width = img.width;
+          canvas.height = img.height;
+
+          // Copy the image contents to the canvas
+          var ctx = canvas.getContext("2d");
+          ctx.drawImage(img, 0, 0);
+
+          // Get the data-URL formatted image
+          // Firefox supports PNG and JPEG. You could check img.src to
+          // guess the original format, but be aware the using "image/jpg"
+          // will re-encode the image.
+          var dataURL = canvas.toDataURL("image/png");
+
+          return dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
+        };
+
         var getURL = function(url,image)
         {
             $.get(url).done(function(code)
             {
                 if(code)
                 {
+                    ++numberOfPeopleWithPictures;
+
                     document.body.appendChild(image);
+                    tracking.track(image,tracker);
                 }
-                if(++peopleChecked >= numberOfPeople)
+                var logElement = document.getElementById("log");
+                logElement.value = "Retrieving pictures from your family tree\n";
+                logElement.value += "("+ Math.floor(peopleChecked/numberOfPeople*100)+"%) "+peopleChecked + " people out of " + numberOfPeople + " checked\n";
+                logElement.value += numberOfPeopleWithPictures + " people have pictures\n";
+                if(++peopleChecked >= numberOfPeople )//|| numberOfPeopleWithPictures >= maxPicturesAllowed)
                 {
                     startGame();
                 }
@@ -230,11 +293,11 @@
         };
         var ancestryResponse = function(response)
         {
-            console.log(response);
-
-            console.log(response.getPersons());
-            numberOfPeople = response.getPersons().length;
+            numberOfPeople = response.getPersons().length - 1;
+            maxPicturesAllowed = 80;
+            numberOfPeopleWithPictures = 0;
             peopleChecked = 0;
+            started = false;
             var maxLength = 0;
             for(var i = 0; i < response.getPersons().length; i++)
             {
@@ -274,8 +337,9 @@
                 fsClient.getCurrentUser().then(function(response)
                 {
                     var user = response.getUser();
-                    console.log('Hello '+user.contactName);
-                    console.log('You are a ' + user.gender);
+                    var logElement = document.getElementById("log");
+                    logElement.value = "Hello " + user.contactName + " welcome to Family History Kraze\n";
+                    logElement.value += "Please wait a moment as we set things up";
                     if(user.gender.valueOf() == 'MALE'.valueOf())
                     {
                         gender = "m";
@@ -284,8 +348,7 @@
                     {
                         gender = "f";
                     }
-                    console.log(user.personId);
-                    var ancestry = fsClient.getAncestry(user.personId).then(ancestryResponse);
+                    var ancestry = fsClient.getAncestry(user.personId,{generations:8}).then(ancestryResponse);
                 });
             });
         };
@@ -295,7 +358,9 @@
 <!--<button onclick="KrazeClient.Main()">Start</button>-->
 <div id = "differentVersions">
     <h1>Family History Kraze!</h1>
-    Move around a maze with keys and doors. Find the keys to unlock the doors. Unlock the doors to win.<br><br>
+    Move around a maze with keys and doors. Find the keys to unlock the doors. Unlock the doors to win.<br>
+    Use either w,a,s,d (u,l,d,r) or the arrow keys to move around.<br><br>
+    <img src = "Main/Keys.png"><br><br>
     <button onclick="login()" id = "logInButton">Log In with FamilySearch</button><br><br>
     Don't have a FamilySearch account?<br>
     Try <a href="AncestorIndex.html">a version with Mormon Historical Figures.</a><br>
@@ -304,7 +369,7 @@
 <div id ="canvas-container">
     <canvas id = "viewScreen" style = "border:1px solid #000000;"></canvas>
     <div id = "messages">
-        <p><textarea id = "log" rows="10" cols="50" readonly></textarea></p>
+        <p><textarea id = "log" rows="10" cols="65" readonly></textarea></p>
     </div>
 </div>
 <div id = "imagePopup">

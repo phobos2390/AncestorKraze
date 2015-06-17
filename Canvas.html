@@ -4,13 +4,17 @@
 img[class=sprite]
 {
     display:none;
-    height:25px;
-    width:25px;
+    height:50px;
+    width:50px;
 }
 #IWallObject,#Door17
 {
     left:0px;
     top:0px;
+}
+textarea
+{
+    resize:none;
 }
 #mup,#fup
 {
@@ -164,6 +168,15 @@ canvas
             client = Main.KrazeClient.create("standard");
             $(document).keydown(function(key)
             {
+                switch(key.keyCode)
+                {
+                    case 37:
+                    case 39:
+                    case 38:
+                    case 40: // Arrow keys
+                        key.preventDefault(); break; // Space
+                    default: break; // do not block other keys
+                }
                 client.onKeyDown(key)
             });
             var text = document.getElementById("log");
@@ -189,45 +202,45 @@ canvas
     <div id = "messages">
         <span>Keys:</span><br>
         <span id = "keyNumber">0</span>
-        <p><textarea id = "log" rows="10" cols="50" readonly></textarea></p>
+        <p><textarea id = "log" rows="10" cols="20" readonly></textarea></p>
     </div>
 </div>
 
-<img src = "Main/SpriteSheet.png" class = "sprite" id = "IWallObject">
-<img src = "Main/SpriteSheet.png" class = "sprite" id = "IWinSpaceObject">
-<img src = "Main/SpriteSheet.png" class = "sprite" id = "BlankSpace">
-<img src = "Main/SpriteSheet.png" class = "sprite" id = "IKey">
-<img src = "Main/SpriteSheet.png" class = "sprite" id = "mup">
-<img src = "Main/SpriteSheet.png" class = "sprite" id = "mdown">
-<img src = "Main/SpriteSheet.png" class = "sprite" id = "mnone">
-<img src = "Main/SpriteSheet.png" class = "sprite" id = "mleft">
-<img src = "Main/SpriteSheet.png" class = "sprite" id = "mright">
-<img src = "Main/SpriteSheetF.png" class = "sprite" id = "fup">
-<img src = "Main/SpriteSheetF.png" class = "sprite" id = "fdown">
-<img src = "Main/SpriteSheetF.png" class = "sprite" id = "fnone">
-<img src = "Main/SpriteSheetF.png" class = "sprite" id = "fleft">
-<img src = "Main/SpriteSheetF.png" class = "sprite" id = "fright">
-<img src = "Main/SpriteSheet.png" class = "sprite" id = "Door1">
-<img src = "Main/SpriteSheet.png" class = "sprite" id = "Door2">
-<img src = "Main/SpriteSheet.png" class = "sprite" id = "Door3">
-<img src = "Main/SpriteSheet.png" class = "sprite" id = "Door4">
-<img src = "Main/SpriteSheet.png" class = "sprite" id = "Door5">
-<img src = "Main/SpriteSheet.png" class = "sprite" id = "Door6">
-<img src = "Main/SpriteSheet.png" class = "sprite" id = "Door7">
-<img src = "Main/SpriteSheet.png" class = "sprite" id = "Door8">
-<img src = "Main/SpriteSheet.png" class = "sprite" id = "Door9">
-<img src = "Main/SpriteSheetF.png" class = "sprite" id = "Door10">
-<img src = "Main/SpriteSheetF.png" class = "sprite" id = "Door11">
-<img src = "Main/SpriteSheetF.png" class = "sprite" id = "Door12">
-<img src = "Main/SpriteSheetF.png" class = "sprite" id = "Door13">
-<img src = "Main/SpriteSheetF.png" class = "sprite" id = "Door14">
-<img src = "Main/SpriteSheetF.png" class = "sprite" id = "Door15">
-<img src = "Main/SpriteSheetF.png" class = "sprite" id = "Door16">
-<img src = "Main/SpriteSheetF.png" class = "sprite" id = "Door17">
-<img src = "Main/SpriteSheetF.png" class = "sprite" id = "Door18">
-<img src = "Main/SpriteSheetF.png" class = "sprite" id = "Door19">
-<img src = "Main/SpriteSheetF.png" class = "sprite" id = "MazeMist">
-<img src = "Main/SpriteSheetF.png" class = "sprite" id = "OutOfMaze">
+<img src = "Main/SpriteSheet50.png" class = "sprite" id = "IWallObject">
+<img src = "Main/SpriteSheet50.png" class = "sprite" id = "IWinSpaceObject">
+<img src = "Main/SpriteSheet50.png" class = "sprite" id = "BlankSpace">
+<img src = "Main/SpriteSheet50.png" class = "sprite" id = "IKey">
+<img src = "Main/SpriteSheet50.png" class = "sprite" id = "mup">
+<img src = "Main/SpriteSheet50.png" class = "sprite" id = "mdown">
+<img src = "Main/SpriteSheet50.png" class = "sprite" id = "mnone">
+<img src = "Main/SpriteSheet50.png" class = "sprite" id = "mleft">
+<img src = "Main/SpriteSheet50.png" class = "sprite" id = "mright">
+<img src = "Main/SpriteSheetF50.png" class = "sprite" id = "fup">
+<img src = "Main/SpriteSheetF50.png" class = "sprite" id = "fdown">
+<img src = "Main/SpriteSheetF50.png" class = "sprite" id = "fnone">
+<img src = "Main/SpriteSheetF50.png" class = "sprite" id = "fleft">
+<img src = "Main/SpriteSheetF50.png" class = "sprite" id = "fright">
+<img src = "Main/SpriteSheet50.png" class = "sprite" id = "Door1">
+<img src = "Main/SpriteSheet50.png" class = "sprite" id = "Door2">
+<img src = "Main/SpriteSheet50.png" class = "sprite" id = "Door3">
+<img src = "Main/SpriteSheet50.png" class = "sprite" id = "Door4">
+<img src = "Main/SpriteSheet50.png" class = "sprite" id = "Door5">
+<img src = "Main/SpriteSheet50.png" class = "sprite" id = "Door6">
+<img src = "Main/SpriteSheet50.png" class = "sprite" id = "Door7">
+<img src = "Main/SpriteSheet50.png" class = "sprite" id = "Door8">
+<img src = "Main/SpriteSheet50.png" class = "sprite" id = "Door9">
+<img src = "Main/SpriteSheetF50.png" class = "sprite" id = "Door10">
+<img src = "Main/SpriteSheetF50.png" class = "sprite" id = "Door11">
+<img src = "Main/SpriteSheetF50.png" class = "sprite" id = "Door12">
+<img src = "Main/SpriteSheetF50.png" class = "sprite" id = "Door13">
+<img src = "Main/SpriteSheetF50.png" class = "sprite" id = "Door14">
+<img src = "Main/SpriteSheetF50.png" class = "sprite" id = "Door15">
+<img src = "Main/SpriteSheetF50.png" class = "sprite" id = "Door16">
+<img src = "Main/SpriteSheetF50.png" class = "sprite" id = "Door17">
+<img src = "Main/SpriteSheetF50.png" class = "sprite" id = "Door18">
+<img src = "Main/SpriteSheetF50.png" class = "sprite" id = "Door19">
+<img src = "Main/SpriteSheetF50.png" class = "sprite" id = "MazeMist">
+<img src = "Main/SpriteSheetF50.png" class = "sprite" id = "OutOfMaze">
 <!--<img src = "Main/WallTexture.png" class = "sprite" id = "IWallObject">
 <img src = "Main/BlankSpaceKraze.png" class = "sprite" id = "BlankSpace">
 <img src = "Main/linkup.png" class = "sprite" id = "up">

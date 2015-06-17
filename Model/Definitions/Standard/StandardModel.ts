@@ -132,7 +132,7 @@ module Model.Definitions.Standard
             {
                 while (currSpace != null)
                 {
-                    if (currSpace.getSpaceObject().objectIsOfType("BlankSpace"))
+                    if (currSpace.getSpaceObject().objectIsOfType("BlankSpace")||currSpace.getSpaceObject().objectIsOfType("IKey"))
                     {
                         this.setSeenAroundSpace(x,y);
                         x += move.getDeltaX();
@@ -178,7 +178,7 @@ module Model.Definitions.Standard
                     var scy:ISpace = this.getSpace(x, dy);
                     if (scx != null)
                     {
-                        if (scx.getSpaceObject().objectIsOfType("BlankSpace"))
+                        if (scx.getSpaceObject().objectIsOfType("BlankSpace")||scx.getSpaceObject().objectIsOfType("IKey"))
                         {
                             this.setSeenAroundSpace(dx,y);
                             this.setSeenNAwayFromPath(n - 1, dx, y);
@@ -186,7 +186,7 @@ module Model.Definitions.Standard
                     }
                     if(scy != null)
                     {
-                        if (scy.getSpaceObject().objectIsOfType("BlankSpace"))
+                        if (scy.getSpaceObject().objectIsOfType("BlankSpace")||scy.getSpaceObject().objectIsOfType("IKey"))
                         {
                             this.setSeenAroundSpace(x,dy);
                             this.setSeenNAwayFromPath(n - 1, x, dy);

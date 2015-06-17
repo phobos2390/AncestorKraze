@@ -101,7 +101,7 @@ var Model;
                     var currSpace = this.getSpace(x, y);
                     if (move.getDeltaX() != 0 || move.getDeltaY() != 0) {
                         while (currSpace != null) {
-                            if (currSpace.getSpaceObject().objectIsOfType("BlankSpace")) {
+                            if (currSpace.getSpaceObject().objectIsOfType("BlankSpace") || currSpace.getSpaceObject().objectIsOfType("IKey")) {
                                 this.setSeenAroundSpace(x, y);
                                 x += move.getDeltaX();
                                 y += move.getDeltaY();
@@ -135,13 +135,13 @@ var Model;
                             var scx = this.getSpace(dx, y);
                             var scy = this.getSpace(x, dy);
                             if (scx != null) {
-                                if (scx.getSpaceObject().objectIsOfType("BlankSpace")) {
+                                if (scx.getSpaceObject().objectIsOfType("BlankSpace") || scx.getSpaceObject().objectIsOfType("IKey")) {
                                     this.setSeenAroundSpace(dx, y);
                                     this.setSeenNAwayFromPath(n - 1, dx, y);
                                 }
                             }
                             if (scy != null) {
-                                if (scy.getSpaceObject().objectIsOfType("BlankSpace")) {
+                                if (scy.getSpaceObject().objectIsOfType("BlankSpace") || scy.getSpaceObject().objectIsOfType("IKey")) {
                                     this.setSeenAroundSpace(x, dy);
                                     this.setSeenNAwayFromPath(n - 1, x, dy);
                                 }

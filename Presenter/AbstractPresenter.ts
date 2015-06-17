@@ -63,7 +63,7 @@ module Presenter
         {
             if(model.pickedUpNewKey())
             {
-                this.outputToLog("Picked up a new key!!!!");
+                this.outputToLog("Picked up a new key!");
                 model.getPlayer().addKey(model.newKey());
             }
         }

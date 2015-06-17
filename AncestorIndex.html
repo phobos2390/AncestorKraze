@@ -15,6 +15,10 @@
         /*height:25px;*/
         /*width:25px;*/
     }
+    textarea
+    {
+        resize:none;
+    }
     #IWallObject
     {
         left:0px;
@@ -166,6 +170,15 @@
             client = Main.KrazeClient.create("ancestor");
             $(document).keydown(function(key)
             {
+                switch(key.keyCode)
+                {
+                    case 37:
+                    case 39:
+                    case 38:
+                    case 40: // Arrow keys
+                        key.preventDefault(); break; // Space
+                    default: break; // do not block other keys
+                }
                 if(key.keyCode == 13)
                 {
                     $("#nameEnter").click();
@@ -267,6 +280,6 @@
 <img src = "Main/220px-Jacobhamblin.jpg" class = "popupImage" id = "JacobHamblin">
 <img src = "Main/220px-Helen_Mar_Kimball.jpg" class = "popupImage" id = "HelenMarKimball">
 <img src = "Main/220px-William_W._Phelps.jpg" class = "popupImage" id = "WilliamWPhelps">
-<img src = "Main/David-Whitmer-original.jpg" class = popupImage" id = "DavidWhitmer">
+<img src = "Main/David-Whitmer-original.jpg" class = "popupImage" id = "DavidWhitmer">
 </body>
 </html>

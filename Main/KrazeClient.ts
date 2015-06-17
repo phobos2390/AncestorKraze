@@ -69,12 +69,13 @@ module Main
 
         private initVariables(type)
         {
-            var mazeHeight:number = 45;
-            var mazeWidth:number = 45;
+            var mazeHeight:number = 25;
+            var mazeWidth:number = 25;
+            var averageBranches:number = 14;
             if(type.valueOf() == "standard".valueOf())
             {
                 this.factory = new StandardFactory();
-                var creator:IMazeCreator = new StandardMazeCreator(this.factory,19);
+                var creator:IMazeCreator = new StandardMazeCreator(this.factory,Math.min(19,averageBranches));
                 this.model = creator.createMaze(mazeHeight, mazeWidth);
                 this.presenter = new StandardPresenter(this.model);
             }
@@ -87,7 +88,8 @@ module Main
                 {
                     nameList.push(ancestorList[i].id);
                 }
-                for(var i:number = 0; i < 50; i++)
+                var randomizeNumber = ancestorList.length * 2
+                for(var i:number = 0; i < randomizeNumber; i++)
                 {
                     var first:number = Math.floor(Math.random()*ancestorList.length);
                     var second:number = Math.floor(Math.random()*ancestorList.length);
@@ -95,9 +97,9 @@ module Main
                     nameList[first] = nameList[second];
                     nameList[second] = temp;
                 }
-                var numberOfKeys = ancestorList.length;
+                var numberOfKeys = Math.min(ancestorList.length,averageBranches);
                 var ancestorCreator:AncestorMazeCreator = new AncestorMazeCreator(this.factory,numberOfKeys);
-                for(var i = 0; i < ancestorList.length; i++)
+                for(var i = 0; i < numberOfKeys; i++)
                 {
                     var baseName = nameList[i];
                     var ancestorName = "";
