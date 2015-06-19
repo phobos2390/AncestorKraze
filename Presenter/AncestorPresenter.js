@@ -40,7 +40,7 @@ var Presenter;
                     var popup = document.getElementById("imagePopup");
                     var elementID = model.doorRequirement().toString().replace(/ /g, '');
                     var ancestorPicture = document.getElementById(elementID);
-                    var src = document.getElementById("ancestorPicture").setAttribute("src", ancestorPicture.getAttribute("src"));
+                    document.getElementById("ancestorPicture").setAttribute("src", ancestorPicture.getAttribute("src"));
                     document.getElementById("doorAnswer").value = "";
                     popup.style.visibility = "visible";
                     var canvas = document.getElementById("canvas-container");

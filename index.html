@@ -176,7 +176,7 @@
         var gender;
         var currentLogCols;
         var started;
-        var tracker;
+//        var tracker;
         var startGame = function()
         {
             if(!started)
@@ -227,8 +227,8 @@
         };
         $(document).ready(function()
         {
-            tracker = new tracking.ObjectTracker("face");
-            tracker.on('track', data);
+//            tracker = new tracking.ObjectTracker("face");
+//            tracker.on('track', data);
             var text = document.getElementById("log");
             text.value = "";
             currentLogCols = 26;
@@ -244,30 +244,56 @@
                 auto_expire: true
             });
         });
-        var data = function(event)
+        var data = function(event,name,image)
         {
+//            console.log(event.data);
             if(event.data.length > 0)
             {
-                console.log(event.tags);
+                ++numberOfPeopleWithPictures;
+                document.body.appendChild(image);
+                console.log(image);
+                console.log(name + " does have a portrait");
             }
+//            else
+//            {
+//                console.log(image);
+//                console.log(name + " doesn't have a portrait");
+//            }
         };
-        var getBase64Image = function(img) {
-          // Create an empty canvas element
-          var canvas = document.createElement("canvas");
-          canvas.width = img.width;
-          canvas.height = img.height;
+        var getBase64Image = function(img)
+        {
+            // Create an empty canvas element
+            var canvas = document.createElement("canvas");
+            canvas.width = img.width;
+            canvas.height = img.height;
 
-          // Copy the image contents to the canvas
-          var ctx = canvas.getContext("2d");
-          ctx.drawImage(img, 0, 0);
+            // Copy the image contents to the canvas
+            var ctx = canvas.getContext("2d");
+            ctx.drawImage(img, 0, 0);
 
-          // Get the data-URL formatted image
-          // Firefox supports PNG and JPEG. You could check img.src to
-          // guess the original format, but be aware the using "image/jpg"
-          // will re-encode the image.
-          var dataURL = canvas.toDataURL("image/png");
-
-          return dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
+            return canvas;
+        };
+        var checkForFace = function(image)
+        {
+            var canvasImage = getBase64Image(image);
+//            document.body.appendChild(image);
+            var name = image.id;
+            var track = new tracking.ObjectTracker("face");
+            track.on('track', function(event)
+            {
+                data(event,name,image);
+            });
+//                    tracking.track(image,track);
+//            if(image.style.height != 0 && image.style.width != 0)
+//            {
+                tracking.track(canvasImage,track);
+//            }
+//            else
+//            {
+//              ++numberOfPeopleWithPictures;
+//              document.body.appendChild(image);
+//              console.log(name + "'s picture has not loaded.");
+//            }
         };
 
         var getURL = function(url,image)
@@ -276,10 +302,40 @@
             {
                 if(code)
                 {
-                    ++numberOfPeopleWithPictures;
-
-                    document.body.appendChild(image);
-                    tracking.track(image,tracker);
+//                    var loading = false;
+//                    while(image.style.height == 0
+//                          && image.style.width == 0)
+//                    {
+//                        loading = true;
+//                        console.log("Loading image...");
+//                    }
+//                    if(loading)
+//                    {
+//                        console.log("Done loading");
+//                    }
+//                  var canvasImage = getBase64Image(image);
+////                    document.body.appendChild(image);
+//                  var name = image.id;
+//                  var track = new tracking.ObjectTracker("face");
+//                  track.on('track', function(event)
+//                  {
+//                    data(event,name,image);
+//                  });
+////                    tracking.track(image,track);
+//                  if(image.style.height != 0 && image.style.width != 0)
+//                  {
+//                    tracking.track(canvasImage,track);
+//                  }
+//                    else
+//                    {
+//                      ++numberOfPeopleWithPictures;
+//                      document.body.appendChild(image);
+//                      console.log(name + "'s picture has not loaded.");
+//                    }
+                    image.onload = function()
+                    {
+                        checkForFace(image);
+                    };
                 }
                 var logElement = document.getElementById("log");
                 logElement.value = "Retrieving pictures from your family tree\n";
@@ -304,6 +360,7 @@
                 var person = response.getPersons()[i];
                 var image = document.createElement("img");
                 image.className = "popupImage";
+                image.crossOrigin = "https://familysearch.org/";
                 var nameText = person.$getGivenName() + person.$getSurname();
                 if(maxLength < nameText.length)
                 {
@@ -329,7 +386,6 @@
             var text = document.getElementById("log");
             text.cols = maxLength + currentLogCols;
         };
-
         var login = function()
         {
             fsClient.getAccessToken().then(function(accessToken)

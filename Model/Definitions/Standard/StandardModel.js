@@ -96,8 +96,8 @@ var Model;
                     this.update();
                 };
                 StandardModel.prototype.setSeenAlongFaceDir = function (move, initX, initY) {
-                    var x = initX;
-                    var y = initY;
+                    var x = initX + move.getDeltaX();
+                    var y = initY + move.getDeltaY();
                     var currSpace = this.getSpace(x, y);
                     if (move.getDeltaX() != 0 || move.getDeltaY() != 0) {
                         while (currSpace != null) {

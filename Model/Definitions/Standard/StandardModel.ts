@@ -125,8 +125,8 @@ module Model.Definitions.Standard
 
         private setSeenAlongFaceDir(move:IMove, initX:number, initY:number)
         {
-            var x:number = initX;
-            var y:number = initY;
+            var x:number = initX + move.getDeltaX();
+            var y:number = initY + move.getDeltaY();
             var currSpace:ISpace = this.getSpace(x,y);
             if(move.getDeltaX() != 0 || move.getDeltaY() != 0)
             {
