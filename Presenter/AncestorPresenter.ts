@@ -55,6 +55,9 @@ module Presenter
                     popup.style.visibility = "hidden";
                     var canvas = document.getElementById("canvas-container");
                     canvas.style.visibility = "visible";
+                    var elementID:string = "Loading";
+                    var ancestorPicture = document.getElementById(elementID);
+                    document.getElementById("ancestorPicture").setAttribute("src",ancestorPicture.getAttribute("src"));
                 }
                 else if(this.justEnteredName)
                 {
@@ -80,6 +83,7 @@ module Presenter
             if(model.pickedUpNewKey())
             {
                 this.presenter.outputToLog("The slip of paper says: " + model.newKey().toString());
+                model.getPlayer().addKey(model.newKey());
                 this.pickedUpKeys.push(model.newKey());
             }
             this.presenter.checkWon(model);
@@ -105,6 +109,9 @@ module Presenter
             var canvas = document.getElementById("canvas-container");
             canvas.style.visibility = "visible";
             this.goingThroughDoor = false;
+            var elementID:string = "Loading";
+            var ancestorPicture = document.getElementById(elementID);
+            document.getElementById("ancestorPicture").setAttribute("src",ancestorPicture.getAttribute("src"));
         }
 
         public getLastMove():IMove
