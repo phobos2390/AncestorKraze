@@ -24,7 +24,10 @@ var Model;
                     this.sizeSet = false;
                     this.height = 0;
                     this.width = 0;
+                    this.setSpace = null;
                     this.keyAndDoorStack = [];
+                    this.setKeyandDoorStack = [];
+                    this.spaceSetKeyandDoorStack = [];
                 }
                 StandardModelBuilder.prototype.createBoard = function () {
                     if (this.heightSet && this.widthSet) {
@@ -59,26 +62,31 @@ var Model;
                 StandardModelBuilder.prototype.setWall = function (space) {
                     space.setSpaceObject(this.factory.createWallSpace());
                     this.addSpace(space);
+                    this.setSpace = space;
                     return this;
                 };
                 StandardModelBuilder.prototype.setKey = function (space, key) {
                     space.setSpaceObject(key);
                     this.addSpace(space);
+                    this.setSpace = space;
                     return this;
                 };
                 StandardModelBuilder.prototype.setDoor = function (space, door) {
                     space.setSpaceObject(door);
                     this.addSpace(space);
+                    this.setSpace = space;
                     return this;
                 };
                 StandardModelBuilder.prototype.setExit = function (space) {
                     space.setSpaceObject(this.factory.createWinSpace());
                     this.addSpace(space);
+                    this.setSpace = space;
                     return this;
                 };
                 StandardModelBuilder.prototype.setEmpty = function (space) {
                     space.setSpaceObject(this.factory.createEmptySpace());
                     this.addSpace(space);
+                    this.setSpace = space;
                     return this;
                 };
                 StandardModelBuilder.prototype.setWalls = function (space, width, height) {
@@ -132,19 +140,25 @@ var Model;
                     }
                     return this;
                 };
-                StandardModelBuilder.prototype.setDoorBetweenTwoSpaces = function (firstSpace, secondSpace, door) {
-                    this.setDoor(this.factory.createSpace((firstSpace.getX() + secondSpace.getX()) / 2, (firstSpace.getY() + secondSpace.getY()) / 2), door);
+                StandardModelBuilder.prototype.setSpaceBetweenTwoSpaces = function (firstSpace, secondSpace, spaceObject) {
+                    var space = this.factory.createSpace((firstSpace.getX() + secondSpace.getX()) / 2, (firstSpace.getY() + secondSpace.getY()) / 2);
+                    space.setSpaceObject(spaceObject);
+                    this.addSpace(space);
+                    this.setSpace = space;
                     return this;
                 };
                 StandardModelBuilder.prototype.setPlayer = function (space, player) {
                     this.player = player;
                     this.playerSpace = space;
+                    this.setSpace = space;
                     return this;
                 };
                 StandardModelBuilder.prototype.peek = function () {
                     return this.keyAndDoorStack[this.keyAndDoorStack.length - 1];
                 };
                 StandardModelBuilder.prototype.pop = function () {
+                    this.spaceSetKeyandDoorStack.push(this.setSpace);
+                    this.setKeyandDoorStack.push(this.peek());
                     return this.keyAndDoorStack.pop();
                 };
                 StandardModelBuilder.prototype.setInitialDoor = function (doorParams) {
@@ -160,7 +174,20 @@ var Model;
                     this.keyAndDoorStack.push(this.factory.createEmptySpace());
                     return this;
                 };
+                StandardModelBuilder.prototype.fixKeyList = function () {
+                    while (this.setKeyandDoorStack.length > 0) {
+                        this.keyAndDoorStack.push(this.setKeyandDoorStack.pop());
+                    }
+                    var length = this.spaceSetKeyandDoorStack.length;
+                    for (var i = 0; i < length; i++) {
+                        var space = this.spaceSetKeyandDoorStack[i];
+                        var spaceObject = this.keyAndDoorStack[length - i];
+                        space.setSpaceObject(spaceObject);
+                        this.addSpace(space);
+                    }
+                };
                 StandardModelBuilder.prototype.build = function () {
+                    this.fixKeyList();
                     return new Standard.StandardModel(this.spaces, this.playerSpace, this.player, this.factory);
                 };
                 StandardModelBuilder.prototype.getSpaces = function () {

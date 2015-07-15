@@ -1,4 +1,5 @@
 /**
+ * Tree Data structure used in maze generation and population.
  * Created by phobos2390 on 4/22/15.
  */
 var Model;
@@ -46,6 +47,7 @@ var Model;
                 Tree.prototype.traverse = function (visitor) {
                     this.recTraverse(visitor, 0);
                 };
+                //Moves down the tree until it gets to a leaf node
                 Tree.prototype.recTraverse = function (visitor, depth) {
                     var unmarkedNeighbors = [];
                     for (var i = 0; i < this.subTree.length; i++) {

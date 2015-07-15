@@ -3,6 +3,13 @@
 ///<reference path="IPresenter.ts"/>
 ///<reference path="AbstractPresenter.ts"/>
 /**
+ * Entering point for the MVP architecture. Interacts with both Model and View.
+ * Model
+ *   |
+ * Presenter - KrazeClient
+ *   |
+ * View
+ * FOR THE STANDARD VERSION OF THE GAME
  * Created by phobos2390 on 3/24/15.
  */
 var Presenter;
@@ -14,6 +21,7 @@ var Presenter;
             model.registerObserver(this);
             this.presenter = new AbstractPresenter(model, new MapView(this, 15, 15));
         }
+        //Exactly the same as the Abstract Presenter
         StandardPresenter.prototype.update = function (model) {
             if (model.attemptedToGetInADoor()) {
             }

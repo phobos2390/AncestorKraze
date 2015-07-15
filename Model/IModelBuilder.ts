@@ -4,11 +4,8 @@
 ///<reference path="IPlayer.ts"/>
 ///<reference path="IModel.ts"/>
 /**
- * Created by phobos2390 on 3/19/15.
- */
-
-/**
  * Builds the Model
+ * Created by phobos2390 on 3/19/15.
  */
 module Model
 {
@@ -17,7 +14,7 @@ module Model
         setWall(space:ISpace):IModelBuilder;
         setKey(space:ISpace,key:IKey):IModelBuilder;
         setDoor(space:ISpace,door:IDoor):IModelBuilder;
-        setDoorBetweenTwoSpaces(firstSpace:ISpace,secondSpace:ISpace,door:IDoor):IModelBuilder;
+        setSpaceBetweenTwoSpaces(firstSpace:ISpace,secondSpace:ISpace,spaceObject:ISpaceObject):IModelBuilder;
         setExit(space:ISpace):IModelBuilder;
         setEmpty(space:ISpace):IModelBuilder;
         setWalls(space:ISpace,width:number,height:number):IModelBuilder;

@@ -8,6 +8,8 @@
 ///<reference path="../Standard/StandardModelBuilder.ts"/>
 ///<reference path="AncestorModel.ts"/>
 /**
+ * Child class of the Standard Model Builder. The only difference between the two is
+ * that the Ancestor Builder builds an Ancestor Model and not a Standard Model
  * Created by phobos2390 on 5/2/15.
  */
 var Model;
@@ -56,8 +58,8 @@ var Model;
                 AncestorBuilder.prototype.setBaseFilledPattern = function (space, width, height) {
                     return this.base.setBaseFilledPattern(space, width, height);
                 };
-                AncestorBuilder.prototype.setDoorBetweenTwoSpaces = function (firstSpace, secondSpace, door) {
-                    return this.base.setDoorBetweenTwoSpaces(firstSpace, secondSpace, door);
+                AncestorBuilder.prototype.setSpaceBetweenTwoSpaces = function (firstSpace, secondSpace, spaceObject) {
+                    return this.base.setSpaceBetweenTwoSpaces(firstSpace, secondSpace, spaceObject);
                 };
                 AncestorBuilder.prototype.setPlayer = function (space, player) {
                     return this.base.setPlayer(space, player);
@@ -78,6 +80,7 @@ var Model;
                     return this.base.addEmptyToStack();
                 };
                 AncestorBuilder.prototype.build = function () {
+                    this.base.fixKeyList();
                     return new AncestorModel(this.base.getSpaces(), this.base.getPlayerSpace(), this.base.getPlayer(), this.factory);
                 };
                 return AncestorBuilder;

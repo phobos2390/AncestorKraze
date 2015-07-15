@@ -1,4 +1,5 @@
 /**
+ * Graph for the maze.
  * Created by phobos2390 on 4/22/15.
  */
 var Model;
@@ -22,6 +23,7 @@ var Model;
                 Graph.prototype.getAdjacencies = function (node) {
                     return this.dict[node.toString()];
                 };
+                //traverses a random spanning tree
                 Graph.prototype.traverse = function (visitor) {
                     var marked = [];
                     for (var i = 0; i < this.nodes.length; i++) {
@@ -30,6 +32,9 @@ var Model;
                     var currentIndex = 0;
                     var current = this.nodes[currentIndex];
                     while (marked.indexOf(false) != -1) {
+                        //visits the the current node to put the node in the tree
+                        //other times the node is visited, the iterator in the visitor
+                        //is set to that value
                         visitor.visit(current);
                         marked[currentIndex] = true;
                         var adjacent = this.dict[current];
@@ -46,6 +51,7 @@ var Model;
                             }
                         }
                         var possibleNeighbors = unmarkedNeighbors.length;
+                        //there are enough possible neighbors to need a random adjacent
                         if (possibleNeighbors > 1) {
                             if (markedNeighbors.length > 0) {
                                 visitor.visit(current);
@@ -60,6 +66,7 @@ var Model;
                             current = this.nodes[currentIndex];
                         }
                         else if (marked.indexOf(false) != -1) {
+                            //finds the first node that is not marked
                             currentIndex = marked.indexOf(false);
                             current = this.nodes[currentIndex];
                             adjacent = this.dict[current];

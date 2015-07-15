@@ -2,6 +2,7 @@
 ///<reference path="IModelFactory.ts"/>
 ///<reference path="Definitions/Standard/StandardFactory.ts"/>
 /**
+ * Deprecated
  * Created by phobos2390 on 3/19/15.
  */
 

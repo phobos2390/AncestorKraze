@@ -3,6 +3,8 @@
 ///<reference path="AbstractTreeTraversalState.ts"/>
 ///<reference path="StandardMazeCreator.ts"/>
 /**
+ * Places the current iterator at the space (1,1) (which will be the root tree)
+ * (done at the very beginning of the Random Spanning Tree Traversal)
  * Created by phobos2390 on 4/22/15.
  */
 

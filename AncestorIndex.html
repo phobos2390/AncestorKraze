@@ -12,8 +12,6 @@
         display:none;
         left:0px;
         top:0px;
-        /*height:25px;*/
-        /*width:25px;*/
     }
     textarea
     {
@@ -167,27 +165,7 @@
         var client;
         $(document).ready(function()
         {
-            client = Main.KrazeClient.create("ancestor");
-            $(document).keydown(function(key)
-            {
-                switch(key.keyCode)
-                {
-                    case 37:
-                    case 39:
-                    case 38:
-                    case 40: // Arrow keys
-                        key.preventDefault(); break; // Space
-                    default: break; // do not block other keys
-                }
-                if(key.keyCode == 13)
-                {
-                    $("#nameEnter").click();
-                }
-                else
-                {
-                    client.onKeyDown(key);
-                }
-            });
+            setDefiningValues(25,25);
             var text = document.getElementById("log");
             text.value = "";
         });
@@ -200,13 +178,57 @@
         var leavePopup = function()
         {
             client.leavePopup();
-        }
+        };
         var startGame = function()
         {
+            client = Main.KrazeClient.create("ancestor",getHeight(),getWidth());
+            $(document).keydown(function(key)
+            {
+                switch(key.keyCode)
+                {
+                    case 37:
+                    case 39:
+                    case 38:
+                    case 40: // Arrow keys
+                      key.preventDefault(); break; // Space
+                    default: break; // do not block other keys
+                }
+                if(key.keyCode == 13)
+                {
+                    $("#nameEnter").click();
+                }
+                else
+                {
+                    client.onKeyDown(key);
+                }
+            });
             var gender = document.querySelector('input[name="gender"]:checked');
             client.setGender(gender.value);
             document.getElementById("genderSelector").style.display = 'none';
-        }
+        };
+        var getHeight = function()
+        {
+            return parseInt(document.getElementById("heightSlider").value);
+        };
+        var getWidth = function()
+        {
+            return parseInt(document.getElementById("widthSlider").value);
+        };
+        var setDefiningValues = function(heightVal,widthVal)
+        {
+            heightRange(heightVal);
+            widthRange(widthVal);
+            document.getElementById("heightSlider").value = heightVal;
+            document.getElementById("widthSlider").value = heightVal;
+        };
+        var heightRange = function(newValue)
+        {
+            document.getElementById("height").innerHTML = newValue;
+        };
+        var widthRange = function(newValue)
+        {
+            document.getElementById("width").innerHTML = newValue;
+        };
     </script>
 </head>
 <body>
@@ -214,6 +236,12 @@
 <div id = "genderSelector">
     <input id = "maleGenderSelector" type="radio" name="gender" value="m">Male<br>
     <input id = "femaleGenderSelector" type="radio" name="gender" value="f">Female<br>
+    <b>Width</b>
+    <input type = "range" min = "15" max = "55" value = "25" step = "2" id = "widthSlider" onchange = "widthRange(this.value)">
+    <span id = "width">25</span><br>
+    <b>Height</b>
+    <input type = "range" min = "15" max = "55" value = "25" step = "2" id = "heightSlider" onchange = "heightRange(this.value)">
+    <span id = "height">25</span><br>
     <button id="gameStarter" onclick="startGame()">Start the Game!</button>
 </div>
 <div id = "canvas-container">
@@ -285,5 +313,6 @@
 <img src = "Main/smithh1.jpg" class = "popupImage" id = "HyrumSmith">
 <img src = "Main/lymanejohnson.jpg" class = "popupImage" id = "LymanEJohnson">
 <img src = "Main/marsh.jpg" class = "popupImage" id = "ThomasBMarsh">
+<img src = "Main/loading.gif" class = "sprite" id = "Loading">
 </body>
 </html>

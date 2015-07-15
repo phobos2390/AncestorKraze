@@ -1,4 +1,5 @@
 /**
+ * Tree Data structure used in maze generation and population.
  * Created by phobos2390 on 4/22/15.
  */
 
@@ -72,9 +73,11 @@ module Model.Generator.Definitions
             this.recTraverse(visitor,0);
         }
 
+        //Moves down the tree until it gets to a leaf node
         private recTraverse(visitor,depth:number):void
         {
             var unmarkedNeighbors:Tree[] = [];
+            //finds all the unmarked neighbors
             for(var i:number = 0; i < this.subTree.length; i++)
             {
                 if(!this.subTree[i].isMarked())

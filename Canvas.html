@@ -165,7 +165,15 @@ canvas
         var client;
         $(document).ready(function()
         {
-            client = Main.KrazeClient.create("standard");
+            var text = document.getElementById("log");
+            text.value = "";
+            setDefiningValues(getHeight(),getWidth());
+        });
+        var startGame = function()
+        {
+            var gender = document.querySelector('input[name="gender"]:checked');
+            client = Main.KrazeClient.create("standard",getHeight(),getWidth());
+            client.setGender(gender.value);
             $(document).keydown(function(key)
             {
                 switch(key.keyCode)
@@ -179,15 +187,31 @@ canvas
                 }
                 client.onKeyDown(key)
             });
-            var text = document.getElementById("log");
-            text.value = "";
-        });
-        var startGame = function()
-        {
-            var gender = document.querySelector('input[name="gender"]:checked');
-            client.setGender(gender.value);
             document.getElementById("genderSelector").style.display = 'none';
-        }
+        };
+        var getHeight = function()
+        {
+            return parseInt(document.getElementById("heightSlider").value);
+        };
+        var getWidth = function()
+        {
+            return parseInt(document.getElementById("widthSlider").value);
+        };
+        var setDefiningValues = function(heightVal,widthVal)
+        {
+            heightRange(heightVal);
+            widthRange(widthVal);
+            document.getElementById("heightSlider").value = heightVal;
+            document.getElementById("widthSlider").value = widthVal;
+        };
+        var heightRange = function(newValue)
+        {
+            document.getElementById("height").innerHTML = newValue;
+        };
+        var widthRange = function(newValue)
+        {
+            document.getElementById("width").innerHTML = newValue;
+        };
     </script>
 </head>
 <body>
@@ -195,6 +219,12 @@ canvas
 <div id = "genderSelector">
     <input id = "maleGenderSelector" type="radio" name="gender" value="m">Male<br>
     <input id = "femaleGenderSelector" type="radio" name="gender" value="f">Female<br>
+    <b>Width</b>
+    <input type = "range" min = "15" max = "55" value = "25" step = "2" id = "widthSlider" onchange = "widthRange(this.value)">
+    <span id = "width">25</span><br>
+    <b>Height</b>
+    <input type = "range" min = "15" max = "55" value = "25" step = "2" id = "heightSlider" onchange = "heightRange(this.value)">
+    <span id = "height">25</span><br>
     <button id="gameStarter" onclick="startGame()">Start the Game!</button>
 </div>
 <div id = "canvas-container">

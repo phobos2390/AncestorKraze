@@ -12,8 +12,6 @@
         display:none;
         left:0px;
         top:0px;
-        /*height:25px;*/
-        /*width:25px;*/
     }
     textarea
     {
@@ -120,8 +118,8 @@
 <head>
     <script src = "https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src = "Main/familysearch-javascript-sdk.js"></script>
-    <script src = "Tracking/tracking.js-master/build/tracking.js"></script>
-    <script src = "Tracking/tracking.js-master/build/data/face.js"></script>
+    <script src = "Tracking/tracking.js-master/build/tracking-min.js"></script>
+    <script src = "Tracking/tracking.js-master/build/data/face-min.js"></script>
     <script src = "View/MapView.js"></script>
     <script src = "View/AncestorMapView.js"></script>
     <script src = "Model/Generator/Definitions/AbstractTreeTraversalState.js"></script>
@@ -176,45 +174,6 @@
         var gender;
         var currentLogCols;
         var started;
-//        var tracker;
-        var startGame = function()
-        {
-            if(!started)
-            {
-                started = true;
-                var logElement = document.getElementById("log");
-                logElement.value = "Done!";
-                client = Main.KrazeClient.create("ancestor");
-                $(document).keydown(function (key)
-                {
-                    switch (key.keyCode)
-                    {
-                        case 37:
-                        case 39:
-                        case 38:
-                        case 40: // Arrow keys
-                            key.preventDefault();
-                            break; // Space
-                        default:
-                            break; // do not block other keys
-                    }
-                    if (key.keyCode == 13)
-                    {
-                        $("#nameEnter").click();
-                    }
-                    else
-                    {
-                        client.onKeyDown(key);
-                    }
-                });
-                client.setGender(gender);
-                var loginButton = document.getElementById("differentVersions");
-                loginButton.style.display = "none";
-                var container = document.getElementById("canvas-container");
-                container.style.display = "visible";
-                logElement.value = "";
-            }
-        };
         var enterName = function()
         {
             var answer = document.getElementById("doorAnswer");
@@ -227,11 +186,10 @@
         };
         $(document).ready(function()
         {
-//            tracker = new tracking.ObjectTracker("face");
-//            tracker.on('track', data);
             var text = document.getElementById("log");
             text.value = "";
             currentLogCols = 26;
+            setDefiningValues(5,25,25);
             fsClient = new FamilySearch(
             {
                 app_key:/*"a0T3000000BrY8SEAV",//*/"NQ3Q-PBD8-LL9N-RCLZ-MZCZ-X7P8-7SMX-RD6N",
@@ -244,109 +202,29 @@
                 auto_expire: true
             });
         });
-        var data = function(event,name,image)
+        var login = function()
         {
-//            console.log(event.data);
-            if(event.data.length > 0)
+            fsClient.getAccessToken().then(function(accessToken)
             {
-                ++numberOfPeopleWithPictures;
-                document.body.appendChild(image);
-                console.log(image);
-                console.log(name + " does have a portrait");
-            }
-//            else
-//            {
-//                console.log(image);
-//                console.log(name + " doesn't have a portrait");
-//            }
-        };
-        var getBase64Image = function(img)
-        {
-            // Create an empty canvas element
-            var canvas = document.createElement("canvas");
-            canvas.width = img.width;
-            canvas.height = img.height;
-
-            // Copy the image contents to the canvas
-            var ctx = canvas.getContext("2d");
-            ctx.drawImage(img, 0, 0);
-
-            return canvas;
-        };
-        var checkForFace = function(image)
-        {
-            var canvasImage = getBase64Image(image);
-//            document.body.appendChild(image);
-            var name = image.id;
-            var track = new tracking.ObjectTracker("face");
-            track.on('track', function(event)
-            {
-                data(event,name,image);
-            });
-//                    tracking.track(image,track);
-//            if(image.style.height != 0 && image.style.width != 0)
-//            {
-                tracking.track(canvasImage,track);
-//            }
-//            else
-//            {
-//              ++numberOfPeopleWithPictures;
-//              document.body.appendChild(image);
-//              console.log(name + "'s picture has not loaded.");
-//            }
-        };
-
-        var getURL = function(url,image)
-        {
-            $.get(url).done(function(code)
-            {
-                if(code)
+                fsClient.getCurrentUser().then(function(response)
                 {
-//                    var loading = false;
-//                    while(image.style.height == 0
-//                          && image.style.width == 0)
-//                    {
-//                        loading = true;
-//                        console.log("Loading image...");
-//                    }
-//                    if(loading)
-//                    {
-//                        console.log("Done loading");
-//                    }
-//                  var canvasImage = getBase64Image(image);
-////                    document.body.appendChild(image);
-//                  var name = image.id;
-//                  var track = new tracking.ObjectTracker("face");
-//                  track.on('track', function(event)
-//                  {
-//                    data(event,name,image);
-//                  });
-////                    tracking.track(image,track);
-//                  if(image.style.height != 0 && image.style.width != 0)
-//                  {
-//                    tracking.track(canvasImage,track);
-//                  }
-//                    else
-//                    {
-//                      ++numberOfPeopleWithPictures;
-//                      document.body.appendChild(image);
-//                      console.log(name + "'s picture has not loaded.");
-//                    }
-                    image.onload = function()
+                    var user = response.getUser();
+                    var logElement = document.getElementById("log");
+                    logElement.value = "Hello " + user.contactName + " welcome to Family History Kraze\n";
+                    logElement.value += "Please wait a moment as we set things up";
+                    if(user.gender.valueOf() == 'MALE'.valueOf())
                     {
-                        checkForFace(image);
-                    };
-                }
-                var logElement = document.getElementById("log");
-                logElement.value = "Retrieving pictures from your family tree\n";
-                logElement.value += "("+ Math.floor(peopleChecked/numberOfPeople*100)+"%) "+peopleChecked + " people out of " + numberOfPeople + " checked\n";
-                logElement.value += numberOfPeopleWithPictures + " people have pictures\n";
-                if(++peopleChecked >= numberOfPeople )//|| numberOfPeopleWithPictures >= maxPicturesAllowed)
-                {
-                    startGame();
-                }
-            })
+                        gender = "m";
+                    }
+                    else
+                    {
+                        gender = "f";
+                    }
+                    var ancestry = fsClient.getAncestry(user.personId,{generations:getGenerations()}).then(ancestryResponse);
+                });
+            });
         };
+        //Processes the response from family search containing the ancestry information
         var ancestryResponse = function(response)
         {
             numberOfPeople = response.getPersons().length - 1;
@@ -377,6 +255,7 @@
                     }
                 }
                 image.id = id;
+                //checks to see if there is a picture of the person (Only doesn't work if the url returns null)
                 person.$getPersonPortraitUrl().then(function(url)
                 {
                     image.src = url;
@@ -386,27 +265,151 @@
             var text = document.getElementById("log");
             text.cols = maxLength + currentLogCols;
         };
-        var login = function()
+        var getURL = function(url,image)
         {
-            fsClient.getAccessToken().then(function(accessToken)
+            $.get(url).done(function(code)
             {
-                fsClient.getCurrentUser().then(function(response)
+                if(code)
                 {
-                    var user = response.getUser();
-                    var logElement = document.getElementById("log");
-                    logElement.value = "Hello " + user.contactName + " welcome to Family History Kraze\n";
-                    logElement.value += "Please wait a moment as we set things up";
-                    if(user.gender.valueOf() == 'MALE'.valueOf())
+                    image.onload = function()
                     {
-                        gender = "m";
+                        //Tries to make sure that there is a face in the picture
+                        checkForFace(image);
+                    };
+                }
+                if(!started)
+                {
+                    var logElement = document.getElementById("log");
+                    logElement.value = "Retrieving pictures from your family tree\n";
+                    logElement.value += "("+ Math.floor(peopleChecked/numberOfPeople*100)+"%) "+peopleChecked + " people out of " + numberOfPeople + " checked\n";
+                    logElement.value += numberOfPeopleWithPictures + " people have pictures\n";
+                    //starts the game if enough people have been checked
+                    if(++peopleChecked >= numberOfPeople )
+                    {
+                        startGame();
+                    }
+                }
+            })
+        };
+        //uses the Tracking.js library to check the image to see if there is a face in it
+        var checkForFace = function(image)
+        {
+            var canvasImage = getBase64Image(image);
+            var name = image.id;
+            var track = new tracking.ObjectTracker("face");
+            track.on('track', function(event)
+            {
+                //called if the tracker detects a face
+                data(event,name,image);
+            });
+            tracking.track(canvasImage,track);
+        };
+        var getBase64Image = function(img)
+        {
+            // Create an empty canvas element
+            var canvas = document.createElement("canvas");
+            canvas.width = img.width;
+            canvas.height = img.height;
+
+            // Copy the image contents to the canvas
+            var ctx = canvas.getContext("2d");
+            ctx.drawImage(img, 0, 0);
+
+            return canvas;
+        };
+        var data = function(event,name,image)
+        {
+            //indicates the number of face objects detected
+            //if it's 0, there is not a face in the picture
+            if(event.data.length > 0)
+            {
+                ++numberOfPeopleWithPictures;
+                if(document.getElementById(image.id) == null)
+                {
+                    document.body.appendChild(image);
+                }
+            }
+        };
+        var startGame = function()
+        {
+            if(!started)
+            {
+                started = true;
+                var logElement = document.getElementById("log");
+                logElement.value = "Done!";
+                client = Main.KrazeClient.create("ancestor",getHeight(),getWidth());
+                $(document).keydown(function (key)
+                {
+                    switch (key.keyCode)
+                    {
+                        case 37:
+                        case 39:
+                        case 38:
+                        case 40: // Arrow keys
+                          key.preventDefault();
+                          break; // Space
+                        default:
+                          break; // do not block other keys
+                    }
+                    if (key.keyCode == 13)
+                    {
+                        $("#nameEnter").click();
                     }
                     else
                     {
-                        gender = "f";
+                        client.onKeyDown(key);
                     }
-                    var ancestry = fsClient.getAncestry(user.personId,{generations:8}).then(ancestryResponse);
                 });
-            });
+                client.setGender(gender);
+                var loginButton = document.getElementById("differentVersions");
+                loginButton.style.display = "none";
+                var container = document.getElementById("canvas-container");
+                container.style.display = "visible";
+                logElement.value = "";
+            }
+        };
+        var enterName = function()
+        {
+            var answer = document.getElementById("doorAnswer");
+            var name = answer.value;
+            client.enterName(name);
+        };
+        var leavePopup = function()
+        {
+            client.leavePopup();
+        };
+        var getGenerations = function()
+        {
+            return parseInt(document.getElementById("generationSlider").value);
+        };
+        var getHeight = function()
+        {
+            return parseInt(document.getElementById("heightSlider").value);
+        };
+        var getWidth = function()
+        {
+            return parseInt(document.getElementById("widthSlider").value);
+        };
+        var setDefiningValues = function(genVal,heightVal,widthVal)
+        {
+            generationsRange(genVal);
+            heightRange(heightVal);
+            widthRange(widthVal);
+            document.getElementById("generationSlider").value = genVal;
+            document.getElementById("heightSlider").value = heightVal;
+            document.getElementById("widthSlider").value = widthVal;
+        };
+        var generationsRange = function(newValue)
+        {
+            document.getElementById("generations").innerHTML = newValue;
+        };
+        var heightRange = function(newValue)
+        {
+            document.getElementById("height").innerHTML = newValue;
+        };
+        var widthRange = function(newValue)
+        {
+            document.getElementById("width").innerHTML = newValue;
         };
     </script>
 </head>
@@ -420,7 +423,16 @@
     <button onclick="login()" id = "logInButton">Log In with FamilySearch</button><br><br>
     Don't have a FamilySearch account?<br>
     Try <a href="AncestorIndex.html">a version with Mormon Historical Figures.</a><br>
-    Or try <a href="Canvas.html">a version with numbered keys.</a>
+    Or try <a href="Canvas.html">a version with numbered keys.</a><br>
+    <b>Generations</b>
+    <input type = "range" min = "3" max = "8" value = "3" step = "1" id = "generationSlider" onchange = "generationsRange(this.value)">
+    <span id = "generations">3</span><br>
+    <b>Width</b>
+    <input type = "range" min = "15" max = "55" value = "25" step = "2" id = "widthSlider" onchange = "widthRange(this.value)">
+    <span id = "width">25</span><br>
+    <b>Height</b>
+    <input type = "range" min = "15" max = "55" value = "25" step = "2" id = "heightSlider" onchange = "heightRange(this.value)">
+    <span id = "height">25</span><br>
 </div>
 <div id ="canvas-container">
     <canvas id = "viewScreen" style = "border:1px solid #000000;"></canvas>
@@ -452,7 +464,7 @@
 <img src = "Main/SpriteSheet50MF.png" class = "sprite" id = "mright">
 <img src = "Main/SpriteSheet50MF.png" class = "sprite" id = "MazeMist">
 <img src = "Main/SpriteSheet50MF.png" class = "sprite" id = "OutOfMaze">
-<img src = "Main/loading.gif" id = "Loading">
+<img src = "Main/loading.gif" class = "sprite" id = "Loading">
 
 </body>
 </html>

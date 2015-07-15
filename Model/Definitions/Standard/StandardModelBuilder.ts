@@ -28,6 +28,9 @@ module Model.Definitions.Standard
         private widthSet:boolean;
         private sizeSet:boolean;
         private keyAndDoorStack;
+        private setSpace:ISpace;
+        private setKeyandDoorStack;
+        private spaceSetKeyandDoorStack;
 
         public constructor(factory:IModelFactory)
         {
@@ -38,7 +41,10 @@ module Model.Definitions.Standard
             this.sizeSet = false;
             this.height = 0;
             this.width = 0;
+            this.setSpace = null;
             this.keyAndDoorStack = [];
+            this.setKeyandDoorStack = [];
+            this.spaceSetKeyandDoorStack = [];
         }
 
         private createBoard()
@@ -87,6 +93,7 @@ module Model.Definitions.Standard
         {
             space.setSpaceObject(this.factory.createWallSpace());
             this.addSpace(space);
+            this.setSpace = space;
             return this;
         }
 
@@ -94,6 +101,7 @@ module Model.Definitions.Standard
         {
             space.setSpaceObject(key);
             this.addSpace(space);
+            this.setSpace = space;
             return this;
         }
 
@@ -101,6 +109,7 @@ module Model.Definitions.Standard
         {
             space.setSpaceObject(door);
             this.addSpace(space);
+            this.setSpace = space;
             return this;
         }
 
@@ -108,6 +117,7 @@ module Model.Definitions.Standard
         {
             space.setSpaceObject(this.factory.createWinSpace());
             this.addSpace(space);
+            this.setSpace = space;
             return this;
         }
 
@@ -115,6 +125,7 @@ module Model.Definitions.Standard
         {
             space.setSpaceObject(this.factory.createEmptySpace());
             this.addSpace(space);
+            this.setSpace = space;
             return this;
         }
 
@@ -185,12 +196,14 @@ module Model.Definitions.Standard
             return this;
         }
 
-        public setDoorBetweenTwoSpaces(firstSpace:ISpace,secondSpace:ISpace,door:IDoor):IModelBuilder
+        public setSpaceBetweenTwoSpaces(firstSpace:ISpace,secondSpace:ISpace,spaceObject:ISpaceObject):IModelBuilder
         {
-            this.setDoor(this.factory.createSpace(
-                    (firstSpace.getX() + secondSpace.getX())/2,
-                    (firstSpace.getY() + secondSpace.getY())/2),
-                     door);
+            var space:ISpace = this.factory.createSpace(
+                                  (firstSpace.getX() + secondSpace.getX())/2,
+                                  (firstSpace.getY() + secondSpace.getY())/2);
+            space.setSpaceObject(spaceObject);
+            this.addSpace(space);
+            this.setSpace = space;
             return this;
         }
 
@@ -198,6 +211,7 @@ module Model.Definitions.Standard
         {
             this.player = player;
             this.playerSpace = space;
+            this.setSpace = space;
             return this;
         }
 
@@ -208,6 +222,8 @@ module Model.Definitions.Standard
 
         public pop():ISpaceObject
         {
+            this.spaceSetKeyandDoorStack.push(this.setSpace);
+            this.setKeyandDoorStack.push(this.peek());
             return <ISpaceObject>this.keyAndDoorStack.pop();
         }
 
@@ -230,8 +246,25 @@ module Model.Definitions.Standard
             return this;
         }
 
+        public fixKeyList():void
+        {
+            while(this.setKeyandDoorStack.length > 0)
+            {
+                this.keyAndDoorStack.push(this.setKeyandDoorStack.pop());
+            }
+            var length:number = this.spaceSetKeyandDoorStack.length;
+            for(var i:number = 0; i < length; i++)
+            {
+                var space:ISpace = this.spaceSetKeyandDoorStack[i];
+                var spaceObject:ISpaceObject = this.keyAndDoorStack[length - i];
+                space.setSpaceObject(spaceObject);
+                this.addSpace(space);
+            }
+        }
+
         public build():IModel
         {
+            this.fixKeyList();
             return new StandardModel(this.spaces,this.playerSpace,this.player,this.factory);
         }
 

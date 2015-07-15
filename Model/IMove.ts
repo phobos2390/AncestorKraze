@@ -1,4 +1,5 @@
 /**
+ * The moving class. Defines the movement vector
  * Created by phobos2390 on 3/19/15.
  */
 module Model

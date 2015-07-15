@@ -22,6 +22,7 @@ module Model.Generator.Definitions
             this.keys.push(key);
         }
 
+        //Only difference between the Ancestor Maze Creator and the Standard Maze Creator
         public initializeKeyList(builder:IModelBuilder):void
         {
             builder.addEmptyToStack();
@@ -29,7 +30,7 @@ module Model.Generator.Definitions
             for(var i:number = 0; i < this.getNumberOfKeys(); i++)
             {
                 builder.addKeyAndDoorPairToStack(this.getFactory().createKeyParams(this.keys[i]),
-                                                this.getFactory().createDoorParams(this.keys[i]));
+                                                 this.getFactory().createDoorParams(this.keys[i]));
             }
         }
     }

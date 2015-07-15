@@ -8,6 +8,8 @@
 ///<reference path="../Standard/StandardModelBuilder.ts"/>
 ///<reference path="AncestorModel.ts"/>
 /**
+ * Child class of the Standard Model Builder. The only difference between the two is
+ * that the Ancestor Builder builds an Ancestor Model and not a Standard Model
  * Created by phobos2390 on 5/2/15.
  */
 module Model.Definitions.FamilyHistory
@@ -84,9 +86,9 @@ module Model.Definitions.FamilyHistory
             return this.base.setBaseFilledPattern(space,width,height);
         }
 
-        public setDoorBetweenTwoSpaces(firstSpace:ISpace,secondSpace:ISpace,door:IDoor):IModelBuilder
+        public setSpaceBetweenTwoSpaces(firstSpace:ISpace,secondSpace:ISpace,spaceObject:ISpaceObject):IModelBuilder
         {
-            return this.base.setDoorBetweenTwoSpaces(firstSpace,secondSpace,door);
+            return this.base.setSpaceBetweenTwoSpaces(firstSpace,secondSpace,spaceObject);
         }
 
         public setPlayer(space:ISpace, player:IPlayer):IModelBuilder
@@ -121,6 +123,7 @@ module Model.Definitions.FamilyHistory
 
         public build():IModel
         {
+            this.base.fixKeyList();
             return new AncestorModel(this.base.getSpaces(),this.base.getPlayerSpace(),this.base.getPlayer(),this.factory);
         }
     }

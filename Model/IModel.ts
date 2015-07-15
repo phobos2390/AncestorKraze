@@ -1,11 +1,8 @@
 ///<reference path="IModelObservable.ts"/>
 ///<reference path="IMove.ts"/>
 /**
- * Created by phobos2390 on 3/19/15.
- */
-
-/**
  * Data structure holding all the information for the game
+ * Created by phobos2390 on 3/19/15.
  */
 module Model
 {

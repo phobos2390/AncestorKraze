@@ -1,5 +1,6 @@
 ///<reference path="Tree.ts"/>
 /**
+ * Finds the number of open leafs in the Tree
  * Created by phobos2390 on 4/23/15.
  */
 var Model;
@@ -14,16 +15,20 @@ var Model;
                 }
                 NumberOfBranchesStrategy.prototype.traverse = function (tree) {
                     var children = tree.getChildren();
-                    var numChildren = children.length;
-                    this.visit(numChildren);
-                    for (var i = 0; i < numChildren; i++) {
+                    var numChildren = 0;
+                    for (var i = 0; i < children.length; i++) {
                         var child = children[i];
                         if (!child.isMarked()) {
+                            //Depth first search
                             this.traverse(child);
+                            ++numChildren;
                         }
                     }
+                    //Post order visit
+                    this.visit(numChildren);
                 };
                 NumberOfBranchesStrategy.prototype.visit = function (children) {
+                    //only adds the number of branches beyond the first one
                     if (children > 0) {
                         this.branches = this.branches + (children - 1);
                     }

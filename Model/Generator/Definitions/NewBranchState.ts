@@ -2,6 +2,9 @@
 ///<reference path = "ITreeTraversalState.ts"/>
 ///<reference path="../../ISpace.ts"/>
 /**
+ * Places the current iterator at the correct position to have the
+ * new leaf state place the data as a leaf of the current iterator
+ * (done in the if statements in the while loop in the random spanning tree traversal)
  * Created by phobos2390 on 4/22/15.
  */
 

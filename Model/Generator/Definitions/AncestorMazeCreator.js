@@ -24,6 +24,7 @@ var Model;
                 AncestorMazeCreator.prototype.addKey = function (key) {
                     this.keys.push(key);
                 };
+                //Only difference between the Ancestor Maze Creator and the Standard Maze Creator
                 AncestorMazeCreator.prototype.initializeKeyList = function (builder) {
                     builder.addEmptyToStack();
                     builder.addEmptyToStack();

@@ -6,6 +6,13 @@
 ///<reference path="../Model/IKey.ts"/>
 ///<reference path="../Model/IRequirement.ts"/>
 /**
+ * Abstract Presenter. The main brains of the program. Responds to changes in the model and inputs.
+ * Entering point for the MVP architecture. Interacts with both Model and View.
+ * Model
+ *   |
+ * Presenter - KrazeClient
+ *   |
+ * View
  * Created by phobos2390 on 4/24/15.
  */
 
@@ -37,6 +44,7 @@ module Presenter
             return this.view;
         }
 
+        //Checks to see if the won event is set
         public checkWon(model:IModelArgs):void
         {
             if(model.won())
@@ -45,20 +53,21 @@ module Presenter
             }
         }
 
+        //redraws the model
         public checkRedraw(model:IModelArgs):void
         {
             this.view.draw(model);
         }
 
+        //Outputs the current string to the log.
         public outputToLog(log:string):void
         {
             var logElement = document.getElementById("log");
             logElement.value += log + "\n";
-            //var logLine = document.createElement("li");
-            //logLine.innerHTML = log;
-            //logElement.appendChild(logLine);
+            logElement.scrollTop = logElement.scrollHeight;
         }
 
+        //Checks to see if the player just picked up a key. (Key event)
         public checkPickedUpKey(model:IModelArgs):void
         {
             if(model.pickedUpNewKey())
@@ -68,6 +77,7 @@ module Presenter
             }
         }
 
+        //Checks all of the current events for the presenter
         public update(model:IModelArgs):void
         {
             this.checkWon(model);
@@ -75,11 +85,13 @@ module Presenter
             this.checkPickedUpKey(model);
         }
 
+        //retrieves the last keyed move
         public getLastMove():IMove
         {
             return this.lastMove;
         }
 
+        //moves the player
         public executeMove(move:IMove):void
         {
             this.lastMove = move;
@@ -93,6 +105,7 @@ module Presenter
             }
         }
 
+        //Sets the value of the gender
         public setGender(gender:string):void
         {
             this.view.setGender(gender);
