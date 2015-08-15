@@ -1,0 +1,134 @@
+img[class=sprite]
+{
+  display:none;
+  height:50px;
+  width:50px;
+}
+#IWallObject,#Door17
+{
+  left:0px;
+  top:0px;
+}
+textarea
+{
+  resize:none;
+}
+#mup,#fup
+{
+  left:1px;
+  top:0px;
+}
+#mdown,#fdown,#mnone,#fnone
+{
+  left:2px;
+  top:0px;
+}
+#mright,#fright
+{
+  left:0px;
+  top:1px;
+}
+#mleft,#fleft
+{
+  left:1px;
+  top:1px;
+}
+#BlankSpace,#IWinSpaceObject,#Door18
+{
+  left:3px;
+  top:0px;
+}
+#OutOfMaze
+{
+  left:3px;
+  top:2px;
+}
+#MazeMist
+{
+  left:3px;
+  top:1px;
+}
+#IKey,#Door19
+{
+  left:2px;
+  top:1px;
+}
+#Door1
+{
+  left:3px;
+  top:1px;
+}
+#Door2,#Door11
+{
+  left:0px;
+  top:2px;
+}
+#Door3,#Door12
+{
+  left:1px;
+  top:2px;
+}
+#Door4,#Door13
+{
+  left:2px;
+  top:2px;
+}
+#Door5
+{
+  left:3px;
+  top:2px;
+}
+#Door6,#Door14
+{
+  left:0px;
+  top:3px;
+}
+#Door7,#Door15
+{
+  left:1px;
+  top:3px;
+}
+#Door8,#Door16
+{
+  left:2px;
+  top:3px;
+}
+#Door9,#Door10
+{
+  left:3px;
+  top:3px;
+}
+#imagePopup
+{
+  display:none
+}
+/*input*/
+/*{*/
+/*display:none*/
+/*}*/
+#canvas-container
+{
+  text-align: center;
+  visibility:hidden;
+}
+#messages
+{
+
+}
+canvas
+{
+  display:inline;
+}
+#genderSelector
+{
+  margin: auto;
+  width: 25%;
+}
+#winPopup,#pause
+{
+  z-index: 11;
+  position:absolute;
+  top: 200px;
+  left: 500px;
+  visibility:hidden;
+}

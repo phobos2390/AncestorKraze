@@ -29,7 +29,9 @@ var Presenter;
         //Checks to see if the won event is set
         AbstractPresenter.prototype.checkWon = function (model) {
             if (model.won()) {
-                alert("YOU WON!");
+                document.getElementById("canvas-container").style.visibility = "hidden";
+                document.getElementById("messages").style.visibility = "hidden";
+                document.getElementById("winPopup").style.visibility = "visible";
             }
         };
         //redraws the model

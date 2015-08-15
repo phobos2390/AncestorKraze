@@ -1,128 +1,14 @@
 <!DOCTYPE html>
 <html>
+<link rel="shortcut icon" href="favicon.ico">
+<link href="/CSSFramework/app.css/app.css" rel="stylesheet">
+<link href="/Style/standard.css" rel = "stylesheet">
 <style>
-img[class=sprite]
-{
-    display:none;
-    height:50px;
-    width:50px;
-}
-#IWallObject,#Door17
-{
-    left:0px;
-    top:0px;
-}
-textarea
-{
-    resize:none;
-}
-#mup,#fup
-{
-    left:1px;
-    top:0px;
-}
-#mdown,#fdown,#mnone,#fnone
-{
-    left:2px;
-    top:0px;
-}
-#mright,#fright
-{
-    left:0px;
-    top:1px;
-}
-#mleft,#fleft
-{
-    left:1px;
-    top:1px;
-}
-#BlankSpace,#IWinSpaceObject,#Door18
-{
-    left:3px;
-    top:0px;
-}
-#OutOfMaze
-{
-    left:3px;
-    top:2px;
-}
-#MazeMist
-{
-    left:3px;
-    top:1px;
-}
-#IKey,#Door19
-{
-    left:2px;
-    top:1px;
-}
-#Door1
-{
-    left:3px;
-    top:1px;
-}
-#Door2,#Door11
-{
-    left:0px;
-    top:2px;
-}
-#Door3,#Door12
-{
-    left:1px;
-    top:2px;
-}
-#Door4,#Door13
-{
-    left:2px;
-    top:2px;
-}
-#Door5
-{
-    left:3px;
-    top:2px;
-}
-#Door6,#Door14
-{
-    left:0px;
-    top:3px;
-}
-#Door7,#Door15
-{
-    left:1px;
-    top:3px;
-}
-#Door8,#Door16
-{
-    left:2px;
-    top:3px;
-}
-#Door9,#Door10
-{
-    left:3px;
-    top:3px;
-}
-#imagePopup
-{
-    display:none
-}
-/*input*/
-/*{*/
-    /*display:none*/
-/*}*/
-#canvas-container
-{
-    text-align: center;
-}
-#messages
-{
-
-}
-canvas
-{
-    display:inline;
-}
 </style>
 <head>
+    <script src = "View/htmlView.js"></script>
+    <script src = "View/ancestorHtmlView.js"></script>
+    <script src = "View/familyHistoryHtmlView.js"></script>
     <script src = "View/MapView.js"></script>
     <script src = "Model/Generator/Definitions/AbstractTreeTraversalState.js"></script>
     <script src = "Model/Generator/Definitions/Graph.js"></script>
@@ -163,60 +49,81 @@ canvas
     <script src = "https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script>
         var client;
+        var started;
         $(document).ready(function()
         {
             var text = document.getElementById("log");
             text.value = "";
-            setDefiningValues(getHeight(),getWidth());
+            setSizeValues(getHeight(),getWidth());
+            started = false;
+        });
+        $(document).keydown(function(key)
+        {
+          if(started)
+          {
+            switch (key.keyCode)
+            {
+              case 27: // esc
+              case 37:
+              case 39:
+              case 38:
+              case 40: // Arrow keys
+                key.preventDefault();
+                break; // Space
+              default:
+                break; // do not block other keys
+            }
+            if (key.keyCode == 27)
+            {
+              pause();
+            }
+            else
+            {
+              client.onKeyDown(key);
+            }
+          }
         });
         var startGame = function()
         {
-            var gender = document.querySelector('input[name="gender"]:checked');
-            client = Main.KrazeClient.create("standard",getHeight(),getWidth());
-            client.setGender(gender.value);
-            $(document).keydown(function(key)
+            if(!started)
             {
-                switch(key.keyCode)
-                {
-                    case 37:
-                    case 39:
-                    case 38:
-                    case 40: // Arrow keys
-                        key.preventDefault(); break; // Space
-                    default: break; // do not block other keys
-                }
-                client.onKeyDown(key)
-            });
-            document.getElementById("genderSelector").style.display = 'none';
-        };
-        var getHeight = function()
-        {
-            return parseInt(document.getElementById("heightSlider").value);
-        };
-        var getWidth = function()
-        {
-            return parseInt(document.getElementById("widthSlider").value);
-        };
-        var setDefiningValues = function(heightVal,widthVal)
-        {
-            heightRange(heightVal);
-            widthRange(widthVal);
-            document.getElementById("heightSlider").value = heightVal;
-            document.getElementById("widthSlider").value = widthVal;
-        };
-        var heightRange = function(newValue)
-        {
-            document.getElementById("height").innerHTML = newValue;
-        };
-        var widthRange = function(newValue)
-        {
-            document.getElementById("width").innerHTML = newValue;
+              var gender = document.querySelector('input[name="gender"]:checked');
+              client = Main.KrazeClient.create("standard", getHeight(), getWidth());
+              client.setGender(gender.value);
+              started = true;
+              document.getElementById("genderSelector").style.display = 'none';
+              var viewScreen = document.getElementById("canvas-container");
+              viewScreen.style.visibility = "visible";
+            }
         };
     </script>
 </head>
 <body>
 <!--<button onclick="KrazeClient.Main()">Start</button>-->
+<div id="header">
+  <div class="row">
+    <a href="/"><img id="as-logo" src="AncestorKrazeLogoV2.png" /></a>
+  </div>
+</div>
+
+<div class="contain-to-grid" id="subMenu">
+  <nav class="top-bar" data-topbar role="navigation">
+    <ul class="title-area">
+      <li class="name"><h1>Welcome!</h1></li>
+    </ul>
+
+    <section class="top-bar-section">
+      <ul class="right button-group">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="http://fhtl.byu.edu/contact/index.html">Contact</a></li>
+        <li><a href="http://fhtl.byu.edu/">FHTL Website</a></li>
+        <li><a href="https://www.ldsphilanthropies.org/donations/byu/physical-mathematical-sciences/family-history-technology.html">Donate</a></li>
+      </ul>
+    </section>
+  </nav>
+</div>
 <div id = "genderSelector">
+    The original version of Kraze.<br><br>
     <input id = "maleGenderSelector" type="radio" name="gender" value="m">Male<br>
     <input id = "femaleGenderSelector" type="radio" name="gender" value="f">Female<br>
     <b>Width</b>
@@ -224,7 +131,7 @@ canvas
     <span id = "width">25</span><br>
     <b>Height</b>
     <input type = "range" min = "15" max = "55" value = "25" step = "2" id = "heightSlider" onchange = "heightRange(this.value)">
-    <span id = "height">25</span><br>
+    <span id = "height">25</span><br><br>
     <button id="gameStarter" onclick="startGame()">Start the Game!</button>
 </div>
 <div id = "canvas-container">
@@ -232,8 +139,19 @@ canvas
     <div id = "messages">
         <span>Keys:</span><br>
         <span id = "keyNumber">0</span>
-        <p><textarea id = "log" rows="10" cols="20" readonly></textarea></p>
+        <p><textarea id = "log" rows="10" cols="45" readonly></textarea></p>
     </div>
+</div>
+<div id = "winPopup">
+  <h1>You Won!</h1><br>
+  <button onclick="restartWithSameParameters()">Play Again</button>
+  <button onclick="location.reload()">Change Parameters</button>
+</div>
+<div id = "pause">
+  <h1>Paused</h1><br>
+  <button onclick="resume()">Resume</button>
+  <button onclick="restartWithSameParameters()">Restart</button>
+  <button onclick="location.reload()">Change Parameters</button>
 </div>
 
 <img src = "Main/SpriteSheet50.png" class = "sprite" id = "IWallObject">

@@ -1,124 +1,22 @@
 <!DOCTYPE html>
 <html>
+<link rel="shortcut icon" href="favicon.ico">
+<link href="/CSSFramework/app.css/app.css" rel="stylesheet">
+<link href="/Style/ancestor.css" rel = "stylesheet">
 <style>
-    img[class=sprite]
+    #genderSelector
     {
-        display:none;
-        height:50px;
-        width:50px;
-    }
-    img[class=popupImage]
-    {
-        display:none;
-        left:0px;
-        top:0px;
-    }
-    textarea
-    {
-        resize:none;
-    }
-    #IWallObject
-    {
-        left:0px;
-        top:0px;
-    }
-    #mup
-    {
-        left:1px;
-        top:0px;
-    }
-    #mdown,#mnone
-    {
-        left:2px;
-        top:0px;
-    }
-    #mright
-    {
-        left:0px;
-        top:1px;
-    }
-    #mleft
-    {
-        left:1px;
-        top:1px;
-    }
-    #fup
-    {
-        left:0px;
-        top:2px;
-    }
-    #fdown,#fnone
-    {
-        left:1px;
-        top:2px;
-    }
-    #fright
-    {
-        left:0px;
-        top:3px;
-    }
-    #fleft
-    {
-        left:1px;
-        top:3px;
-    }
-    #BlankSpace,#IWinSpaceObject
-    {
-        left:3px;
-        top:0px;
-    }
-    #IKey
-    {
-        left:2px;
-        top:1px;
-    }
-    #IDoor
-    {
-        left:3px;
-        top:2px;
-    }
-    #OutOfMaze
-    {
-        left:2px;
-        top:2px;
-    }
-    #MazeMist
-    {
-        left:3px;
-        top:1px;
-    }
-    #imagePopup
-    {
-        background-color: white;
-        visibility:hidden;
-        z-index: 10;
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        top: 0;
-        left: 750px;
-    }
-    #canvas-container
-    {
-        text-align: center;
-        position: relative;
-        z-index: 0;
-        visibility:visible;
-    }
-    #ancestorPicture
-    {
-        height: 500px;
-        width: 500px;
-    }
-    canvas
-    {
-        display:inline;
+        margin: auto;
+        width: 25%;
     }
 </style>
 <head>
     <script src = "https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src = "View/MapView.js"></script>
     <script src = "View/AncestorMapView.js"></script>
+    <script src = "View/htmlView.js"></script>
+    <script src = "View/ancestorHtmlView.js"></script>
+    <script src = "View/familyHistoryHtmlView.js"></script>
     <script src = "Model/Generator/Definitions/AbstractTreeTraversalState.js"></script>
     <script src = "Model/Generator/Definitions/Graph.js"></script>
     <script src = "Model/Generator/Definitions/Tree.js"></script>
@@ -163,77 +61,88 @@
     <script src = "Main/KrazeClient.js"></script>
     <script>
         var client;
+        var started;
         $(document).ready(function()
         {
-            setDefiningValues(25,25);
+            setSizeValues(25,25);
             var text = document.getElementById("log");
             text.value = "";
+            started = false;
         });
-        var enterName = function()
+        $(document).keydown(function(key)
         {
-            var answer = document.getElementById("doorAnswer");
-            var name = answer.value;
-            client.enterName(name);
-        };
-        var leavePopup = function()
-        {
-            client.leavePopup();
-        };
+          if(started)
+          {
+            switch(key.keyCode)
+            {
+              case 37:
+              case 39:
+              case 38:
+              case 40: // Arrow keys
+                key.preventDefault(); break; // Space
+              default: break; // do not block other keys
+            }
+            if(key.keyCode == 13)
+            {
+              $("#nameEnter").click();
+            }
+            else if(key.keyCode == 27)
+            {
+              pause();
+            }
+            else
+            {
+              client.onKeyDown(key);
+            }
+          }
+        });
         var startGame = function()
         {
-            client = Main.KrazeClient.create("ancestor",getHeight(),getWidth());
-            $(document).keydown(function(key)
-            {
-                switch(key.keyCode)
-                {
-                    case 37:
-                    case 39:
-                    case 38:
-                    case 40: // Arrow keys
-                      key.preventDefault(); break; // Space
-                    default: break; // do not block other keys
-                }
-                if(key.keyCode == 13)
-                {
-                    $("#nameEnter").click();
-                }
-                else
-                {
-                    client.onKeyDown(key);
-                }
-            });
+          if(!started)
+          {
+            started = true;
+            client = Main.KrazeClient.create("ancestor", getHeight(), getWidth());
             var gender = document.querySelector('input[name="gender"]:checked');
             client.setGender(gender.value);
             document.getElementById("genderSelector").style.display = 'none';
-        };
-        var getHeight = function()
-        {
-            return parseInt(document.getElementById("heightSlider").value);
-        };
-        var getWidth = function()
-        {
-            return parseInt(document.getElementById("widthSlider").value);
-        };
-        var setDefiningValues = function(heightVal,widthVal)
-        {
-            heightRange(heightVal);
-            widthRange(widthVal);
-            document.getElementById("heightSlider").value = heightVal;
-            document.getElementById("widthSlider").value = heightVal;
-        };
-        var heightRange = function(newValue)
-        {
-            document.getElementById("height").innerHTML = newValue;
-        };
-        var widthRange = function(newValue)
-        {
-            document.getElementById("width").innerHTML = newValue;
+//            var viewScreen = document.getElementById("canvas-container");
+//            viewScreen.style.visibility = "visible";
+            var viewScreen = document.getElementById("viewScreen");
+            viewScreen.style.display = "inline";
+            var container = document.getElementById("canvas-container");
+            container.style.display = "visible";
+            var message = document.getElementById("messages");
+            message.style.visibility = "visible";
+          }
         };
     </script>
 </head>
 <body>
 <!--<button onclick="KrazeClient.Main()">Start</button>-->
+<div id="header">
+  <div class="row">
+    <a href="/"><img id="as-logo" src="AncestorKrazeLogoV2.png" /></a>
+  </div>
+</div>
+
+<div class="contain-to-grid" id="subMenu">
+  <nav class="top-bar" data-topbar role="navigation">
+    <ul class="title-area">
+      <li class="name"><h1>Welcome!</h1></li>
+    </ul>
+
+    <section class="top-bar-section">
+      <ul class="right button-group">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="http://fhtl.byu.edu/contact/index.html">Contact</a></li>
+        <li><a href="http://fhtl.byu.edu/">FHTL Website</a></li>
+        <li><a href="https://www.ldsphilanthropies.org/donations/byu/physical-mathematical-sciences/family-history-technology.html">Donate</a></li>
+      </ul>
+    </section>
+  </nav>
+</div>
 <div id = "genderSelector">
+    Play the same game but with Mormon historical figures.<br><br>
     <input id = "maleGenderSelector" type="radio" name="gender" value="m">Male<br>
     <input id = "femaleGenderSelector" type="radio" name="gender" value="f">Female<br>
     <b>Width</b>
@@ -241,22 +150,34 @@
     <span id = "width">25</span><br>
     <b>Height</b>
     <input type = "range" min = "15" max = "55" value = "25" step = "2" id = "heightSlider" onchange = "heightRange(this.value)">
-    <span id = "height">25</span><br>
+    <span id = "height">25</span><br><br>
     <button id="gameStarter" onclick="startGame()">Start the Game!</button>
 </div>
-<div id = "canvas-container">
-    <canvas id = "viewScreen" style = "border:1px solid #000000;"></canvas>
-    <div id = "messages">
-        <p><textarea id = "log" rows="10" cols="50" readonly></textarea></p>
-    </div>
+<div id ="canvas-container">
+  <canvas id = "viewScreen" style = "border:1px solid #000000;"></canvas>
+  <div id = "messages">
+    <p><textarea id = "log" rows="10" cols="45" readonly></textarea></p>
+  </div>
 </div>
 <div id = "imagePopup">
-    <img id = "ancestorPicture" src = "Main/JosephSmith.jpg">
-    <h1>Who is this person?</h1>
-    <input type="text" id = "doorAnswer">
-    <button onclick = "enterName()" id = "nameEnter">Enter Name</button>
-    <button onclick = "leavePopup()" id = "leavePopup">Exit</button>
+  <img id = "ancestorPicture" src = "Main/loading.gif">
+  <h1>Who is this person?</h1>
+  <input type="text" id = "doorAnswer" size = "45" width = "150"><br>
+  <button onclick = "enterName()" id = "nameEnter">Enter Name</button>
+  <button onclick = "leavePopup()" id = "leavePopup">Exit</button>
 </div>
+<div id = "winPopup">
+  <h1>You Won!</h1><br>
+  <button onclick="restartWithSameParameters()">Play Again</button>
+  <button onclick="location.reload()">Change Parameters</button>
+</div>
+<div id = "pause">
+  <h1>Paused</h1><br>
+  <button onclick="resume()">Resume</button>
+  <button onclick="restartWithSameParameters()">Restart</button>
+  <button onclick="location.reload()">Change Parameters</button>
+</div>
+
 
 <img src = "Main/SpriteSheet50MF.png" class = "sprite" id = "IWallObject">
 <img src = "Main/SpriteSheet50MF.png" class = "sprite" id = "IWinSpaceObject">

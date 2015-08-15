@@ -30,7 +30,7 @@ module Presenter
         public constructor(model:IModel)
         {
             model.registerObserver(this);
-            this.presenter = new AbstractPresenter(model,new MapView(this,15,15));
+            this.presenter = new AbstractPresenter(model,new MapView(this,11,11));
         }
 
         //Exactly the same as the Abstract Presenter

@@ -1,0 +1,10 @@
+@import "not-small.scss";
+@import "not-large.scss";
+
+// ---------------------------------------------------------
+// Changes for medium screen
+// ---------------------------------------------------------
+
+@media only screen and (min-width: $small-breakpoint) and (max-width: $medium-breakpoint){
+
+}

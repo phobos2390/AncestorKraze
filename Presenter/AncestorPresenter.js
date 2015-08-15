@@ -18,7 +18,7 @@ var Presenter;
     var AncestorPresenter = (function () {
         function AncestorPresenter(model, factory) {
             model.registerObserver(this);
-            this.presenter = new AbstractPresenter(model, new AncestorMapView(this, 15, 15));
+            this.presenter = new AbstractPresenter(model, new AncestorMapView(this, 11, 11));
             this.pickedUpKeys = [];
             this.justEnteredName = false;
             this.goingThroughDoor = false;
@@ -31,16 +31,7 @@ var Presenter;
             //Responds to the attempted to get in a door event
             if (model.attemptedToGetInADoor()) {
                 if (model.doorRequirement().playerFulfillsRequirement(model.getPlayer())) {
-                    //Popup closed
-                    var popup = document.getElementById("imagePopup");
-                    popup.style.visibility = "hidden";
-                    //Canvas shown
-                    var canvas = document.getElementById("canvas-container");
-                    canvas.style.visibility = "visible";
-                    //sets the portrait photo to the loading gif (to give the photo time to load)
-                    var elementID = "Loading";
-                    var ancestorPicture = document.getElementById(elementID);
-                    document.getElementById("ancestorPicture").setAttribute("src", ancestorPicture.getAttribute("src"));
+                    this.leavePopup();
                 }
                 else if (this.justEnteredName) {
                     //called if the name of the ancestor is entered
@@ -49,21 +40,10 @@ var Presenter;
                     model.getPlayer().addKey(key);
                 }
                 else {
-                    //Called at the very beginning when the player attempts to enter a door
-                    var popup = document.getElementById("imagePopup");
-                    //Finds the Ancestor Picture and sets the popup image to that image
                     var elementID = model.doorRequirement().toString().replace(/ /g, '');
                     var ancestorPicture = document.getElementById(elementID);
                     document.getElementById("ancestorPicture").setAttribute("src", ancestorPicture.getAttribute("src"));
-                    document.getElementById("doorAnswer").value = "";
-                    //popup set to visible
-                    popup.style.visibility = "visible";
-                    //canvas made invisible
-                    var canvas = document.getElementById("canvas-container");
-                    canvas.style.visibility = "hidden";
-                    //Sets the state flags
-                    this.goingThroughDoor = true;
-                    this.justEnteredName = false;
+                    this.enterPopup();
                 }
             }
             //Responds to the event of the player picking up a key
@@ -91,19 +71,42 @@ var Presenter;
             var ancestorPicture = document.getElementById(elementID);
             document.getElementById("ancestorPicture").setAttribute("src", ancestorPicture.getAttribute("src"));
             this.goingThroughDoor = false;
+            document.getElementById("header").style.visibility = "visible";
+            document.getElementById("subMenu").style.visibility = "visible";
             //reexecutes the move that had the player attempt to get through the door
             this.executeMove(this.getLastMove());
         };
         //Called if the player doesn't have the name
         AncestorPresenter.prototype.leavePopup = function () {
+            //Popup closed
             var popup = document.getElementById("imagePopup");
             popup.style.visibility = "hidden";
+            //Canvas shown
             var canvas = document.getElementById("canvas-container");
             canvas.style.visibility = "visible";
-            this.goingThroughDoor = false;
+            //sets the portrait photo to the loading gif (to give the photo time to load)
             var elementID = "Loading";
             var ancestorPicture = document.getElementById(elementID);
             document.getElementById("ancestorPicture").setAttribute("src", ancestorPicture.getAttribute("src"));
+            this.goingThroughDoor = false;
+            document.getElementById("header").style.visibility = "visible";
+            document.getElementById("subMenu").style.visibility = "visible";
+        };
+        AncestorPresenter.prototype.enterPopup = function () {
+            //Called at the very beginning when the player attempts to enter a door
+            var popup = document.getElementById("imagePopup");
+            //Finds the Ancestor Picture and sets the popup image to that image
+            document.getElementById("doorAnswer").value = "";
+            //popup set to visible
+            popup.style.visibility = "visible";
+            //canvas made invisible
+            var canvas = document.getElementById("canvas-container");
+            canvas.style.visibility = "hidden";
+            //Sets the state flags
+            this.goingThroughDoor = true;
+            this.justEnteredName = false;
+            document.getElementById("header").style.visibility = "hidden";
+            document.getElementById("subMenu").style.visibility = "hidden";
         };
         AncestorPresenter.prototype.getLastMove = function () {
             return this.presenter.getLastMove();

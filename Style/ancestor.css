@@ -1,0 +1,125 @@
+img[class=sprite]
+{
+  display:none;
+  height:50px;
+  width:50px;
+}
+img[class=popupImage]
+{
+  display:none;
+  left:0px;
+  top:0px;
+}
+textarea
+{
+  resize:none;
+}
+#IWallObject
+{
+  left:0px;
+  top:0px;
+}
+#mup
+{
+  left:1px;
+  top:0px;
+}
+#mdown,#mnone
+{
+  left:2px;
+  top:0px;
+}
+#mright
+{
+  left:0px;
+  top:1px;
+}
+#mleft
+{
+  left:1px;
+  top:1px;
+}
+#fup
+{
+  left:0px;
+  top:2px;
+}
+#fdown,#fnone
+{
+  left:1px;
+  top:2px;
+}
+#fright
+{
+  left:0px;
+  top:3px;
+}
+#fleft
+{
+  left:1px;
+  top:3px;
+}
+#BlankSpace,#IWinSpaceObject
+{
+  left:3px;
+  top:0px;
+}
+#IKey
+{
+  left:2px;
+  top:1px;
+}
+#IDoor
+{
+  left:3px;
+  top:2px;
+}
+#OutOfMaze
+{
+  left:2px;
+  top:2px;
+}
+#MazeMist
+{
+  left:3px;
+  top:1px;
+}
+#imagePopup
+{
+  background-color: white;
+  visibility:hidden;
+  z-index: 10;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 500px;
+}
+#canvas-container
+{
+  text-align: center;
+  position: relative;
+  z-index: 0;
+  display:inherit;
+}
+#ancestorPicture
+{
+  height: 500px;
+  width: 500px;
+}
+#viewScreen
+{
+  display:none;
+}
+#messages
+{
+  visibility:hidden;
+}
+#winPopup,#pause
+{
+  position:absolute;
+  z-index:11;
+  top: 200px;
+  left: 500px;
+  visibility:hidden;
+}
