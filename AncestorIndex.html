@@ -86,7 +86,8 @@
             {
               $("#nameEnter").click();
             }
-            else if(key.keyCode == 27)
+            else if(key.keyCode == 27
+              &&window.getComputedStyle(document.getElementById("imagePopup")).visibility.valueOf() === "hidden".valueOf())
             {
               pause();
             }
@@ -178,7 +179,6 @@
   <button onclick="location.reload()">Change Parameters</button>
 </div>
 
-
 <img src = "Main/SpriteSheet50MF.png" class = "sprite" id = "IWallObject">
 <img src = "Main/SpriteSheet50MF.png" class = "sprite" id = "IWinSpaceObject">
 <img src = "Main/SpriteSheet50MF.png" class = "sprite" id = "BlankSpace">
@@ -195,6 +195,7 @@
 <img src = "Main/SpriteSheet50MF.png" class = "sprite" id = "mright">
 <img src = "Main/SpriteSheet50MF.png" class = "sprite" id = "MazeMist">
 <img src = "Main/SpriteSheet50MF.png" class = "sprite" id = "OutOfMaze">
+
 <img src = "Main/JosephSmith.jpg" class = "popupImage" id = "JosephSmith">
 <img src = "Main/OliverCowdery.jpg" class = "popupImage" id = "OliverCowdery">
 <img src = "Main/brighamyoung_large.jpg" class = "popupImage" id = "BrighamYoung">

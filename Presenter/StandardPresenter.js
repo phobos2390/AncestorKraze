@@ -19,7 +19,7 @@ var Presenter;
     var StandardPresenter = (function () {
         function StandardPresenter(model) {
             model.registerObserver(this);
-            this.presenter = new AbstractPresenter(model, new MapView(this, 11, 11));
+            this.presenter = new AbstractPresenter(model, new MapView(this, 11, 29));
         }
         //Exactly the same as the Abstract Presenter
         StandardPresenter.prototype.update = function (model) {

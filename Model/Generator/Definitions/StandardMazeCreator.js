@@ -295,6 +295,24 @@ var Model;
                     }
                     return total / times;
                 };
+                //For the analytic html
+                StandardMazeCreator.prototype.getBelowANumber = function (height, width, max) {
+                    this.setSize(height, width);
+                    this.createGraph();
+                    var branches = height * width;
+                    var tries = 0;
+                    var currentLowest = height * width;
+                    while (branches > max) {
+                        var spanningTree = this.createRandomSpanningTree();
+                        branches = this.getTotalNumberOfBranches();
+                        if (branches < currentLowest) {
+                            currentLowest = branches;
+                            console.log("New lowest: " + branches + " at " + tries + " tries");
+                        }
+                        ++tries;
+                    }
+                    return tries;
+                };
                 StandardMazeCreator.prototype.createMaze = function (height, width) {
                     var builder = this.factory.createBuilder();
                     builder.setHeight(height).setWidth(width);
@@ -318,16 +336,7 @@ var Model;
                     builder = this.recCreateFromTree(spanningTree, builder);
                     //Only point of difference between the standard and the ancestor
                     this.initializeKeyList(builder);
-                    builder.setExit(this.factory.createSpace(height - 2, width - 1));
-                    var exitSpace = this.factory.createSpace(height - 2, width - 2);
-                    this.setIteratorToData(exitSpace);
-                    this.moveUpToStartOfBranch();
-                    var firstSpace = this.getIteratorData();
-                    this.markCurrentIterator();
-                    this.moveIteratorUp(1);
-                    var secondSpace = this.getIteratorData();
-                    builder.setSpaceBetweenTwoSpaces(firstSpace, secondSpace, builder.peek());
-                    builder.pop();
+                    this.setExit(builder);
                     var populator = new RandomizedPopulator(this, builder);
                     while (!builder.peek().objectIsOfType("BlankSpace") && this.getTotalNumberOfBranches() > 1) {
                         //goes down a random branch until it gets to a leaf.
@@ -337,6 +346,56 @@ var Model;
                     }
                     builder.setPlayer(this.factory.createSpace(1, 1), this.factory.createPlayer());
                     return builder.build();
+                };
+                StandardMazeCreator.prototype.setExit = function (builder) {
+                    var height = this.height;
+                    var width = this.width;
+                    var belowBranches = 1;
+                    var aboveBranches = 2;
+                    var edgeIndex = Math.floor(Math.random() * this.edges.length);
+                    var edge = this.edges[edgeIndex];
+                    var below = this.getNumberOfBranchesBelow(edge);
+                    var above = this.getNumberOfBranchesAboveNode(edge);
+                    while (below > belowBranches && above < aboveBranches) {
+                        edgeIndex = Math.floor(Math.random() * this.edges.length);
+                        edge = this.edges[edgeIndex];
+                        below = this.getNumberOfBranchesBelow(edge);
+                        above = this.getNumberOfBranchesAboveNode(edge);
+                    }
+                    if (edge.getX() == height - 2) {
+                        if (edge.getY() == width - 2) {
+                            builder.setExit(this.factory.createSpace(height - 2, width - 1));
+                        }
+                        else {
+                            builder.setExit(this.factory.createSpace(edge.getX() + 1, edge.getY()));
+                        }
+                    }
+                    else if (edge.getY() == width - 2) {
+                        builder.setExit(this.factory.createSpace(edge.getX(), edge.getY() + 1));
+                    }
+                    else if (edge.getX() == 1) {
+                        builder.setExit(this.factory.createSpace(edge.getX() - 1, edge.getY()));
+                    }
+                    else if (edge.getY() == 1) {
+                        builder.setExit(this.factory.createSpace(edge.getX(), edge.getY() - 1));
+                    }
+                    else {
+                        console.log("WHAT? How did it get here?");
+                        console.log("Space is : (" + edge.getX() + ", " + edge.getY() + ")");
+                        console.log(height - 2 + " is the height of the maze");
+                        console.log(width - 2 + " is the width of the maze");
+                    }
+                    //builder.setExit(this.factory.createSpace(height - 2, width - 1));
+                    //var exitSpace = this.factory.createSpace(height - 2, width - 2);
+                    //this.setIteratorToData(exitSpace);
+                    this.setIteratorToData(edge);
+                    this.moveUpToStartOfBranch();
+                    var firstSpace = this.getIteratorData();
+                    this.markCurrentIterator();
+                    this.moveIteratorUp(1);
+                    var secondSpace = this.getIteratorData();
+                    builder.setSpaceBetweenTwoSpaces(firstSpace, secondSpace, builder.peek());
+                    builder.pop();
                 };
                 return StandardMazeCreator;
             })();

@@ -42,6 +42,27 @@
             var average = mazeCreator.getAverageNumberOfBranches(height, width, times);
             output.textContent += "Average number of branches for size " + height + "x" + width + ": " + average + "\n";
         };
+        var testTries = function()
+        {
+          var StandardFactory = Model.Definitions.Standard.StandardFactory;
+          var StandardMazeCreator = Model.Generator.Definitions.StandardMazeCreator;
+          var factory = new StandardFactory();
+          var mazeCreator = new StandardMazeCreator(factory,0);
+          var height = parseInt(document.getElementById("height").value);
+          var width = parseInt(document.getElementById("width").value);
+          var branches = parseInt(document.getElementById("max").value);
+          var times = parseInt(document.getElementById("times").value);
+          var output = document.getElementById("output");
+          var total = 0;
+          for(var i = 0; i < times; i++)
+          {
+              var tries = mazeCreator.getBelowANumber(height, width, branches);
+              //output.textContent += "Attempts before getting below " + branches + " for maze of size " + height + "x" + width + ": " + tries + "\n";
+              output.textContent += (i + 1) + ": " + tries + "\n";
+              total += tries;
+          }
+          output.textContent += "Average times: " + total/times + "\nPercent Below " + branches + ": " + times/total*100 + "%\n";
+        };
     </script>
 </head>
 <body>
@@ -55,7 +76,11 @@
     Times
     <input type = "text" id = "times">
     <br>
+    Max Branches
+    <input type = "text" id = "max">
+    <br>
     <input type = "button" id = "testButton" onclick="test()" value="Test">
+    <input type = "button" id = "minBranches" onclick="testTries()" value="Try to get Below a value">
     <br>
     Output
     <br>

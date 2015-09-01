@@ -18,7 +18,7 @@ var Presenter;
     var AncestorPresenter = (function () {
         function AncestorPresenter(model, factory) {
             model.registerObserver(this);
-            this.presenter = new AbstractPresenter(model, new AncestorMapView(this, 11, 11));
+            this.presenter = new AbstractPresenter(model, new AncestorMapView(this, 11, 29));
             this.pickedUpKeys = [];
             this.justEnteredName = false;
             this.goingThroughDoor = false;

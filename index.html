@@ -90,9 +90,9 @@
             setDefiningValues(5,25,25);
             fsClient = new FamilySearch(
             {
-                app_key:/*"a0T3000000BrY8SEAV",//*/"NQ3Q-PBD8-LL9N-RCLZ-MZCZ-X7P8-7SMX-RD6N"/*"9WL6-9CT1-BS7P-9874-J9QQ-ZSQV-TB6Q-PS1G",//*/,
+                app_key:"NQ3Q-PBD8-LL9N-RCLZ-MZCZ-X7P8-7SMX-RD6N",//*/"9WL6-9CT1-BS7P-9874-J9QQ-ZSQV-TB6Q-PS1G",
                 environment:'production',
-                auth_callback:'http://localhost:8000/auth/login/return/'/*'http://virtual-pedigree.fhtl.byu.edu',//*/,
+                auth_callback:'http://localhost:8000/auth/login/return/',//*/'http://virtual-pedigree.fhtl.byu.edu',
                 http_function: $.ajax,
                 deferred_function: $.Deferred,
                 auto_signin: true,
@@ -249,7 +249,8 @@
             {
               $("#nameEnter").click();
             }
-            else if(key.keyCode == 27)
+            else if(key.keyCode == 27
+              &&window.getComputedStyle(document.getElementById("imagePopup")).visibility.valueOf() === "hidden".valueOf())
             {
               pause();
             }
@@ -346,7 +347,6 @@
   <button onclick="resume()">Resume</button>
   <button onclick="restartWithSameParameters()">Restart</button>
   <button onclick="location.reload()">Change Parameters</button>
-</div>
 
 <img src = "Main/SpriteSheet50MF.png" class = "sprite" id = "IWallObject">
 <img src = "Main/SpriteSheet50MF.png" class = "sprite" id = "IWinSpaceObject">

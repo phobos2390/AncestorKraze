@@ -13,3 +13,8 @@ var leavePopup = function()
 {
   client.leavePopup();
 };
+
+var addKey = function()
+{
+
+};

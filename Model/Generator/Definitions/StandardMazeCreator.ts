@@ -399,6 +399,28 @@ module Model.Generator.Definitions
             return total/times;
         }
 
+        //For the analytic html
+        public getBelowANumber(height:number, width:number, max:number):number
+        {
+            this.setSize(height,width);
+            this.createGraph();
+            var branches:number = height * width;
+            var tries:number = 0;
+            var currentLowest = height * width;
+            while(branches > max)
+            {
+                var spanningTree:Tree = this.createRandomSpanningTree();
+                branches = this.getTotalNumberOfBranches();
+                if(branches < currentLowest)
+                {
+                    currentLowest = branches;
+                    console.log("New lowest: " + branches + " at " + tries + " tries");
+                }
+                ++tries;
+            }
+            return tries;
+        }
+
         public createMaze(height:number,width:number):IModel
         {
             var builder:IModelBuilder = this.factory.createBuilder();
@@ -423,16 +445,7 @@ module Model.Generator.Definitions
             builder = this.recCreateFromTree(spanningTree,builder);
             //Only point of difference between the standard and the ancestor
             this.initializeKeyList(builder);
-            builder.setExit(this.factory.createSpace(height - 2, width - 1));
-            var exitSpace = this.factory.createSpace(height - 2, width - 2);
-            this.setIteratorToData(exitSpace);
-            this.moveUpToStartOfBranch();
-            var firstSpace:ISpace = this.getIteratorData();
-            this.markCurrentIterator();
-            this.moveIteratorUp(1);
-            var secondSpace:ISpace = this.getIteratorData();
-            builder.setSpaceBetweenTwoSpaces(firstSpace,secondSpace,builder.peek());
-            builder.pop();
+            this.setExit(builder);
             var populator:ITreeVisitor = new RandomizedPopulator(this,builder);
             while(!builder.peek().objectIsOfType("BlankSpace")
                   &&this.getTotalNumberOfBranches()>1)
@@ -444,6 +457,66 @@ module Model.Generator.Definitions
             }
             builder.setPlayer(this.factory.createSpace(1,1),this.factory.createPlayer());
             return builder.build();
+        }
+
+        private setExit(builder:IModelBuilder):void
+        {
+            var height = this.height;
+            var width = this.width;
+            var belowBranches:number = 1;
+            var aboveBranches:number = 2;
+            var edgeIndex:number = Math.floor(Math.random() * this.edges.length);
+            var edge:ISpace = this.edges[edgeIndex];
+            var below:number = this.getNumberOfBranchesBelow(edge);
+            var above:number = this.getNumberOfBranchesAboveNode(edge);
+            while(below > belowBranches && above < aboveBranches)
+            {
+                edgeIndex = Math.floor(Math.random() * this.edges.length);
+                edge = this.edges[edgeIndex];
+                below = this.getNumberOfBranchesBelow(edge);
+                above = this.getNumberOfBranchesAboveNode(edge);
+            }
+            if(edge.getX() == height - 2)
+            {
+                if(edge.getY() == width - 2)
+                {
+                    builder.setExit(this.factory.createSpace(height - 2, width - 1));
+                }
+                else
+                {
+                    builder.setExit(this.factory.createSpace(edge.getX() + 1, edge.getY()));
+                }
+            }
+            else if(edge.getY() == width - 2)
+            {
+                builder.setExit(this.factory.createSpace(edge.getX(),edge.getY() + 1));
+            }
+            else if(edge.getX() == 1)
+            {
+                builder.setExit(this.factory.createSpace(edge.getX() - 1,edge.getY()));
+            }
+            else if(edge.getY() == 1)
+            {
+                builder.setExit(this.factory.createSpace(edge.getX(),edge.getY() - 1));
+            }
+            else
+            {
+                console.log("WHAT? How did it get here?");
+                console.log("Space is : (" + edge.getX() + ", " + edge.getY() + ")");
+                console.log(height - 2 + " is the height of the maze");
+                console.log(width - 2 + " is the width of the maze");
+            }
+            //builder.setExit(this.factory.createSpace(height - 2, width - 1));
+            //var exitSpace = this.factory.createSpace(height - 2, width - 2);
+            //this.setIteratorToData(exitSpace);
+            this.setIteratorToData(edge);
+            this.moveUpToStartOfBranch();
+            var firstSpace:ISpace = this.getIteratorData();
+            this.markCurrentIterator();
+            this.moveIteratorUp(1);
+            var secondSpace:ISpace = this.getIteratorData();
+            builder.setSpaceBetweenTwoSpaces(firstSpace,secondSpace,builder.peek());
+            builder.pop();
         }
     }
 }
