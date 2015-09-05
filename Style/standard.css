@@ -4,96 +4,86 @@ img[class=sprite]
   height:50px;
   width:50px;
 }
-#IWallObject,#Door17
-{
-  left:0px;
-  top:0px;
-}
 textarea
 {
   resize:none;
 }
-#mup,#fup
+#IWallObject,#Door17,#Door20,#Door36,#Door52
+{
+  left:0px;
+  top:0px;
+}
+#mup,#fup,#Door21,#Door37,#Door53
 {
   left:1px;
   top:0px;
 }
-#mdown,#fdown,#mnone,#fnone
+#mdown,#fdown,#mnone,#fnone,#Door22,#Door38,#Door54
 {
   left:2px;
   top:0px;
 }
-#mright,#fright
-{
-  left:0px;
-  top:1px;
-}
-#mleft,#fleft
-{
-  left:1px;
-  top:1px;
-}
-#BlankSpace,#IWinSpaceObject,#Door18
+#BlankSpace,#IWinSpaceObject,#Door18,#Door23,#Door39,#Door55
 {
   left:3px;
   top:0px;
 }
-#OutOfMaze
+#mright,#fright,#Door24,#Door40,#Door56
 {
-  left:3px;
-  top:2px;
-}
-#MazeMist
-{
-  left:3px;
+  left:0px;
   top:1px;
 }
-#IKey,#Door19
+#mleft,#fleft,#Door25,#Door41,#Door57
+{
+  left:1px;
+  top:1px;
+}
+#IKey,#Door19,#Door26,#Door42,#Door58
 {
   left:2px;
   top:1px;
 }
-#Door1
+#MazeMist,#Door1,#Door27,#Door43,#Door59
 {
   left:3px;
   top:1px;
 }
-#Door2,#Door11
+#Door2,#Door11,#Door28,#Door44,#Door60
 {
   left:0px;
   top:2px;
 }
-#Door3,#Door12
+#Door3,#Door12,#Door29,#Door45,#Door61
 {
   left:1px;
   top:2px;
 }
-#Door4,#Door13
+#Door4,#Door13,#Door30,#Door46,#Door62
 {
   left:2px;
   top:2px;
 }
-#Door5
+#OutOfMaze,#Door5,#Door31,#Door47,#Door63
 {
   left:3px;
   top:2px;
 }
-#Door6,#Door14
+#Door6,#Door14,#Door32,#Door48,#Door64
 {
   left:0px;
   top:3px;
 }
-#Door7,#Door15
+#Door7,#Door15,#Door33,#Door49,#Door65
 {
   left:1px;
   top:3px;
 }
-#Door8,#Door16
+#Door8,#Door16,#Door34,#Door50,#Door66
 {
   left:2px;
   top:3px;
 }
-#Door9,#Door10
+#Door9,#Door10,#Door35,#Door51,#Door67
 {
   left:3px;
   top:3px;

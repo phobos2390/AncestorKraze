@@ -71,50 +71,47 @@
         });
         $(document).keydown(function(key)
         {
-          if(started)
-          {
-            switch(key.keyCode)
+            if(started)
             {
-              case 37:
-              case 39:
-              case 38:
-              case 40: // Arrow keys
-                key.preventDefault(); break; // Space
-              default: break; // do not block other keys
+                switch(key.keyCode)
+                {
+                    case 37:
+                    case 39:
+                    case 38:
+                    case 40: // Arrow keys
+                      key.preventDefault(); break; // Space
+                    default: break; // do not block other keys
+                }
+                if(key.keyCode == 13)
+                {
+                  $("#nameEnter").click();
+                }
+                else if(key.keyCode == 27
+                  &&elementVisibilityHasAttribute("imagePopup","hidden"))
+                {
+                    pause();
+                }
+                else
+                {
+                    client.onKeyDown(key);
+                }
             }
-            if(key.keyCode == 13)
-            {
-              $("#nameEnter").click();
-            }
-            else if(key.keyCode == 27
-              &&window.getComputedStyle(document.getElementById("imagePopup")).visibility.valueOf() === "hidden".valueOf())
-            {
-              pause();
-            }
-            else
-            {
-              client.onKeyDown(key);
-            }
-          }
         });
         var startGame = function()
         {
-          if(!started)
-          {
-            started = true;
-            client = Main.KrazeClient.create("ancestor", getHeight(), getWidth());
-            var gender = document.querySelector('input[name="gender"]:checked');
-            client.setGender(gender.value);
-            document.getElementById("genderSelector").style.display = 'none';
+            if(!started)
+            {
+                started = true;
+                client = Main.KrazeClient.create("ancestor", getHeight(), getWidth());
+                var gender = document.querySelector('input[name="gender"]:checked');
+                client.setGender(gender.value);
+                document.getElementById("genderSelector").style.display = 'none';
 //            var viewScreen = document.getElementById("canvas-container");
 //            viewScreen.style.visibility = "visible";
-            var viewScreen = document.getElementById("viewScreen");
-            viewScreen.style.display = "inline";
-            var container = document.getElementById("canvas-container");
-            container.style.display = "visible";
-            var message = document.getElementById("messages");
-            message.style.visibility = "visible";
-          }
+                setElementDisplay("viewScreen","inline");
+                setElementDisplay("canvas-container","visible");
+                setElementVisibility("messages","visible");
+            }
         };
     </script>
 </head>

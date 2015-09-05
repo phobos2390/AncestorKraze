@@ -49,9 +49,9 @@ module Presenter
         {
             if(model.won())
             {
-                document.getElementById("canvas-container").style.visibility = "hidden";
-                document.getElementById("messages").style.visibility = "hidden";
-                document.getElementById("winPopup").style.visibility = "visible";
+                setElementVisibility("canvas-container","hidden");
+                setElementVisibility("messages","hidden");
+                setElementVisibility("winPopup","visible");
             }
         }
 

@@ -83,7 +83,7 @@ module Main
                 this.factory = new StandardFactory();
                 //The creator is what's used mainly to generate the maze
                 //It requires an already set factory and the number of key/door pairs
-                var creator:IMazeCreator = new StandardMazeCreator(this.factory,19);
+                var creator:IMazeCreator = new StandardMazeCreator(this.factory,67);
                 //Creating the model recquires the dimensions of the maze to be created
                 //The method is explained in the included pictures
                 this.model = creator.createMaze(mazeHeight, mazeWidth);

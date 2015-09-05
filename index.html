@@ -250,7 +250,7 @@
               $("#nameEnter").click();
             }
             else if(key.keyCode == 27
-              &&window.getComputedStyle(document.getElementById("imagePopup")).visibility.valueOf() === "hidden".valueOf())
+              &&elementVisibilityHasAttribute("imagePopup","hidden"))
             {
               pause();
             }
@@ -269,13 +269,10 @@
                 logElement.value = "Done!";
                 client = Main.KrazeClient.create("ancestor",getHeight(),getWidth());
                 client.setGender(gender);
-                var loginButton = document.getElementById("differentVersions");
-                loginButton.style.display = "none";
-                var viewScreen = document.getElementById("viewScreen");
-                viewScreen.style.display = "inline";
-                var container = document.getElementById("canvas-container");
-                container.style.visibility= "visible";
-                document.getElementById("messages").style.visibility = "visible";
+                setElementDisplay("differentVersions","none");
+                setElementDisplay("viewScreen","inline");
+                setElementVisibility("canvas-container","visible");
+                setElementVisibility("messages","visible");
                 logElement.value = "";
             }
         };

@@ -12,21 +12,32 @@ var restartWithSameParameters = function()
   startGame();
   resume();
 };
+var setElementVisibility = function(element,value)
+{
+    document.getElementById(element).style.visibility = value;
+};
+var setElementDisplay = function(element,value)
+{
+  document.getElementById(element).style.display = value;
+};
+var elementVisibilityHasAttribute = function(element,value)
+{
+    return window.getComputedStyle(document.getElementById(element)).visibility.valueOf() === value.valueOf();
+};
 var pause = function()
 {
-
-    if(window.getComputedStyle(document.getElementById("winPopup")).visibility.valueOf() === "hidden".valueOf())
+    if(elementVisibilityHasAttribute("winPopup","hidden"));
     {
-        document.getElementById("canvas-container").style.visibility = "hidden";
-        document.getElementById("messages").style.visibility = "hidden";
-        document.getElementById("pause").style.visibility = "visible";
+        setElementVisibility("canvas-container","hidden");
+        setElementVisibility("messages","hidden");
+        setElementVisibility("pause","visible");
     }
 };
 var resume = function()
 {
-    document.getElementById("canvas-container").style.visibility = "visible";
-    document.getElementById("messages").style.visibility = "visible";
-    document.getElementById("pause").style.visibility = "hidden";
+    setElementVisibility("canvas-container","visible");
+    setElementVisibility("messages","visible");
+    setElementVisibility("pause","hidden");
 };
 var setSizeValues = function(heightVal,widthVal)
 {

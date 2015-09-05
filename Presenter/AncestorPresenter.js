@@ -41,8 +41,7 @@ var Presenter;
                 }
                 else {
                     var elementID = model.doorRequirement().toString().replace(/ /g, '');
-                    var ancestorPicture = document.getElementById(elementID);
-                    document.getElementById("ancestorPicture").setAttribute("src", ancestorPicture.getAttribute("src"));
+                    this.setImageSource(elementID, "ancestorPicture");
                     this.enterPopup();
                 }
             }
@@ -56,57 +55,50 @@ var Presenter;
             this.presenter.checkWon(model);
             this.presenter.checkRedraw(model);
         };
+        AncestorPresenter.prototype.setImageSource = function (imageSource, imageDestination) {
+            document.getElementById(imageDestination).setAttribute("src", document.getElementById(imageSource).getAttribute("src"));
+        };
         //Name entered by the player. Called by the KrazeClient.
         AncestorPresenter.prototype.enterName = function (name) {
             this.lastEnteredName = name;
             this.justEnteredName = true;
             // popup hidden
-            var popup = document.getElementById("imagePopup");
-            popup.style.visibility = "hidden";
+            setElementVisibility("imagePopup", "hidden");
             // canvas shown
-            var canvas = document.getElementById("canvas-container");
-            canvas.style.visibility = "visible";
+            setElementVisibility("canvas-container", "visible");
             //sets the ancestor picture to the loading gif
-            var elementID = "Loading";
-            var ancestorPicture = document.getElementById(elementID);
-            document.getElementById("ancestorPicture").setAttribute("src", ancestorPicture.getAttribute("src"));
+            this.setImageSource("Loading", "ancestorPicture");
             this.goingThroughDoor = false;
-            document.getElementById("header").style.visibility = "visible";
-            document.getElementById("subMenu").style.visibility = "visible";
+            setElementVisibility("header", "visible");
+            setElementVisibility("subMenu", "visible");
             //reexecutes the move that had the player attempt to get through the door
             this.executeMove(this.getLastMove());
         };
         //Called if the player doesn't have the name
         AncestorPresenter.prototype.leavePopup = function () {
             //Popup closed
-            var popup = document.getElementById("imagePopup");
-            popup.style.visibility = "hidden";
+            setElementVisibility("imagePopup", "hidden");
             //Canvas shown
-            var canvas = document.getElementById("canvas-container");
-            canvas.style.visibility = "visible";
+            setElementVisibility("canvas-container", "visible");
             //sets the portrait photo to the loading gif (to give the photo time to load)
-            var elementID = "Loading";
-            var ancestorPicture = document.getElementById(elementID);
-            document.getElementById("ancestorPicture").setAttribute("src", ancestorPicture.getAttribute("src"));
+            this.setImageSource("Loading", "ancestorPicture");
             this.goingThroughDoor = false;
-            document.getElementById("header").style.visibility = "visible";
-            document.getElementById("subMenu").style.visibility = "visible";
+            setElementVisibility("header", "visible");
+            setElementVisibility("subMenu", "visible");
         };
         AncestorPresenter.prototype.enterPopup = function () {
-            //Called at the very beginning when the player attempts to enter a door
-            var popup = document.getElementById("imagePopup");
             //Finds the Ancestor Picture and sets the popup image to that image
             document.getElementById("doorAnswer").value = "";
+            //Called at the very beginning when the player attempts to enter a door
             //popup set to visible
-            popup.style.visibility = "visible";
+            setElementVisibility("imagePopup", "visible");
+            setElementVisibility("canvas-container", "hidden");
             //canvas made invisible
-            var canvas = document.getElementById("canvas-container");
-            canvas.style.visibility = "hidden";
             //Sets the state flags
             this.goingThroughDoor = true;
             this.justEnteredName = false;
-            document.getElementById("header").style.visibility = "hidden";
-            document.getElementById("subMenu").style.visibility = "hidden";
+            setElementVisibility("header", "hidden");
+            setElementVisibility("subMenu", "hidden");
         };
         AncestorPresenter.prototype.getLastMove = function () {
             return this.presenter.getLastMove();
