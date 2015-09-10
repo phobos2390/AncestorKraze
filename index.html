@@ -273,7 +273,18 @@
                 setElementDisplay("viewScreen","inline");
                 setElementVisibility("canvas-container","visible");
                 setElementVisibility("messages","visible");
-                logElement.value = "";
+                if(numberOfPeopleWithPictures == 0)
+                {
+                    logElement.value = "Did not load any ancestors. This can be due to there not being enough " +
+                    "information or it could be due to latency from the face check. Pressing ESC and restarting " +
+                    "will help with the latency problem. In the other case, adding more ancestor information into " +
+                    "your familysearch account will fix it. In the meantime, check out the version with Mormon " +
+                    "Historical Figures.";
+                }
+                else
+                {
+                    logElement.value = "";
+                }
             }
         };
     </script>
@@ -305,7 +316,7 @@
 <div id = "differentVersions">
     <!--<h1>Family History Kraze!</h1>-->
     Move around a maze with keys and doors. Find the keys to unlock the doors. Unlock the doors to win.<br>
-    Use either w,a,s,d (u,l,d,r) or the arrow keys to move around.<br><br>
+    Use either w,a,s,d (u,l,d,r) or the arrow keys to move around. Press ESC to pause.<br><br>
     <img src = "Main/Keys.png"><br><br>
     <button onclick="login()" id = "logInButton">Log In with FamilySearch</button><br><br>
     Don't have a FamilySearch account?<br>
