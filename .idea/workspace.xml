@@ -24,11 +24,21 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
+      <file leaf-file-name="index.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-13.75" vertical-offset="4440" max-vertical-offset="5760">
-              <caret line="318" column="86" selection-start-line="318" selection-start-column="86" selection-end-line="318" selection-end-column="86" />
+            <state vertical-scroll-proportion="0.5185811" vertical-offset="4028" max-vertical-offset="5925">
+              <caret line="289" column="17" selection-start-line="289" selection-start-column="17" selection-end-line="289" selection-end-column="17" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ancestor.css" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Style/ancestor.css">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="1379" max-vertical-offset="1995">
+              <caret line="97" column="1" selection-start-line="97" selection-start-column="1" selection-end-line="97" selection-end-column="1" />
               <folding />
             </state>
           </provider>
@@ -44,11 +54,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="StandardMazeCreator.ts" pinned="false" current-in-tab="true">
+      <file leaf-file-name="StandardMazeCreator.ts" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Model/Generator/Definitions/StandardMazeCreator.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.4642857" vertical-offset="6927" max-vertical-offset="7920">
-              <caret line="480" column="44" selection-start-line="480" selection-start-column="44" selection-end-line="480" selection-end-column="44" />
+            <state vertical-scroll-proportion="-10.285714" vertical-offset="6927" max-vertical-offset="7920">
+              <caret line="481" column="17" selection-start-line="481" selection-start-column="17" selection-end-line="481" selection-end-column="17" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
               </folding>
@@ -90,18 +100,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="htmlView.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/View/htmlView.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="240" max-vertical-offset="1020">
-              <caret line="18" column="21" selection-start-line="18" selection-start-column="4" selection-end-line="18" selection-end-column="21" />
-              <folding>
-                <element signature="e#0#44#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="Canvas.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Canvas.html">
           <provider selected="true" editor-type-id="text-editor">
@@ -125,8 +123,8 @@
       <file leaf-file-name="standard.css" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Style/standard.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="765" max-vertical-offset="1950">
-              <caret line="85" column="38" selection-start-line="85" selection-start-column="38" selection-end-line="85" selection-end-column="38" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="1154" max-vertical-offset="1950">
+              <caret line="105" column="0" selection-start-line="105" selection-start-column="0" selection-end-line="105" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -176,7 +174,6 @@
         <option value="$PROJECT_DIR$/TestMazeGenerator.html" />
         <option value="$PROJECT_DIR$/Presenter/StandardPresenter.ts" />
         <option value="$PROJECT_DIR$/View/AncestorMapView.ts" />
-        <option value="$PROJECT_DIR$/Style/ancestor.css" />
         <option value="$PROJECT_DIR$/Presenter/AbstractPresenter.ts" />
         <option value="$PROJECT_DIR$/View/ancestorHtmlView.js" />
         <option value="$PROJECT_DIR$/Presenter/AncestorPresenter.ts" />
@@ -186,8 +183,9 @@
         <option value="$PROJECT_DIR$/Style/standard.css" />
         <option value="$PROJECT_DIR$/Main/KrazeClient.ts" />
         <option value="$PROJECT_DIR$/Main/KrazeClient.ts" />
-        <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/Model/Generator/Definitions/StandardMazeCreator.ts" />
+        <option value="$PROJECT_DIR$/Style/ancestor.css" />
+        <option value="$PROJECT_DIR$/index.html" />
       </list>
     </option>
   </component>
@@ -504,7 +502,7 @@
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.16442049" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3491903" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3491903" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
@@ -817,13 +815,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Style/ancestor.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1980">
-          <caret line="4" column="10" selection-start-line="4" selection-start-column="10" selection-end-line="4" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Presenter/StandardPresenter.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1035">
@@ -900,26 +891,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Style/standard.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="765" max-vertical-offset="1950">
-          <caret line="85" column="38" selection-start-line="85" selection-start-column="38" selection-end-line="85" selection-end-column="38" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Main/KrazeClient.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="779" max-vertical-offset="2640">
           <caret line="147" column="9" selection-start-line="147" selection-start-column="9" selection-end-line="147" selection-end-column="9" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-13.75" vertical-offset="4440" max-vertical-offset="5760">
-          <caret line="318" column="86" selection-start-line="318" selection-start-column="86" selection-end-line="318" selection-end-column="86" />
           <folding />
         </state>
       </provider>
@@ -942,11 +917,35 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Model/Generator/Definitions/StandardMazeCreator.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.4642857" vertical-offset="6927" max-vertical-offset="7920">
-          <caret line="480" column="44" selection-start-line="480" selection-start-column="44" selection-end-line="480" selection-end-column="44" />
+        <state vertical-scroll-proportion="-10.285714" vertical-offset="6927" max-vertical-offset="7920">
+          <caret line="481" column="17" selection-start-line="481" selection-start-column="17" selection-end-line="481" selection-end-column="17" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Style/standard.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1154" max-vertical-offset="1950">
+          <caret line="105" column="0" selection-start-line="105" selection-start-column="0" selection-end-line="105" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Style/ancestor.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1379" max-vertical-offset="1995">
+          <caret line="97" column="1" selection-start-line="97" selection-start-column="1" selection-end-line="97" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.5185811" vertical-offset="4028" max-vertical-offset="5925">
+          <caret line="289" column="17" selection-start-line="289" selection-start-column="17" selection-end-line="289" selection-end-column="17" />
+          <folding />
         </state>
       </provider>
     </entry>

@@ -138,19 +138,32 @@
                 var image = document.createElement("img");
                 image.className = "popupImage";
                 image.crossOrigin = "https://familysearch.org/";
-                var nameText = person.$getGivenName() + person.$getSurname();
+                var nameText = person.$getGivenName() + " " + person.$getSurname();
                 if(maxLength < nameText.length)
                 {
                     maxLength = nameText.length;
                 }
                 var id = "";
+                var lastWasSpace = true;
                 for(var j = 0; j < nameText.length; j++)
                 {
                     var upperCase = "A" <= nameText[j] && nameText[j] <= "Z";
                     var lowerCase = "a" <= nameText[j] && nameText[j] <= "z";
-                    if(upperCase || lowerCase)
+                    if(upperCase && !lastWasSpace)
                     {
-                        id += nameText[j];
+                        id +=  nameText[j].toLowerCase();
+                    }
+                    else if(upperCase || lowerCase)
+                    {
+                      id += nameText[j];
+                    }
+                    if(nameText[j] == " ")
+                    {
+                        lastWasSpace = true;
+                    }
+                    else
+                    {
+                        lastWasSpace = false;
                     }
                 }
                 image.id = id;
@@ -276,10 +289,8 @@
                 if(numberOfPeopleWithPictures == 0)
                 {
                     logElement.value = "Did not load any ancestors. This can be due to there not being enough " +
-                    "information or it could be due to latency from the face check. Pressing ESC and restarting " +
-                    "will help with the latency problem. In the other case, adding more ancestor information into " +
-                    "your familysearch account will fix it. In the meantime, check out the version with Mormon " +
-                    "Historical Figures.";
+                    "information or it could be due to other problems. Try restarting by pressing ESC. In the " +
+                    "meantime, check out the version with Mormon Historical Figures.";
                 }
                 else
                 {
