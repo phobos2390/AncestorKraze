@@ -356,7 +356,7 @@ var Model;
                     var edge = this.edges[edgeIndex];
                     var below = this.getNumberOfBranchesBelow(edge);
                     var above = this.getNumberOfBranchesAboveNode(edge);
-                    while (below > belowBranches && above < aboveBranches) {
+                    while (below > belowBranches || above < aboveBranches) {
                         edgeIndex = Math.floor(Math.random() * this.edges.length);
                         edge = this.edges[edgeIndex];
                         below = this.getNumberOfBranchesBelow(edge);

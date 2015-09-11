@@ -469,7 +469,7 @@ module Model.Generator.Definitions
             var edge:ISpace = this.edges[edgeIndex];
             var below:number = this.getNumberOfBranchesBelow(edge);
             var above:number = this.getNumberOfBranchesAboveNode(edge);
-            while(below > belowBranches && above < aboveBranches)
+            while(below > belowBranches || above < aboveBranches)
             {
                 edgeIndex = Math.floor(Math.random() * this.edges.length);
                 edge = this.edges[edgeIndex];
