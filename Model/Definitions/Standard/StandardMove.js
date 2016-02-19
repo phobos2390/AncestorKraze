@@ -12,13 +12,14 @@ var Model;
                 function StandardMove(deltaX, deltaY) {
                     this.deltaX = deltaX;
                     this.deltaY = deltaY;
-                    this.directions = [
-                        "up",
-                        "left",
-                        "none",
-                        "right",
-                        "down"
-                    ];
+                    this.directions =
+                        [
+                            "up",
+                            "left",
+                            "none",
+                            "right",
+                            "down" //-1,0->-2 4
+                        ];
                     var arrIndexTransform = this.getDXY() + 2;
                     this.moveDirection = this.directions[arrIndexTransform];
                 }

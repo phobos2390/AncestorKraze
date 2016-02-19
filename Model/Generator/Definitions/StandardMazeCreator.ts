@@ -385,18 +385,83 @@ module Model.Generator.Definitions
         }
 
         //For the analytic html
-        public getAverageNumberOfBranches(height:number, width:number, times:number):number
+        public getAverageNumberOfBranches(height:number, width:number, times:number)
         {
             this.setSize(height,width);
             this.createGraph();
             var total:number = 0;
+            var branchesData:number[] = [];
             for(var i:number = 0; i < times; i++)
             {
                 var spanningTree:Tree = this.createRandomSpanningTree();
                 var branches:number = this.getTotalNumberOfBranches();
+                branchesData.push(branches);
                 total += branches;
             }
-            return total/times;
+            branchesData.sort(function(a,b){return a-b;});
+            var sdTotal:number = 0;
+            for(var i:number = 0; i < branchesData.length; i++)
+            {
+                var diff = branchesData[i] - total/times;
+                sdTotal += diff*diff;
+            }
+            var min:number = branchesData[0];
+            var q1:number = branchesData[Math.ceil(branchesData.length/4)];
+            var med:number = branchesData[Math.ceil(branchesData.length/2)];
+            var q3:number = branchesData[Math.ceil(branchesData.length * 3/4)];
+            var max:number = branchesData[branchesData.length - 1];
+            var returnArray = [];
+            returnArray.push(total/times);
+            returnArray.push(Math.sqrt(sdTotal/(branchesData.length - 1)));
+            returnArray.push(min);
+            returnArray.push(q1);
+            returnArray.push(med);
+            returnArray.push(q3);
+            returnArray.push(max);
+            console.log(branchesData);
+            console.log(returnArray);
+            //if(branches.length % 2 == 0)
+            //{
+            //    var medIndex = branches.length/2;
+            //    med = (branchesData[branchesData.length/2] + branchesData[branchesData.length/2 - 1])/2;
+            //    if(medIndex % 2 == 0)
+            //    {
+            //        q1 = (branchesData[medIndex/2] + branchesData[medIndex/2 - 1])/2;
+            //        q3 = (branchesData[medIndex/2 + medIndex] + branchesData[medIndex/2 + medIndex - 1])/2;
+            //    }
+            //    else
+            //    {
+            //        q1 = branchesData[Math.floor(medIndex/2)];
+            //        q3 = branchesData[Math.floor(medIndex/2) + medIndex];
+            //        //(branchesData[medIndex/2 + medIndex] + branchesData[medIndex/2 + medIndex - 1])/2;
+            //    }
+            //}
+            //else
+            //{
+            //    med = branchesData[Math.floor(branchesData.length/2)];
+            //    var medIndex = Math.floor(branches.length/2);
+            //    if(medIndex % 2 == 0)
+            //    {
+            //        q1 = (branchesData[medIndex/2] + branchesData[medIndex/2 - 1])/2;
+            //        q3 = (branchesData[medIndex * 3/2] + branchesData[medIndex * 3/2 + 1])/2;
+            //    }
+            //    else
+            //    {
+            //        q1 = branchesData[Math.floor(medIndex/2)];
+            //        q3 = branchesData[Math.floor(medIndex/2) + medIndex + 1];
+            //        //(branchesData[medIndex/2 + medIndex] + branchesData[medIndex/2 + medIndex - 1])/2;
+            //    }
+            //}
+            return returnArray;
+            //[
+            //    total/times,
+            //    Math.sqrt(sdTotal/(branchesData.length - 1)),
+            //    min,
+            //    q1,
+            //    med,
+            //    q3,
+            //    max
+            //];
         }
 
         //For the analytic html

@@ -19,7 +19,8 @@ var Model;
                     return "IKey";
                 };
                 AncestorName.prototype.objectIsOfType = function (type) {
-                    return type.valueOf() == this.name.valueOf() || type.valueOf() == this.getSpaceType().valueOf();
+                    return type.valueOf() == this.name.valueOf()
+                        || type.valueOf() == this.getSpaceType().valueOf();
                 };
                 AncestorName.prototype.toString = function () {
                     return this.name;

@@ -44,7 +44,8 @@ var Model;
                     this.currentIter.addChild(new Tree(data));
                 };
                 StandardMazeCreator.prototype.spacesAreEqual = function (space1, space2) {
-                    return space1.getX() == space2.getX() && space1.getY() == space2.getY();
+                    return space1.getX() == space2.getX()
+                        && space1.getY() == space2.getY();
                 };
                 StandardMazeCreator.prototype.setIteratorToData = function (data) {
                     this.currentIter = this.findData(this.rootTree, data);
@@ -88,7 +89,8 @@ var Model;
                 };
                 StandardMazeCreator.prototype.moveUpToStartOfBranch = function () {
                     var iterator = this.currentIter;
-                    while (iterator != null && iterator.getChildren().length - this.getNumberOfMarked(iterator.getChildren()) < 2) {
+                    while (iterator != null
+                        && iterator.getChildren().length - this.getNumberOfMarked(iterator.getChildren()) < 2) {
                         var space = this.currentIter.getData();
                         this.currentIter = iterator;
                         iterator = iterator.getParent();
@@ -196,6 +198,12 @@ var Model;
                         for (var j = 0; j < this.positions[i].length; j++) {
                             this.graph.addNode(this.positions[i][j]);
                             var current = this.positions[i][j];
+                            //loops twice. The spaces that it covers are as follows:
+                            // 1
+                            //1S2
+                            // 2
+                            //1-the first number in the loop
+                            //2-the second number in the loop
                             for (var k = 0; k < 2; k++) {
                                 //k = 0 -> change = -1
                                 //k = 1 -> change = 1
@@ -288,12 +296,76 @@ var Model;
                     this.setSize(height, width);
                     this.createGraph();
                     var total = 0;
+                    var branchesData = [];
                     for (var i = 0; i < times; i++) {
                         var spanningTree = this.createRandomSpanningTree();
                         var branches = this.getTotalNumberOfBranches();
+                        branchesData.push(branches);
                         total += branches;
                     }
-                    return total / times;
+                    branchesData.sort(function (a, b) { return a - b; });
+                    var sdTotal = 0;
+                    for (var i = 0; i < branchesData.length; i++) {
+                        var diff = branchesData[i] - total / times;
+                        sdTotal += diff * diff;
+                    }
+                    var min = branchesData[0];
+                    var q1 = branchesData[Math.ceil(branchesData.length / 4)];
+                    var med = branchesData[Math.ceil(branchesData.length / 2)];
+                    var q3 = branchesData[Math.ceil(branchesData.length * 3 / 4)];
+                    var max = branchesData[branchesData.length - 1];
+                    var returnArray = [];
+                    returnArray.push(total / times);
+                    returnArray.push(Math.sqrt(sdTotal / (branchesData.length - 1)));
+                    returnArray.push(min);
+                    returnArray.push(q1);
+                    returnArray.push(med);
+                    returnArray.push(q3);
+                    returnArray.push(max);
+                    console.log(branchesData);
+                    console.log(returnArray);
+                    //if(branches.length % 2 == 0)
+                    //{
+                    //    var medIndex = branches.length/2;
+                    //    med = (branchesData[branchesData.length/2] + branchesData[branchesData.length/2 - 1])/2;
+                    //    if(medIndex % 2 == 0)
+                    //    {
+                    //        q1 = (branchesData[medIndex/2] + branchesData[medIndex/2 - 1])/2;
+                    //        q3 = (branchesData[medIndex/2 + medIndex] + branchesData[medIndex/2 + medIndex - 1])/2;
+                    //    }
+                    //    else
+                    //    {
+                    //        q1 = branchesData[Math.floor(medIndex/2)];
+                    //        q3 = branchesData[Math.floor(medIndex/2) + medIndex];
+                    //        //(branchesData[medIndex/2 + medIndex] + branchesData[medIndex/2 + medIndex - 1])/2;
+                    //    }
+                    //}
+                    //else
+                    //{
+                    //    med = branchesData[Math.floor(branchesData.length/2)];
+                    //    var medIndex = Math.floor(branches.length/2);
+                    //    if(medIndex % 2 == 0)
+                    //    {
+                    //        q1 = (branchesData[medIndex/2] + branchesData[medIndex/2 - 1])/2;
+                    //        q3 = (branchesData[medIndex * 3/2] + branchesData[medIndex * 3/2 + 1])/2;
+                    //    }
+                    //    else
+                    //    {
+                    //        q1 = branchesData[Math.floor(medIndex/2)];
+                    //        q3 = branchesData[Math.floor(medIndex/2) + medIndex + 1];
+                    //        //(branchesData[medIndex/2 + medIndex] + branchesData[medIndex/2 + medIndex - 1])/2;
+                    //    }
+                    //}
+                    return returnArray;
+                    //[
+                    //    total/times,
+                    //    Math.sqrt(sdTotal/(branchesData.length - 1)),
+                    //    min,
+                    //    q1,
+                    //    med,
+                    //    q3,
+                    //    max
+                    //];
                 };
                 //For the analytic html
                 StandardMazeCreator.prototype.getBelowANumber = function (height, width, max) {
@@ -338,7 +410,8 @@ var Model;
                     this.initializeKeyList(builder);
                     this.setExit(builder);
                     var populator = new RandomizedPopulator(this, builder);
-                    while (!builder.peek().objectIsOfType("BlankSpace") && this.getTotalNumberOfBranches() > 1) {
+                    while (!builder.peek().objectIsOfType("BlankSpace")
+                        && this.getTotalNumberOfBranches() > 1) {
                         //goes down a random branch until it gets to a leaf.
                         //at that leaf it places a key
                         //it then moves the iterator up to the start of that branch

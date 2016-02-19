@@ -75,6 +75,7 @@
             {
                 switch(key.keyCode)
                 {
+                    case 27: //esc
                     case 37:
                     case 39:
                     case 38:
@@ -82,14 +83,21 @@
                       key.preventDefault(); break; // Space
                     default: break; // do not block other keys
                 }
-                if(key.keyCode == 13)
+                if (key.keyCode == 13
+                    &&elementVisibilityHasAttribute("imagePopup","visible")
+                    &&elementVisibilityHasAttribute("winPopup","hidden"))
                 {
-                  $("#nameEnter").click();
+                    $("#nameEnter").click();
                 }
                 else if(key.keyCode == 27
-                  &&elementVisibilityHasAttribute("imagePopup","hidden"))
+                    &&elementVisibilityHasAttribute("imagePopup","hidden")
+                    &&elementVisibilityHasAttribute("winPopup","hidden"))
                 {
                     pause();
+                }
+                else if(key.keyCode == 32)
+                {
+                    console.log("HitSpace");
                 }
                 else
                 {

@@ -24,7 +24,8 @@ var Model;
                     return "Door" + this.getRequirement().toString();
                 };
                 StandardDoor.prototype.objectIsOfType = function (type) {
-                    return type.valueOf() == this.doorString.valueOf() || type.valueOf() == this.getRequirement().toString().valueOf();
+                    return type.valueOf() == this.doorString.valueOf()
+                        || type.valueOf() == this.getRequirement().toString().valueOf();
                 };
                 return StandardDoor;
             })();

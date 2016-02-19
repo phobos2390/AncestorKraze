@@ -31,6 +31,7 @@ var Model;
                     }
                     var currentIndex = 0;
                     var current = this.nodes[currentIndex];
+                    //only if there is no marked nodes
                     while (marked.indexOf(false) != -1) {
                         //visits the the current node to put the node in the tree
                         //other times the node is visited, the iterator in the visitor
@@ -40,6 +41,7 @@ var Model;
                         var adjacent = this.dict[current];
                         var unmarkedNeighbors = [];
                         var markedNeighbors = [];
+                        //finds the adjacent nodes that haven't been visited
                         for (var i = 0; i < adjacent.length; i++) {
                             var node = adjacent[i];
                             var indexOfNode = this.nodes.indexOf(node);

@@ -12,6 +12,9 @@ var Model;
                 function StandardPlayer() {
                     this.keys = 0;
                 }
+                StandardPlayer.prototype.modKeys = function (newVal) {
+                    this.keys = newVal;
+                };
                 StandardPlayer.prototype.fulfillsRequirement = function (requirement) {
                     return requirement.playerFulfillsRequirement(this);
                 };

@@ -13,6 +13,11 @@ module Model.Definitions.Standard
             this.keys = 0;
         }
 
+        private modKeys(newVal:number)
+        {
+            this.keys = newVal;
+        }
+
         public fulfillsRequirement(requirement:IRequirement):boolean
         {
             return requirement.playerFulfillsRequirement(this);

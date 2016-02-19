@@ -1,2 +1,2 @@
-///<reference path="ISpaceObject.ts"/>
+I; ///<reference path="ISpaceObject.ts"/>
 //# sourceMappingURL=IKey.js.map

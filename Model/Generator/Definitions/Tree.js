@@ -50,6 +50,7 @@ var Model;
                 //Moves down the tree until it gets to a leaf node
                 Tree.prototype.recTraverse = function (visitor, depth) {
                     var unmarkedNeighbors = [];
+                    //finds all the unmarked neighbors
                     for (var i = 0; i < this.subTree.length; i++) {
                         if (!this.subTree[i].isMarked()) {
                             unmarkedNeighbors.push(this.subTree[i]);

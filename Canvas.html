@@ -59,29 +59,41 @@
         });
         $(document).keydown(function(key)
         {
-          if(started)
-          {
-            switch (key.keyCode)
+            if(started)
             {
-              case 27: // esc
-              case 37:
-              case 39:
-              case 38:
-              case 40: // Arrow keys
-                key.preventDefault();
-                break; // Space
-              default:
-                break; // do not block other keys
+                switch (key.keyCode)
+                {
+                    case 27: // esc
+                    case 37:
+                    case 39:
+                    case 38:
+                    case 40: // Arrow keys
+                      key.preventDefault();
+                      break; // Space
+                    default:
+                      break; // do not block other keys
+                }
+                if (key.keyCode == 13
+                    &&elementVisibilityHasAttribute("imagePopup","visible")
+                    &&elementVisibilityHasAttribute("winPopup","hidden"))
+                {
+                    $("#nameEnter").click();
+                }
+                else if(key.keyCode == 27
+                    &&elementVisibilityHasAttribute("imagePopup","hidden")
+                    &&elementVisibilityHasAttribute("winPopup","hidden"))
+                {
+                    pause();
+                }
+                else if(key.keyCode == 32)
+                {
+                   console.log("HitSpace");
+                }
+                else
+                {
+                    client.onKeyDown(key);
+                }
             }
-            if (key.keyCode == 27)
-            {
-              pause();
-            }
-            else
-            {
-              client.onKeyDown(key);
-            }
-          }
         });
         var startGame = function()
         {

@@ -39,8 +39,15 @@
             var width = parseInt(document.getElementById("width").value);
             var times = parseInt(document.getElementById("times").value);
             var output = document.getElementById("output");
-            var average = mazeCreator.getAverageNumberOfBranches(height, width, times);
-            output.textContent += "Average number of branches for size " + height + "x" + width + ": " + average + "\n";
+            var data = mazeCreator.getAverageNumberOfBranches(height, width, times);
+            output.textContent += "Data for " + height + "x" + width + ":\n" +
+            "Average:\t    " + Math.floor(data[0]*100)/100 + "\n" +
+            "Standard Deviation: " + Math.floor(data[1]*100)/100 + "\n" +
+            "Min:\t\t    " + data[2] + "\n" +
+            "Q1:\t\t    " + data[3] + "\n" +
+            "Med:\t\t    " + data[4] + "\n" +
+            "Q3:\t\t    " + data[5] + "\n" +
+            "Max:\t\t    " + data[6] + "\n";
         };
         var testTries = function()
         {

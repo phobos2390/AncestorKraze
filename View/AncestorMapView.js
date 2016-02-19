@@ -36,6 +36,7 @@ var View;
             canvas.width = this.viewWidth * this.spaceWidth;
             var ctx = canvas.getContext("2d");
             var playerSpace = model.getCurrentSpace();
+            //draws all of the tiles on the canvas that are within the viewing area
             for (var i = 0; i < this.viewHeight; i++) {
                 for (var j = 0; j < this.viewWidth; j++) {
                     //Determines the row and column in the model that will be shown

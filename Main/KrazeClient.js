@@ -35,18 +35,19 @@ var Main;
         };
         //Utilizes the moves that are used mapped to their keyboard counterparts
         KrazeClient.prototype.initMoves = function () {
-            this.moves = {
-                //directional buttons
-                37: this.factory.createMove("left"),
-                38: this.factory.createMove("up"),
-                40: this.factory.createMove("down"),
-                39: this.factory.createMove("right"),
-                //AWSD buttons
-                65: this.factory.createMove("left"),
-                87: this.factory.createMove("up"),
-                83: this.factory.createMove("down"),
-                68: this.factory.createMove("right")
-            };
+            this.moves =
+                {
+                    //directional buttons
+                    37: this.factory.createMove("left"),
+                    38: this.factory.createMove("up"),
+                    40: this.factory.createMove("down"),
+                    39: this.factory.createMove("right"),
+                    //AWSD buttons
+                    65: this.factory.createMove("left"),
+                    87: this.factory.createMove("up"),
+                    83: this.factory.createMove("down"),
+                    68: this.factory.createMove("right")
+                };
         };
         KrazeClient.prototype.initVariables = function (type, height, width) {
             var mazeHeight = height;
@@ -75,6 +76,7 @@ var Main;
                 //They must also have a valid picture that is referenced
                 var ancestorList = document.getElementsByClassName("popupImage");
                 var nameList = [];
+                //creates a list of all of the names of the tags in the ancestor list
                 for (var i = 0; i < ancestorList.length; i++) {
                     nameList.push(ancestorList[i].id);
                 }
